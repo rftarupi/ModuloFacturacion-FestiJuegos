@@ -67,13 +67,13 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                         <!--Contenedor de las imagenes--> 
                         <div class="carousel-inner" role="listbox">
                             <div class="item">
-                                <img src="../../View/Imagenes/banner6.jpg" width="100%" alt="Imagen 1">
+                                <img src="../../Imagenes/banner.jpg" width="100%" alt="Imagen 1">
                             </div>
                             <div class="item active">
-                                <img src="../../View/Imagenes/banner4.jpg" width="100%" alt="Imagen 2">
+                                <img src="../../Imagenes/banner4.jpg" width="100%" alt="Imagen 2">
                             </div>
                             <div class="item">
-                                <img src="../../View/Imagenes/banner.jpg" width="100%" alt="Imagen 3">
+                                <img src="../../Imagenes/banner6.jpg" width="100%" alt="Imagen 3">
                             </div>
                         </div>
                         <!--Controls--> 
@@ -99,10 +99,10 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                         <div class="btn-toolbar">
                             <div class="btn-group btn-group-justified">
                                 <a class="btn btn-danger alert-danger" href="../Principal/inicio.php">INICIO</a>
-                                <a class="btn btn-primary" href="../../View/Ajustes/inicioAjuste.php">CLIENTES</a>
-                                <a class="btn btn-primary" href="../../View/Producto/inicioProductos.php">SERVICIOS</a>
-                                <a class="btn btn-primary" href="../../View/Usuario/inicioUsuarios.php">FACTURAS</a>
-                                <a class="btn btn-primary" href="../../View/Usuario/inicioUsuarios.php">USUARIOS</a>
+                                <a class="btn btn-primary" href="../../View/Clientes/inicioClientes.php">CLIENTES</a>
+                                <a class="btn btn-primary" href="../../View/Servicios/inicioServicios.php">SERVICIOS</a>
+                                <a class="btn btn-primary" href="../../View/Facturas/inicioFacturas.php">FACTURAS</a>
+                                <a class="btn btn-primary" href="../../View/Usuarios/inicioUsuarios.php">USUARIOS</a>
                                 <div class="btn-group">
                                     <button class="btn btn-primary dropdown-toggle" id="dropdownReportes" aria-extended="true" type="button" data-toggle="dropdown">
                                         <label class="control-label">REPORTES<span class="caret"></span></label>
