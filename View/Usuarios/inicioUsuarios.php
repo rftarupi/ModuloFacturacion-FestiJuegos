@@ -36,6 +36,8 @@ and open the template in the editor.
             <script src="../../Dependencias/js/bootstrap.js"></script>
             <script src="../../Dependencias/js/getDatos.js"></script>
             <script src="../../Dependencias/js/bootstrap-table.js"></script>
+            <script src = "../../Dependencias/SweetAlert/sweetalert.min.js" type="text/javascript"></script>
+            <script src="../../Dependencias/js/validaciones.js"></script>
 
             <script src="../../Dependencias/DataTables/usuario.js"></script>
             <script src="../../Dependencias/DataTables/jquery.dataTables.min.js"></script>
@@ -44,11 +46,9 @@ and open the template in the editor.
             <link href="../../Dependencias/css/bootstrap-table.css" rel="stylesheet">
             <link href="../../Dependencias/css/bootstrap.css" rel="stylesheet" />
             <link href="../../Dependencias/css/bootstrap-theme.css">
+            <link href="../../Dependencias/SweetAlert/sweetalert.css" rel="stylesheet" type="text/css">
 
             <link rel="stylesheet" href="../../Dependencias/DataTables/jquery.dataTables.min.css">
-
-                        <!--            <script src = "../../SweetAlert/sweetalert.min.js" type="text/javascript"></script>
-                                    <link href="../../SweetAlert/sweetalert.css" rel="stylesheet" type="text/css">-->
 
             <style type="text/css">
                 div{
@@ -195,7 +195,13 @@ and open the template in the editor.
                                         <table class="table table-striped table-bordered table-condensed table-condensed" id="example" cellspacing="0" width="100%">
                                             <thead>
                                                 <tr>
-                                                    <th>ACCIONES</th>
+                                                    <?php
+                                                    if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
+                                                        ?>
+                                                        <th>ACCIONES</th>
+                                                        <?php
+                                                    }
+                                                    ?>
                                                     <th>CODIGO USUARIO</th>
                                                     <th>TIPO USUARIO</th>
                                                     <th>CÉDULA</th>
@@ -221,19 +227,11 @@ and open the template in the editor.
                                                         ?>
                                                         <tr>
                                                             <?php
-                                                            // Un bodeguero solo puede editar datos de los que no tienen perfil
+                                                            // Un cajero no puede editar datos
                                                             if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
                                                                 ?>
                                                                 <td><a href = "#editUSU" onclick = "obtener_datos_usuario('<?php echo $usu->getCOD_USU(); ?>')" data-toggle = "modal"><span class = "glyphicon glyphicon-pencil">Editar</span></a></td>
                                                                 <?php
-                                                            } else {
-                                                                if (is_null($usu->getCOD_TIPO_USU())) {
-                                                                    ?>
-                                                                    <td><a href = "#editUSU" onclick = "obtener_datos_usuario('<?php echo $usu->getCOD_USU(); ?>')" data-toggle = "modal"><span class = "glyphicon glyphicon-pencil">Editar</span></a></td>
-                                                                    <?php
-                                                                } else {
-                                                                    echo "<td></td>";
-                                                                }
                                                             }
                                                             ?>
 
@@ -323,7 +321,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Identificación </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="text" maxlength="13" minlength="10" class="form-control" name="CEDULA_USU"  placeholder="Ingrese su N° de Cedula - Ruc - Pasaporte" onchange="ValId(this.form.CEDULA_USU.value, this.form.boton)" required />
+                                                    <input type="text" onkeypress="return SoloNumeros(event);" maxlength="10" minlength="10" class="form-control" name="CEDULA_USU"  placeholder="Ingrese su N° de Cedula" onchange="ValidarCedula(this.form.CEDULA_USU.value, this.form.boton)" required />
                                                 </div>
                                             </div>
 
@@ -473,7 +471,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Fecha </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="date" id="mod_fecha" name="mod_fecha" value="" min="1900-01-01" max="<?php echo date("Y-m-d") ?>">
+                                                    <input type="date" id="mod_fecha" name="mod_fecha" min="1900-01-01" max="<?php echo date("Y-m-d") ?>">
                                                 </div>
                                             </div>
                                             <div class="form-group">

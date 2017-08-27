@@ -14,13 +14,12 @@ function obtener_datos(id){
 }
 
 function obtener_datos_usuario(id){
-        var cod= $("#ID_USU"+id).val();
-        var tipo= $("#ID_TIPO_USU"+id).val();
+        var cod= $("#COD_USU"+id).val();
+        var tipo= $("#COD_TIPO_USU"+id).val();
         var cedula= $("#CEDULA_USU"+id).val();
         var nombre= $("#NOMBRES_USU"+id).val();
         var apellido= $("#APELLIDOS_USU"+id).val();
-        var fecha= $("#FECH_NAC_USU"+id).val(); 
-        var ciudad= $("#CIUDAD_NAC_USU"+id).val();
+        var fecha= $("#FECHA_NAC_USU"+id).val(); 
         var direccion= $("#DIRECCION_USU"+id).val();
         var telefono= $("#FONO_USU"+id).val();
         var email= $("#E_MAIL_USU"+id).val();
@@ -34,8 +33,7 @@ function obtener_datos_usuario(id){
         $("#mod_cedula").val(cedula);
         $("#mod_nombre").val(nombre);
         $("#mod_apellido").val(apellido);
-        $("#mod_fecha").val(fecha);    
-        $("#mod_ciudad").val(ciudad);
+        $("#mod_fecha").val(fecha); 
         $("#mod_direccion").val(direccion);
         $("#mod_telefono").val(telefono);
         $("#mod_email").val(email);
