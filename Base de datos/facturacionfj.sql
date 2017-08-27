@@ -97,6 +97,9 @@ create table TAB_FAC_USUARIOS
    primary key (COD_USU)
 );
 
+ALTER TABLE `tab_fac_usuarios`
+  ADD UNIQUE KEY `unique_usu` (`CEDULA_USU`) USING BTREE;
+
 alter table TAB_FAC_CAB_FACTURAS add constraint FK_REFERENCE_2 foreign key (COD_CLI)
       references TAB_FAC_CLIENTES (COD_CLI) on delete restrict on update restrict;
 
@@ -108,4 +111,16 @@ alter table TAB_FAC_DET_FACTURAS add constraint FK_REFERENCE_4 foreign key (COD_
 
 alter table TAB_FAC_USUARIOS add constraint FK_REFERENCE_1 foreign key (COD_TIPO_USU)
       references TAB_FAC_TIPO_USU (COD_TIPO_USU) on delete restrict on update restrict;
+
+-- Datos
+
+INSERT INTO `tab_fac_tipo_usu` (`COD_TIPO_USU`, `DESCRIPCION_TIPO_USU`) VALUES
+('TUSU-0001', 'Administrador'),
+('TUSU-0002', 'Cajero');
+
+INSERT INTO `tab_fac_usuarios` (`COD_USU`, `COD_TIPO_USU`, `CEDULA_USU`, `NOMBRES_USU`, `APELLIDOS_USU`, `FECHA_NAC_USU`, `DIRECCION_USU`, `FONO_USU`, `E_MAIL_USU`, `ESTADO_USU`, `CLAVE_USU`) VALUES
+('USUA-0001', 'TUSU-0001', '0401734041', 'Richard Fernando', 'Tarupí Calán', '1993-10-29', 'Barrio San Francisco', '0984905901', 'rick030gp@hotmail.com', 'A', '12345678'),
+('USUA-0002', 'TUSU-0001', '1003292826', 'Emerson Gabriel', 'Haro Flores', '1996-10-10', 'Barrio San Francisco', '0987876546', 'emerson.f@h.com', 'A', 'emerson.gabriel'),
+('USUA-0003', 'TUSU-0002', '1003457049', 'Aguas Chesa', 'Maria del Rocío', '1997-04-05', 'Ibarra Barrio Los Olivos', '0984563347', 'mari_roc@hotmail.com', 'A', 'maria.rocio'),
+('USUA-0004', 'TUSU-0002', '1002754669', 'Almeida Suárez', 'Estefano Israel', '1992-11-12', 'Ibarra Barrio Los Olivos', '0944838857', 'estefano_is@gmail.com', 'A', 'estefano.israel');
 
