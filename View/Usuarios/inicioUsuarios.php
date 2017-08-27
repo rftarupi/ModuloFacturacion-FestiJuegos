@@ -30,7 +30,8 @@ and open the template in the editor.
             <meta charset="UTF-8">
             <title>Usuarios</title>
             <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">				
-
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            
             <!--Importaciones Js-->
             <script src="../../Dependencias/js/jquery-2.1.4.js"></script>
             <script src="../../Dependencias/js/bootstrap.js"></script>
@@ -151,7 +152,7 @@ and open the template in the editor.
                 </div>
 
                 <!--TITULO DE LA PAGINA-->
-                <div class="row">
+                <div class="row" id="principal">
                     <div class="col-lg-12">
                         <div class="col-lg-12" style="border-bottom: 1px solid #c5c5c5">
                             <h1><span class="glyphicon glyphicon-user"></span> USUARIOS</h1></div>
@@ -180,7 +181,7 @@ and open the template in the editor.
 
                 <?php
                 if (isset($_SESSION['ErrorBaseDatos'])) {
-                    echo "<div class='alert alert-danger'>Usuario Duplicado. La Cédula ya existe en la Base de Datos</div>";
+                    echo "<div class='alert alert-danger'><strong><span class='glyphicon glyphicon-remove-sign'></span> ERROR:</strong> El Usuario que intenta ingresar ya existe en la Base de Datos y tiene su perfil</div>";
                 }
                 ?>
 
@@ -294,7 +295,7 @@ and open the template in the editor.
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Id Usuario </label>
+                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Código Usuario </label>
                                                 </div>
                                                 <div class="col-md-7">
                                                     <?php echo $usuariosModel->generarUsuario(); ?>
@@ -330,7 +331,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Nombres </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return SoloLetras(event);" type="text" class="form-control" name="NOMBRES_USU" placeholder="Ingrese sus Nombres" required pattern="|^[a-zA-Z]+(\s*[a-zA-Z]*)*[a-zA-Z]+$|" />
+                                                    <input onkeypress="return SoloLetras(event);" type="text" class="form-control" name="NOMBRES_USU" placeholder="Ingrese sus Nombres" required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s*[a-zA-ZñÑáéíóúÁÉÍÓÚ]*)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|" />
                                                 </div>
                                             </div>
 
@@ -339,7 +340,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Apellidos </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return SoloLetras(event);" type="text" class="form-control" name="APELLIDOS_USU" placeholder="Ingrese sus Apellidos" required="true" required pattern="|^[a-zA-Z]+(\s*[a-zA-Z]*)*[a-zA-Z]+$|"/>
+                                                    <input onkeypress="return SoloLetras(event);" type="text" class="form-control" name="APELLIDOS_USU" placeholder="Ingrese sus Apellidos" required="true" required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s*[a-zA-ZñÑáéíóúÁÉÍÓÚ]*)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|"/>
                                                 </div>
                                             </div>
 
@@ -357,7 +358,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Dirección </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class="form-control" name="DIRECCION_USU" placeholder="Ingrese su Dirección" required="true" required pattern="|^[a-zA-Z0-9]+(\s*[a-zA-Z0-9]*)*[a-zA-Z0-9]+$|"/>
+                                                    <input type="text" class="form-control" name="DIRECCION_USU" placeholder="Ingrese su Dirección" required="true" required pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]*)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|"/>
                                                 </div>
                                             </div>
 
@@ -434,7 +435,7 @@ and open the template in the editor.
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Id Usuario</label>    
+                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Código Usuario</label>    
                                                 </div>
                                                 <div class="col-md-7">
                                                     <input type="hidden" id="mod_id" name="mod_id" value=""  >
@@ -455,7 +456,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Nombres </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return SoloLetras(event);"type="text" class="form-control" id="mod_nombre" name="mod_nombre"  required pattern="|^[a-zA-Z]+(\s*[a-zA-Z]*)*[a-zA-Z]+$|" />
+                                                    <input onkeypress="return SoloLetras(event);"type="text" class="form-control" id="mod_nombre" name="mod_nombre"  required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s*[a-zA-ZñÑáéíóúÁÉÍÓÚ]*)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -463,7 +464,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Apellidos </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return SoloLetras(event);"type="text" class="form-control" id="mod_apellido" name="mod_apellido"  required pattern="|^[a-zA-Z]+(\s*[a-zA-Z]*)*[a-zA-Z]+$|" />
+                                                    <input onkeypress="return SoloLetras(event);"type="text" class="form-control" id="mod_apellido" name="mod_apellido"  required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s*[a-zA-ZñÑáéíóúÁÉÍÓÚ]*)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -479,7 +480,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Dirección </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return SoloLetras(event)"type="text" class="form-control" id="mod_direccion" name="mod_direccion"  required pattern="|^[a-zA-Z0-9]+(\s*[a-zA-Z0-9]*)*[a-zA-Z0-9]+$|" />
+                                                    <input onkeypress="return SoloLetras(event)"type="text" class="form-control" id="mod_direccion" name="mod_direccion"  required pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]*)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -530,8 +531,6 @@ and open the template in the editor.
                         </form>    
                     </div>
                 </div>
-
-
             </div>
         </body>
         <?php

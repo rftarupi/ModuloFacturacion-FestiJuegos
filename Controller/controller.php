@@ -17,6 +17,7 @@ $opcion1 = $_REQUEST['opcion1'];
 $opcion2 = $_REQUEST['opcion2'];
 
 unset($_SESSION['ErrorInicioSesion']);
+unset($_SESSION['ErrorBaseDatos']);
 
 
 switch ($opcion1) {
@@ -65,7 +66,7 @@ switch ($opcion1) {
                 $_SESSION['listadoUsuarios'] = serialize($listadoUsuarios);
 
                 // Redireccionamos a la pagina principal para visualizar
-                header('Location: ../View/Usuarios/inicioUsuarios.php');
+                header('Location: ../View/Usuarios/inicioUsuarios.php#principal');
                 break;
 
             case "insertar_usuario":
@@ -94,7 +95,7 @@ switch ($opcion1) {
                 $_SESSION['listadoUsuarios'] = serialize($listadoUsuarios);
 
                 // Redireccionamos a la pagina principal para visualizar
-                header('Location: ../View/Usuarios/inicioUsuarios.php');
+                header('Location: ../View/Usuarios/inicioUsuarios.php#principal');
                 break;
 
             case "guardar_usuario":
@@ -121,7 +122,7 @@ switch ($opcion1) {
                 $_SESSION['listadoUsuarios'] = serialize($listadoUsuarios);
 
                 // Redireccionamos a la pagina principal para visualizar
-                header('Location: ../View/Usuarios/inicioUsuarios.php');
+                header('Location: ../View/Usuarios/inicioUsuarios.php#principal');
                 break;
 
             default :
