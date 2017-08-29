@@ -31,7 +31,7 @@ and open the template in the editor.
             <title>Usuarios</title>
             <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">				
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-            
+
             <!--Importaciones Js-->
             <script src="../../Dependencias/js/jquery-2.1.4.js"></script>
             <script src="../../Dependencias/js/bootstrap.js"></script>
@@ -167,7 +167,6 @@ and open the template in the editor.
                     <div class="col-md-12" style="padding-top: 5px">
                         <!--La class nav nav-pills nos permite hacer menús-->
                         <ul class="nav nav-pills">
-                            <li role="presentation"><a href="../../Controller/controller.php?opcion1=usuario&opcion2=listar"><h4>MOSTRAR TODOS</h4></a></li>
                             <?php
                             // Verificamos si es Administrador habilitamos la funcion de crear usuarios
                             if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
@@ -198,20 +197,26 @@ and open the template in the editor.
                                                 <tr>
                                                     <?php
                                                     if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
-                                                        ?>
-                                                        <th>ACCIONES</th>
-                                                        <?php
+                                                        echo "<th>ACCIONES</th>";
                                                     }
                                                     ?>
                                                     <th>CODIGO USUARIO</th>
                                                     <th>TIPO USUARIO</th>
-                                                    <th>CÉDULA</th>
+                                                    <?php
+                                                    if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
+                                                        echo "<th>CÉDULA</th>";
+                                                    }
+                                                    ?>
                                                     <th>NOMBRES</th>
                                                     <th>APELLIDOS</th>
                                                     <th>FECHA NACIMIENTO</th>
                                                     <th>DIRECCIÓN</th>
                                                     <th>TELÉFONO</th>
-                                                    <th>E-MAIL</th>
+                                                    <?php
+                                                    if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
+                                                        echo "<th>E-MAIL</th>";
+                                                    }
+                                                    ?>
                                                     <th>ESTADO</th>
                                                 </tr>
                                             </thead>
@@ -221,48 +226,58 @@ and open the template in the editor.
                                                 if (isset($_SESSION['listadoUsuarios'])) {
                                                     // Deserializamos y mostraremos los atributos de los usuarios usando un ciclo for
                                                     $listado = unserialize($_SESSION['listadoUsuarios']);
-                                                    foreach ($listado as $usu) {
-                                                        // Obtenemos datos de tipo usuario de un usuario en específico
-                                                        $tipoUsuario = $tiposUsuarioModel->getTipoUsuario($usu->getCOD_TIPO_USU());
-                                                        $estado = $usuariosModel->obtenerEstadoUsuario($usu->getCOD_USU());
-                                                        ?>
-                                                        <tr>
-                                                            <?php
-                                                            // Un cajero no puede editar datos
-                                                            if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
-                                                                ?>
-                                                                <td><a href = "#editUSU" onclick = "obtener_datos_usuario('<?php echo $usu->getCOD_USU(); ?>')" data-toggle = "modal"><span class = "glyphicon glyphicon-pencil">Editar</span></a></td>
-                                                                <?php
-                                                            }
-                                                            ?>
-
-                                                            <td><?php echo $usu->getCOD_USU(); ?></td>
-                                                            <td><?php echo $tipoUsuario->getDESCRIPCION_TIPO_USU(); ?></td>
-                                                            <td><?php echo $usu->getCEDULA_USU(); ?></td>
-                                                            <td><?php echo $usu->getNOMBRES_USU(); ?></td>
-                                                            <td><?php echo $usu->getAPELLIDOS_USU(); ?></td>
-                                                            <td><?php echo $usu->getFECHA_NAC_USU(); ?></td>
-                                                            <td><?php echo $usu->getDIRECCION_USU(); ?></td>
-                                                            <td><?php echo $usu->getFONO_USU(); ?></td>
-                                                            <td><?php echo $usu->getE_MAIL_USU(); ?></td>
-                                                            <td><?php echo $estado; ?></td>
-
-
-                                                    <input type="hidden" value="<?php echo $usu->getCOD_USU(); ?>" id="COD_USU<?php echo $usu->getCOD_USU(); ?>">
-                                                    <input type="hidden" value="<?php echo $usu->getCOD_TIPO_USU(); ?> " id="TIPO_USU<?php echo $usu->getCOD_TIPO_USU(); ?>" >
-                                                    <input type="hidden" value="<?php echo $usu->getCEDULA_USU(); ?>" id="CEDULA_USU<?php echo $usu->getCOD_USU(); ?>">
-                                                    <input type="hidden" value="<?php echo $usu->getNOMBRES_USU(); ?>" id="NOMBRES_USU<?php echo $usu->getCOD_USU(); ?>">
-                                                    <input type="hidden" value="<?php echo $usu->getAPELLIDOS_USU(); ?>" id="APELLIDOS_USU<?php echo $usu->getCOD_USU(); ?>">
-                                                    <input type="hidden" value="<?php echo $usu->getFECHA_NAC_USU(); ?>" id="FECHA_NAC_USU<?php echo $usu->getCOD_USU(); ?>">
-                                                    <input type="hidden" value="<?php echo $usu->getDIRECCION_USU(); ?>" id="DIRECCION_USU<?php echo $usu->getCOD_USU(); ?>">
-                                                    <input type="hidden" value="<?php echo $usu->getFONO_USU(); ?>" id="FONO_USU<?php echo $usu->getCOD_USU(); ?>">
-                                                    <input type="hidden" value="<?php echo $usu->getE_MAIL_USU(); ?>" id="E_MAIL_USU<?php echo $usu->getCOD_USU(); ?>">
-                                                    <input type="hidden" value="<?php echo $usu->getESTADO_USU(); ?>" id="ESTADO_USU<?php echo $usu->getCOD_USU(); ?>">
-                                                    <input type="hidden" value="<?php echo $usu->getCLAVE_USU(); ?>" id="CLAVE_USU<?php echo $usu->getCOD_USU(); ?>">
-
-                                                    <?php
-                                                    echo "</tr>";
+                                                } else {
+                                                    $listado = $usuariosModel->getUsuarios();
                                                 }
+                                                foreach ($listado as $usu) {
+                                                    // Obtenemos datos de tipo usuario de un usuario en específico
+                                                    $tipoUsuario = $tiposUsuarioModel->getTipoUsuario($usu->getCOD_TIPO_USU());
+                                                    $estado = $usuariosModel->obtenerEstadoUsuario($usu->getCOD_USU());
+                                                    ?>
+                                                    <tr>
+                                                        <?php
+                                                        // Un cajero no puede editar datos
+                                                        if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
+                                                            ?>
+                                                            <td><a href = "#editUSU" onclick = "obtener_datos_usuario('<?php echo $usu->getCOD_USU(); ?>')" data-toggle = "modal"><span class = "glyphicon glyphicon-pencil">Editar</span></a></td>
+                                                            <?php
+                                                        }
+                                                        ?>
+
+                                                        <td><?php echo $usu->getCOD_USU(); ?></td>
+                                                        <td><?php echo $tipoUsuario->getDESCRIPCION_TIPO_USU(); ?></td>
+                                                        <?php
+                                                        if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
+                                                            echo "<th>".$usu->getCEDULA_USU()."</th>";
+                                                        }
+                                                        ?>
+                                                        <td><?php echo $usu->getNOMBRES_USU(); ?></td>
+                                                        <td><?php echo $usu->getAPELLIDOS_USU(); ?></td>
+                                                        <td><?php echo $usu->getFECHA_NAC_USU(); ?></td>
+                                                        <td><?php echo $usu->getDIRECCION_USU(); ?></td>
+                                                        <td><?php echo $usu->getFONO_USU(); ?></td>
+                                                        <?php
+                                                        if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
+                                                            echo "<th>".$usu->getE_MAIL_USU()."</th>";
+                                                        }
+                                                        ?>
+                                                        <td><?php echo $estado; ?></td>
+
+
+                                                <input type="hidden" value="<?php echo $usu->getCOD_USU(); ?>" id="COD_USU<?php echo $usu->getCOD_USU(); ?>">
+                                                <input type="hidden" value="<?php echo $usu->getCOD_TIPO_USU(); ?> " id="TIPO_USU<?php echo $usu->getCOD_TIPO_USU(); ?>" >
+                                                <input type="hidden" value="<?php echo $usu->getCEDULA_USU(); ?>" id="CEDULA_USU<?php echo $usu->getCOD_USU(); ?>">
+                                                <input type="hidden" value="<?php echo $usu->getNOMBRES_USU(); ?>" id="NOMBRES_USU<?php echo $usu->getCOD_USU(); ?>">
+                                                <input type="hidden" value="<?php echo $usu->getAPELLIDOS_USU(); ?>" id="APELLIDOS_USU<?php echo $usu->getCOD_USU(); ?>">
+                                                <input type="hidden" value="<?php echo $usu->getFECHA_NAC_USU(); ?>" id="FECHA_NAC_USU<?php echo $usu->getCOD_USU(); ?>">
+                                                <input type="hidden" value="<?php echo $usu->getDIRECCION_USU(); ?>" id="DIRECCION_USU<?php echo $usu->getCOD_USU(); ?>">
+                                                <input type="hidden" value="<?php echo $usu->getFONO_USU(); ?>" id="FONO_USU<?php echo $usu->getCOD_USU(); ?>">
+                                                <input type="hidden" value="<?php echo $usu->getE_MAIL_USU(); ?>" id="E_MAIL_USU<?php echo $usu->getCOD_USU(); ?>">
+                                                <input type="hidden" value="<?php echo $usu->getESTADO_USU(); ?>" id="ESTADO_USU<?php echo $usu->getCOD_USU(); ?>">
+                                                <input type="hidden" value="<?php echo $usu->getCLAVE_USU(); ?>" id="CLAVE_USU<?php echo $usu->getCOD_USU(); ?>">
+
+                                                <?php
+                                                echo "</tr>";
                                             }
                                             ?>
                                             </tbody>
@@ -331,7 +346,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Nombres </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return SoloLetras(event);" type="text" class="form-control" name="NOMBRES_USU" placeholder="Ingrese sus Nombres" required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s*[a-zA-ZñÑáéíóúÁÉÍÓÚ]*)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|" />
+                                                    <input onkeypress="return SoloLetras(event);" type="text" class="form-control" name="NOMBRES_USU" placeholder="Ingrese sus Nombres" required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-ZñÑáéíóúÁÉÍÓÚ]+)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|" title="El campo no admite espacios en blanco innecesarios, ni admite espacios al inicio o final" />
                                                 </div>
                                             </div>
 
@@ -340,7 +355,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Apellidos </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return SoloLetras(event);" type="text" class="form-control" name="APELLIDOS_USU" placeholder="Ingrese sus Apellidos" required="true" required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s*[a-zA-ZñÑáéíóúÁÉÍÓÚ]*)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|"/>
+                                                    <input onkeypress="return SoloLetras(event);" type="text" class="form-control" name="APELLIDOS_USU" placeholder="Ingrese sus Apellidos" required="true" required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-ZñÑáéíóúÁÉÍÓÚ]+)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|" title="El campo no admite espacios en blanco innecesarios, ni admite espacios al inicio o final" />
                                                 </div>
                                             </div>
 
@@ -358,7 +373,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Dirección </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class="form-control" name="DIRECCION_USU" placeholder="Ingrese su Dirección" required="true" required pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]*)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|"/>
+                                                    <input type="text" class="form-control" placeholder="Ingrese su Dirección" required pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios" />
                                                 </div>
                                             </div>
 
@@ -456,7 +471,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Nombres </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return SoloLetras(event);"type="text" class="form-control" id="mod_nombre" name="mod_nombre"  required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s*[a-zA-ZñÑáéíóúÁÉÍÓÚ]*)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|" />
+                                                    <input onkeypress="return SoloLetras(event);"type="text" class="form-control" id="mod_nombre" name="mod_nombre"  required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-ZñÑáéíóúÁÉÍÓÚ]+)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|" title="El campo no admite espacios en blanco innecesarios, ni admite espacios al inicio o final" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -464,7 +479,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Apellidos </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return SoloLetras(event);"type="text" class="form-control" id="mod_apellido" name="mod_apellido"  required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s*[a-zA-ZñÑáéíóúÁÉÍÓÚ]*)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|" />
+                                                    <input onkeypress="return SoloLetras(event);"type="text" class="form-control" id="mod_apellido" name="mod_apellido"  required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-ZñÑáéíóúÁÉÍÓÚ]+)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|" title="El campo no admite espacios en blanco innecesarios, ni admite espacios al inicio o final" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -480,7 +495,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Dirección </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return SoloLetras(event)"type="text" class="form-control" id="mod_direccion" name="mod_direccion"  required pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]*)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" />
+                                                    <input type="text" class="form-control" id="mod_direccion" name="mod_direccion"  required pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios " />
                                                 </div>
                                             </div>
                                             <div class="form-group">
