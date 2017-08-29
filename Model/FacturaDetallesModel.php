@@ -24,6 +24,20 @@ class FacturaDetallesModel {
         return $listadoDetallesFact;
     }
     
+     // MÉTODO PARA OBTENER UN DETALLE ESPECIFICO DE UNA FACTURA (VISTA)
+    public function getDetalleFactura ($COD_DET_FACT) {
+        $pdo = Database::connect();
+         $sql = "select d.COD_DET_FACT, s.NOMBRE_SERV, d.TIEMPO_DET_FACT, d.COSTO_HORA_DET_FACT, d.COSTO_TOT_DET_FACT"
+              ." from tab_fac_det_facturas d, tab_fac_servicios s"
+              ." where s.COD_SERV=d.COD_SERV and d.COD_DET_FACT=".$COD_DET_FACT;
+        $consulta = $pdo->prepare($sql);
+        $consulta->execute(array($COD_DET_FACT));
+        $res = $consulta->fetch(PDO::FETCH_ASSOC);
+        $detalleFact = new VistaFacturaDetalle($res['COD_DET_FACT'], $res['NOMBRE_SERV'], $res['TIEMPO_DET_FACT'], $res['COSTO_HORA_DET_FACT'], $res['COSTO_TOT_DET_FACT']);
+        Database::disconnect();
+        return $detalleFact;
+    }
+    
     // MÉTODO PARA INSERTAR UN DETALLE DE UNA FACTURA (TABLA)
      public function insertarDetalleFactura($COD_DET_FACT, $COD_SERV, $COD_CAB_FACT, $TIEMPO_DET_FACT, $COSTO_HORA_DET_FACT, $COSTO_TOT_DET_FACT) {
         $pdo = Database::connect();
