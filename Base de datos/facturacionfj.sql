@@ -36,6 +36,7 @@ create table TAB_FAC_CLIENTES
    CEDULA_CLI           varchar(10) not null,
    NOMBRES_CLI          varchar(50) not null,
    APELLIDOS_CLI        varchar(50) not null,
+   FECHA_NAC_CLI        date not null,
    DIRECCION_CLI        varchar(100) not null,
    FONO_CLI             varchar(10),
    E_MAIL_CLI           varchar(50),
