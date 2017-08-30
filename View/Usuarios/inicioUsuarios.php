@@ -200,11 +200,11 @@ and open the template in the editor.
                                                         echo "<th>ACCIONES</th>";
                                                     }
                                                     ?>
-                                                    <th>CODIGO USUARIO</th>
+                                                    <th>CÓDIGO USUARIO</th>
                                                     <th>TIPO USUARIO</th>
                                                     <?php
                                                     if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
-                                                        echo "<th>CÉDULA</th>";
+                                                        echo "<th>CÉDULA / RUC</th>";
                                                     }
                                                     ?>
                                                     <th>NOMBRES</th>

@@ -165,12 +165,7 @@ and open the template in the editor.
                     <div class="col-md-12" style="padding-top: 5px">
                         <!--La class nav nav-pills nos permite hacer menús-->
                         <ul class="nav nav-pills">
-                            <?php
-                            // Verificamos si es Administrador habilitamos la funcion de crear clientes
-                            if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
-                                echo "<li role = 'presentation'><a href = '#nuevoCLI' data-toggle = 'modal'><h4>NUEVO CLIENTE</h4></a></li>";
-                            }
-                            ?>
+                            <li role = 'presentation'><a href = '#nuevoCLI' data-toggle = 'modal'><h4>NUEVO CLIENTE</h4></a></li>
                         </ul>
                     </div>
                 </div>
@@ -193,27 +188,15 @@ and open the template in the editor.
                                         <table class="table table-striped table-bordered table-condensed table-condensed" id="example" cellspacing="0" width="100%">
                                             <thead>
                                                 <tr>
-                                                    <?php
-                                                    if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
-                                                        echo "<th>ACCIONES</th>";
-                                                    }
-                                                    ?>
-                                                    <th>CODIGO CLIENTE</th>
-                                                    <?php
-                                                    if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
-                                                        echo "<th>CÉDULA</th>";
-                                                    }
-                                                    ?>
+                                                    <th>ACCIONES</th>
+                                                    <th>CÓDIGO CLIENTE</th>
+                                                    <th>CÉDULA / RUC</th>
                                                     <th>NOMBRES</th>
                                                     <th>APELLIDOS</th>
                                                     <th>FECHA NACIMIENTO</th>
                                                     <th>DIRECCIÓN</th>
                                                     <th>TELÉFONO</th>
-                                                    <?php
-                                                    if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
-                                                        echo "<th>E-MAIL</th>";
-                                                    }
-                                                    ?>
+                                                    <th>E-MAIL</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -228,32 +211,15 @@ and open the template in the editor.
                                                 foreach ($listado as $cli) {
                                                     ?>
                                                     <tr>
-                                                        <?php
-                                                        // Un cajero no puede editar datos
-                                                        if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
-                                                            ?>
-                                                            <td><a href = "#editCLI" onclick = "obtener_datos_cliente('<?php echo $cli->getCOD_CLI(); ?>')" data-toggle = "modal"><span class = "glyphicon glyphicon-pencil">Editar</span></a></td>
-                                                            <?php
-                                                        }
-                                                        ?>
-
+                                                        <td><a href = "#editCLI" onclick = "obtener_datos_cliente('<?php echo $cli->getCOD_CLI(); ?>')" data-toggle = "modal"><span class = "glyphicon glyphicon-pencil">Editar</span></a></td>
                                                         <td><?php echo $cli->getCOD_CLI(); ?></td>
-                                                        <?php
-                                                        if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
-                                                            echo "<td>".$cli->getCEDULA_CLI()."</td>";
-                                                        }
-                                                        ?>
+                                                        <td><?php echo $cli->getCEDULA_CLI(); ?></td>
                                                         <td><?php echo $cli->getNOMBRES_CLI(); ?></td>
                                                         <td><?php echo $cli->getAPELLIDOS_CLI(); ?></td>
                                                         <td><?php echo $cli->getFECHA_NAC_CLI(); ?></td>
                                                         <td><?php echo $cli->getDIRECCION_CLI(); ?></td>
                                                         <td><?php echo $cli->getFONO_CLI(); ?></td>
-                                                        <?php
-                                                        if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
-                                                            echo "<td>".$cli->getE_MAIL_CLI()."</td>";
-                                                        }
-                                                        ?>
-
+                                                        <td><?php echo $cli->getE_MAIL_CLI(); ?></td>
 
                                                 <input type="hidden" value="<?php echo $cli->getCOD_CLI(); ?>" id="COD_CLI<?php echo $cli->getCOD_CLI(); ?>">
                                                 <input type="hidden" value="<?php echo $cli->getCEDULA_CLI(); ?>" id="CEDULA_CLI<?php echo $cli->getCOD_CLI(); ?>">
