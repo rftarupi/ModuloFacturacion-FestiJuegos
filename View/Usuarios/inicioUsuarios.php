@@ -334,10 +334,10 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Identificación </label>
+                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Cédula / RUC </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="text" onkeypress="return SoloNumeros(event);" maxlength="10" minlength="10" class="form-control" name="CEDULA_USU"  placeholder="Ingrese su N° de Cedula" onchange="ValidarCedula(this.form.CEDULA_USU.value, this.form.boton)" required />
+                                                    <input type="text" onkeypress="return SoloNumeros(event);" maxlength="13" minlength="10" class="form-control" name="CEDULA_USU"  placeholder="Ingrese su N° de Cedula o RUC" onchange="ValidarIdentificacion(this.form.CEDULA_USU.value, this.form.boton)" required />
                                                 </div>
                                             </div>
 
@@ -459,7 +459,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Identificación </label>
+                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Cédula / RUC </label>
                                                 </div>
                                                 <div class="col-md-7">
                                                     <input  type="text" readonly="readonly" id="mod_cedula" maxlength="13" minlength="10" class="form-control" name="mod_cedula" required />

@@ -33,7 +33,7 @@ create table TAB_FAC_CAB_FACTURAS
 create table TAB_FAC_CLIENTES
 (
    COD_CLI              char(9) not null,
-   CEDULA_CLI           varchar(10) not null,
+   CEDULA_CLI           varchar(13) not null,
    NOMBRES_CLI          varchar(50) not null,
    APELLIDOS_CLI        varchar(50) not null,
    FECHA_NAC_CLI        date not null,
@@ -86,7 +86,7 @@ create table TAB_FAC_USUARIOS
 (
    COD_USU              char(9) not null,
    COD_TIPO_USU         char(9) not null,
-   CEDULA_USU           varchar(10) not null,
+   CEDULA_USU           varchar(13) not null,
    NOMBRES_USU          varchar(50) not null,
    APELLIDOS_USU        varchar(50) not null,
    FECHA_NAC_USU        date not null,

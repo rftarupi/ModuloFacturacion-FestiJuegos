@@ -1,3 +1,14 @@
+function ValidarIdentificacion(id, boton) {
+    var id = id;
+    array = id.split("");
+    num = array.length;
+    if (num <= 10) {
+        ValidarCedula(id, boton);
+    } else if (num > 10 && num <= 13) {
+        ValidarRUC(id, boton);
+    }
+}
+
 function ValidarCedula(cedula, boton)
 {
     var cedula = cedula;
@@ -44,6 +55,51 @@ function ValidarCedula(cedula, boton)
             confirmButtonText: "Ok"});
         boton.disabled = true;
         return false;
+    }
+}
+
+function ValidarRUC(ruc, boton) {
+    var ruc = ruc;
+    while (ruc.substring(10, 13) != 001) {
+        swal({title: "Error!",
+            text: "Los tres últimos dígitos no tienen el código de RUC 001.",
+            type: "error",
+            confirmButtonText: "Ok"});
+        boton.disabled = true;
+        return false;
+    }
+    while (ruc.substring(0, 2) > 24) {
+        swal({title: "Error!",
+            text: "Los dos primeros dígitos no pueden ser mayores a 24.",
+            type: "error",
+            confirmButtonText: "Ok"});
+        boton.disabled = true;
+        return false;
+    }
+    boton.disabled = false;
+    var porcion1 = ruc.substring(2, 3);
+    if (porcion1 < 6) {
+        swal({
+            title: "RUC correcto",
+            text: "El RUC es de una persona natural",
+            type: "success",
+            confirmButtonText: "Ok"});
+    } else {
+        if (porcion1 == 6) {
+            swal({
+                title: "RUC correcto",
+                text: "El RUC es de una entidad pública",
+                type: "success",
+                confirmButtonText: "Ok"});
+        } else {
+            if (porcion1 == 9) {
+                swal({
+                title: "RUC correcto",
+                text: "El RUC es de una sociedad privada",
+                type: "success",
+                confirmButtonText: "Ok"});
+            }
+        }
     }
 }
 
