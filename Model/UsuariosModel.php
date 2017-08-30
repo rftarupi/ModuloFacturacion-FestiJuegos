@@ -25,7 +25,7 @@ class UsuariosModel {
     public function getUsuarios() {
         // Obtención de informacion de la Base de Datos mediante consulta sql
         $pdo = Database::connect();
-        $sql = 'select * from tab_fac_usuarios order by "COD_USU"';
+        $sql = 'select * from tab_fac_usuarios order by COD_USU';
         $resultado = $pdo->query($sql);
 
         //transformamos los registros en objetos de tipo Usuario y guardamos en array

@@ -4,6 +4,7 @@
 ////require_once $_SERVER['DOCUMENT_ROOT'] . '/Model/AjustesModel.php';
 ////require_once $_SERVER['DOCUMENT_ROOT'] . '/Model/ProductosModel.php';
 
+require_once '../Model/ClientesModel.php';
 require_once '../Model/UsuariosModel.php';
 require_once '../Model/TiposUsuarioModel.php';
 //require_once '../Model/AjustesModel.php';
@@ -11,6 +12,7 @@ require_once '../Model/TiposUsuarioModel.php';
 
 session_start();
 $usuariosModel = new UsuariosModel();
+$clientesModel = new ClientesModel();
 $tiposUsuarioModel = new TiposUsuarioModel();
 
 $opcion1 = $_REQUEST['opcion1'];
@@ -131,6 +133,79 @@ switch ($opcion1) {
         }
 
         break;
+    
+    // C L I E N T E
+    case "cliente":
+        switch ($opcion2) {
+            case "listar":
+                // Obtenemos el array que contiene el listado de Clientes
+                $listadoClientes = $clientesModel->getCLIENTES();
+
+                // Guardamos los datos en una variable de sesion serializada
+                $_SESSION['listadoClientes'] = serialize($listadoClientes);
+
+                // Redireccionamos a la pagina principal para visualizar
+                header('Location: ../View/Clientes/inicioClientes.php#principal');
+                break;
+
+            case "insertar_cliente":
+                // Obtenemos parámetros enviados desde formulario de creación de cliente
+                $COD_CLI = $_REQUEST['COD_CLI'];
+                $CEDULA_CLI = $_REQUEST['CEDULA_CLI'];
+                $NOMBRES_CLI = $_REQUEST['NOMBRES_CLI'];
+                $APELLIDOS_CLI = $_REQUEST['APELLIDOS_CLI'];
+                $FECHA_NAC_CLI = $_REQUEST['FECHA_NAC_CLI'];
+                $DIRECCION_CLI = $_REQUEST['DIRECCION_CLI'];
+                $FONO_CLI = $_REQUEST['FONO_CLI'];
+                $E_MAIL_CLI = $_REQUEST['E_MAIL_CLI'];
+
+                // Enviamos parámetros a método de ingresar cliente
+                try {
+                    $clientesModel->insertarCliente($COD_CLI, $CEDULA_CLI, $NOMBRES_CLI, $APELLIDOS_CLI, $FECHA_NAC_CLI, $DIRECCION_CLI, $FONO_CLI, $E_MAIL_CLI);
+                } catch (Exception $e) {
+                    $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                }
+
+                // Actualizamos y volvemos a serializar en variable de sesión la lista de Clientes
+                $listadoClientes = $clientesModel->getClientes();
+                $_SESSION['listadoClientes'] = serialize($listadoClientes);
+
+                // Redireccionamos a la pagina principal para visualizar
+                header('Location: ../View/Clientes/inicioClientes.php#principal');
+                break;
+
+            case "guardar_cliente":
+                //obtenemos los parametros del formulario
+                $COD_CLI = $_REQUEST['mod_id'];
+                $NOMBRES_CLI = $_REQUEST['mod_nombre'];
+                $APELLIDOS_CLI = $_REQUEST['mod_apellido'];
+                $FECHA_NAC_CLI = $_REQUEST['mod_fecha'];
+                $DIRECCION_CLI = $_REQUEST['mod_direccion'];
+                $FONO_CLI = $_REQUEST['mod_telefono'];
+                $E_MAIL_CLI = $_REQUEST['mod_email'];
+
+                //actualizamos la información del cliente
+                try {
+                    $clientesModel->actualizarCliente($COD_CLI, $NOMBRES_CLI, $APELLIDOS_CLI, $FECHA_NAC_CLI, $DIRECCION_CLI, $FONO_CLI, $E_MAIL_CLI);
+                } catch (Exception $e) {
+                    $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                }
+
+                // Actualizamos y volvemos a serializar en variable de sesión la lista de Clientes
+                $listadoClientes = $clientesModel->getClientes();
+                $_SESSION['listadoClientes'] = serialize($listadoClientes);
+
+                // Redireccionamos a la pagina principal para visualizar
+                header('Location: ../View/Clientes/inicioClientes.php#principal');
+                break;
+
+            default :
+                header('Location: ../View/Clientes/inicioClientes.php');
+                break;
+        }
+
+        break;
+    
     // A J U S T E S
     case "ajuste":
 

@@ -12,23 +12,21 @@ and open the template in the editor.
     // Verificamos si existe inicio de sesión
     if (isset($_SESSION['USUARIO_ACTIVO'])) {
         include_once '../../Model/Usuario.php';
-        include_once '../../Model/UsuariosModel.php';
-        include_once '../../Model/TipoUsuario.php';
-        include_once '../../Model/TiposUsuarioModel.php';
+        include_once '../../Model/Cliente.php';
+        include_once '../../Model/ClientesModel.php';
 
-        // Deserializamos el usuario en sesión
+        // Deserializamos el cliente en sesión
         $usuarioSesion = unserialize($_SESSION['USUARIO_ACTIVO']);
 
-        // Creamos la variable para el llamado de los métodos de la tabla Tipo Usuario y Usuario
-        $tiposUsuarioModel = new TiposUsuarioModel();
-        $usuariosModel = new UsuariosModel();
+        // Creamos la variable para el llamado de los métodos de la tabla Cliente
+        $clientesModel = new ClientesModel();
 
         $NOM = $_SESSION['NOMBRE_USUARIO'];
         $TIPO = $_SESSION['TIPO_USUARIO'];
         ?>
         <head>
             <meta charset="UTF-8">
-            <title>Usuarios</title>
+            <title>Clientes</title>
             <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">				
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
@@ -40,7 +38,7 @@ and open the template in the editor.
             <script src = "../../Dependencias/SweetAlert/sweetalert.min.js" type="text/javascript"></script>
             <script src="../../Dependencias/js/validaciones.js"></script>
 
-            <script src="../../Dependencias/DataTables/usuario.js"></script>
+            <script src="../../Dependencias/DataTables/cliente.js"></script>
             <script src="../../Dependencias/DataTables/jquery.dataTables.min.js"></script>
 
             <!--Importaciones Css-->
@@ -155,7 +153,7 @@ and open the template in the editor.
                 <div class="row" id="principal">
                     <div class="col-lg-12">
                         <div class="col-lg-12" style="border-bottom: 1px solid #c5c5c5">
-                            <h1><span class="glyphicon glyphicon-user"></span> USUARIOS</h1></div>
+                            <h1><span class="glyphicon glyphicon-user"></span> CLIENTES</h1></div>
                     </div>
                 </div>
 
@@ -168,9 +166,9 @@ and open the template in the editor.
                         <!--La class nav nav-pills nos permite hacer menús-->
                         <ul class="nav nav-pills">
                             <?php
-                            // Verificamos si es Administrador habilitamos la funcion de crear usuarios
+                            // Verificamos si es Administrador habilitamos la funcion de crear clientes
                             if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
-                                echo "<li role = 'presentation'><a href = '#nuevoUSU' data-toggle = 'modal'><h4>NUEVO USUARIO</h4></a></li>";
+                                echo "<li role = 'presentation'><a href = '#nuevoCLI' data-toggle = 'modal'><h4>NUEVO CLIENTE</h4></a></li>";
                             }
                             ?>
                         </ul>
@@ -180,18 +178,18 @@ and open the template in the editor.
 
                 <?php
                 if (isset($_SESSION['ErrorBaseDatos'])) {
-                    echo "<div class='alert alert-danger'><strong><span class='glyphicon glyphicon-remove-sign'></span> ERROR:</strong> El Usuario que intenta ingresar ya existe en la Base de Datos y tiene su perfil</div>";
+                    echo "<div class='alert alert-danger'><strong><span class='glyphicon glyphicon-remove-sign'></span> ERROR:</strong> El Cliente que intenta ingresar ya existe en la Base de Datos</div>";
                 }
                 ?>
 
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-info">
-                            <div class="panel-heading"><h4>Lista de Usuarios</h4></div>
+                            <div class="panel-heading"><h4>Lista de Clientes</h4></div>
                             <div class="panel-body">
                                 <div class="col-lg-12">
                                     <div class="table-striped">
-                                        <!-- Tabla en la que se listara los usuarios de la Base de Datos -->
+                                        <!-- Tabla en la que se listara los clientes de la Base de Datos -->
                                         <table class="table table-striped table-bordered table-condensed table-condensed" id="example" cellspacing="0" width="100%">
                                             <thead>
                                                 <tr>
@@ -200,8 +198,7 @@ and open the template in the editor.
                                                         echo "<th>ACCIONES</th>";
                                                     }
                                                     ?>
-                                                    <th>CODIGO USUARIO</th>
-                                                    <th>TIPO USUARIO</th>
+                                                    <th>CODIGO CLIENTE</th>
                                                     <?php
                                                     if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
                                                         echo "<th>CÉDULA</th>";
@@ -217,64 +214,55 @@ and open the template in the editor.
                                                         echo "<th>E-MAIL</th>";
                                                     }
                                                     ?>
-                                                    <th>ESTADO</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                // Verificamos si existe la variable de sesión que contiene la lista de Usuarios
-                                                if (isset($_SESSION['listadoUsuarios'])) {
-                                                    // Deserializamos y mostraremos los atributos de los usuarios usando un ciclo for
-                                                    $listado = unserialize($_SESSION['listadoUsuarios']);
+                                                // Verificamos si existe la variable de sesión que contiene la lista de Clientes
+                                                if (isset($_SESSION['listadoClientes'])) {
+                                                    // Deserializamos y mostraremos los atributos de los clientes usando un ciclo for
+                                                    $listado = unserialize($_SESSION['listadoClientes']);
                                                 } else {
-                                                    $listado = $usuariosModel->getUsuarios();
+                                                    $listado = $clientesModel->getClientes();
                                                 }
-                                                foreach ($listado as $usu) {
-                                                    // Obtenemos datos de tipo usuario de un usuario en específico
-                                                    $tipoUsuario = $tiposUsuarioModel->getTipoUsuario($usu->getCOD_TIPO_USU());
-                                                    $estado = $usuariosModel->obtenerEstadoUsuario($usu->getCOD_USU());
+                                                foreach ($listado as $cli) {
                                                     ?>
                                                     <tr>
                                                         <?php
                                                         // Un cajero no puede editar datos
                                                         if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
                                                             ?>
-                                                            <td><a href = "#editUSU" onclick = "obtener_datos_usuario('<?php echo $usu->getCOD_USU(); ?>')" data-toggle = "modal"><span class = "glyphicon glyphicon-pencil">Editar</span></a></td>
+                                                            <td><a href = "#editCLI" onclick = "obtener_datos_cliente('<?php echo $cli->getCOD_CLI(); ?>')" data-toggle = "modal"><span class = "glyphicon glyphicon-pencil">Editar</span></a></td>
                                                             <?php
                                                         }
                                                         ?>
 
-                                                        <td><?php echo $usu->getCOD_USU(); ?></td>
-                                                        <td><?php echo $tipoUsuario->getDESCRIPCION_TIPO_USU(); ?></td>
+                                                        <td><?php echo $cli->getCOD_CLI(); ?></td>
                                                         <?php
                                                         if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
-                                                            echo "<td>".$usu->getCEDULA_USU()."</td>";
+                                                            echo "<td>".$cli->getCEDULA_CLI()."</td>";
                                                         }
                                                         ?>
-                                                        <td><?php echo $usu->getNOMBRES_USU(); ?></td>
-                                                        <td><?php echo $usu->getAPELLIDOS_USU(); ?></td>
-                                                        <td><?php echo $usu->getFECHA_NAC_USU(); ?></td>
-                                                        <td><?php echo $usu->getDIRECCION_USU(); ?></td>
-                                                        <td><?php echo $usu->getFONO_USU(); ?></td>
+                                                        <td><?php echo $cli->getNOMBRES_CLI(); ?></td>
+                                                        <td><?php echo $cli->getAPELLIDOS_CLI(); ?></td>
+                                                        <td><?php echo $cli->getFECHA_NAC_CLI(); ?></td>
+                                                        <td><?php echo $cli->getDIRECCION_CLI(); ?></td>
+                                                        <td><?php echo $cli->getFONO_CLI(); ?></td>
                                                         <?php
                                                         if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
-                                                            echo "<td>".$usu->getE_MAIL_USU()."</td>";
+                                                            echo "<td>".$cli->getE_MAIL_CLI()."</td>";
                                                         }
                                                         ?>
-                                                        <td><?php echo $estado; ?></td>
 
 
-                                                <input type="hidden" value="<?php echo $usu->getCOD_USU(); ?>" id="COD_USU<?php echo $usu->getCOD_USU(); ?>">
-                                                <input type="hidden" value="<?php echo $usu->getCOD_TIPO_USU(); ?> " id="TIPO_USU<?php echo $usu->getCOD_TIPO_USU(); ?>" >
-                                                <input type="hidden" value="<?php echo $usu->getCEDULA_USU(); ?>" id="CEDULA_USU<?php echo $usu->getCOD_USU(); ?>">
-                                                <input type="hidden" value="<?php echo $usu->getNOMBRES_USU(); ?>" id="NOMBRES_USU<?php echo $usu->getCOD_USU(); ?>">
-                                                <input type="hidden" value="<?php echo $usu->getAPELLIDOS_USU(); ?>" id="APELLIDOS_USU<?php echo $usu->getCOD_USU(); ?>">
-                                                <input type="hidden" value="<?php echo $usu->getFECHA_NAC_USU(); ?>" id="FECHA_NAC_USU<?php echo $usu->getCOD_USU(); ?>">
-                                                <input type="hidden" value="<?php echo $usu->getDIRECCION_USU(); ?>" id="DIRECCION_USU<?php echo $usu->getCOD_USU(); ?>">
-                                                <input type="hidden" value="<?php echo $usu->getFONO_USU(); ?>" id="FONO_USU<?php echo $usu->getCOD_USU(); ?>">
-                                                <input type="hidden" value="<?php echo $usu->getE_MAIL_USU(); ?>" id="E_MAIL_USU<?php echo $usu->getCOD_USU(); ?>">
-                                                <input type="hidden" value="<?php echo $usu->getESTADO_USU(); ?>" id="ESTADO_USU<?php echo $usu->getCOD_USU(); ?>">
-                                                <input type="hidden" value="<?php echo $usu->getCLAVE_USU(); ?>" id="CLAVE_USU<?php echo $usu->getCOD_USU(); ?>">
+                                                <input type="hidden" value="<?php echo $cli->getCOD_CLI(); ?>" id="COD_CLI<?php echo $cli->getCOD_CLI(); ?>">
+                                                <input type="hidden" value="<?php echo $cli->getCEDULA_CLI(); ?>" id="CEDULA_CLI<?php echo $cli->getCOD_CLI(); ?>">
+                                                <input type="hidden" value="<?php echo $cli->getNOMBRES_CLI(); ?>" id="NOMBRES_CLI<?php echo $cli->getCOD_CLI(); ?>">
+                                                <input type="hidden" value="<?php echo $cli->getAPELLIDOS_CLI(); ?>" id="APELLIDOS_CLI<?php echo $cli->getCOD_CLI(); ?>">
+                                                <input type="hidden" value="<?php echo $cli->getFECHA_NAC_CLI(); ?>" id="FECHA_NAC_CLI<?php echo $cli->getCOD_CLI(); ?>">
+                                                <input type="hidden" value="<?php echo $cli->getDIRECCION_CLI(); ?>" id="DIRECCION_CLI<?php echo $cli->getCOD_CLI(); ?>">
+                                                <input type="hidden" value="<?php echo $cli->getFONO_CLI(); ?>" id="FONO_CLI<?php echo $cli->getCOD_CLI(); ?>">
+                                                <input type="hidden" value="<?php echo $cli->getE_MAIL_CLI(); ?>" id="E_MAIL_CLI<?php echo $cli->getCOD_CLI(); ?>">
 
                                                 <?php
                                                 echo "</tr>";
@@ -289,19 +277,19 @@ and open the template in the editor.
                     </div>
                 </div>
 
-                <!--Ventana emergente para Nuevo Usuario-->
-                <div class="modal fade" id="nuevoUSU">
+                <!--Ventana emergente para Nuevo Cliente-->
+                <div class="modal fade" id="nuevoCLI">
                     <div class="modal-dialog">
                         <form class="form-horizontal" action="../../Controller/controller.php">
-                            <input type="hidden" name="opcion1" value="usuario">
-                            <input type="hidden" name="opcion2" value="insertar_usuario">
+                            <input type="hidden" name="opcion1" value="cliente">
+                            <input type="hidden" name="opcion2" value="insertar_cliente">
 
                             <div class="modal-content">
                                 <!-- Header de la ventana -->
 
                                 <div class="modal-header bg-success">
                                     <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h3 class="modal-title"><span class="glyphicon glyphicon-user"></span> Nuevo Usuario </h3>
+                                    <h3 class="modal-title"><span class="glyphicon glyphicon-user"></span> Nuevo Cliente </h3>
                                 </div>
 
                                 <!-- Contenido de la ventana -->
@@ -310,26 +298,11 @@ and open the template in the editor.
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Código Usuario </label>
+                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Código Cliente </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <?php echo $usuariosModel->generarUsuario(); ?>
-                                                    <input type="hidden" name="COD_USU" value="<?php echo $usuariosModel->generarUsuario() ?>">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Tipo Usuario </label>
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <select class="form-control" id="COD_TIPO_USU" name="COD_TIPO_USU">
-                                                        <?php
-                                                        $listado = $tiposUsuarioModel->getTiposUsuario();
-                                                        foreach ($listado as $tipoUsuario) {
-                                                            ?>
-                                                            <option  value="<?php echo $tipoUsuario->getCOD_TIPO_USU(); ?>"><?php echo $tipoUsuario->getDESCRIPCION_TIPO_USU(); ?></option>
-                                                        <?php } ?>
-                                                    </select>
+                                                    <?php echo $clientesModel->generarCliente(); ?>
+                                                    <input type="hidden" name="COD_CLI" value="<?php echo $clientesModel->generarCliente() ?>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -337,7 +310,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Cédula / RUC </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="text" onkeypress="return SoloNumeros(event);" maxlength="13" minlength="10" class="form-control" name="CEDULA_USU"  placeholder="Ingrese su N° de Cedula o RUC" onchange="ValidarIdentificacion(this.form.CEDULA_USU.value, this.form.boton)" required />
+                                                    <input type="text" onkeypress="return SoloNumeros(event);" maxlength="13" minlength="10" class="form-control" name="CEDULA_CLI"  placeholder="Ingrese su N° de Cedula o RUC" onchange="ValidarIdentificacion(this.form.CEDULA_CLI.value, this.form.boton)" required />
                                                 </div>
                                             </div>
 
@@ -346,7 +319,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Nombres </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return SoloLetras(event);" type="text" class="form-control" name="NOMBRES_USU" placeholder="Ingrese sus Nombres" required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-ZñÑáéíóúÁÉÍÓÚ]+)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|" title="El campo no admite espacios en blanco innecesarios, ni admite espacios al inicio o final" />
+                                                    <input onkeypress="return SoloLetras(event);" type="text" class="form-control" name="NOMBRES_CLI" placeholder="Ingrese sus Nombres" required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-ZñÑáéíóúÁÉÍÓÚ]+)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|" title="El campo no admite espacios en blanco innecesarios, ni admite espacios al inicio o final" />
                                                 </div>
                                             </div>
 
@@ -355,7 +328,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Apellidos </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return SoloLetras(event);" type="text" class="form-control" name="APELLIDOS_USU" placeholder="Ingrese sus Apellidos" required="true" required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-ZñÑáéíóúÁÉÍÓÚ]+)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|" title="El campo no admite espacios en blanco innecesarios, ni admite espacios al inicio o final" />
+                                                    <input onkeypress="return SoloLetras(event);" type="text" class="form-control" name="APELLIDOS_CLI" placeholder="Ingrese sus Apellidos" required="true" required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-ZñÑáéíóúÁÉÍÓÚ]+)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|" title="El campo no admite espacios en blanco innecesarios, ni admite espacios al inicio o final" />
                                                 </div>
                                             </div>
 
@@ -364,7 +337,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Fecha de Nac. </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="date" class="form-control" name="FECHA_NAC_USU" min="1900-01-01" max="<?php echo date("Y-m-d") ?>">
+                                                    <input type="date" class="form-control" name="FECHA_NAC_CLI" min="1900-01-01" max="<?php echo date("Y-m-d") ?>">
                                                 </div>
                                             </div>
 
@@ -373,7 +346,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Dirección </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class="form-control" name="DIRECCION_USU" placeholder="Ingrese su Dirección" required pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios" />
+                                                    <input type="text" class="form-control" name="DIRECCION_CLI" placeholder="Ingrese su Dirección" required pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios" />
                                                 </div>
                                             </div>
 
@@ -382,7 +355,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Teléfono </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return SoloNumeros(event);" type="text" maxlength="10" class="form-control" name="FONO_USU" placeholder="Ingrese su numero de Teléfono"/>
+                                                    <input onkeypress="return SoloNumeros(event);" type="text" maxlength="10" class="form-control" name="FONO_CLI" placeholder="Ingrese su numero de Teléfono"/>
                                                 </div>
                                             </div>
 
@@ -391,28 +364,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> E-mail </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="email" class="form-control" name="E_MAIL_USU" placeholder="Ingrese su Correo"/>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk" required="true"></span> Estado </label>
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <select class="form-control" id="ESTADO_USU" name="ESTADO_USU" required="true">
-                                                        <option value="A">ACTIVO</option>
-                                                        <option value="I">INACTIVO</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Clave </label>
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <input type="password" class="form-control" name="CLAVE_USU" placeholder="Ingrese su Clave" required="true"/>
+                                                    <input type="email" class="form-control" name="E_MAIL_CLI" placeholder="Ingrese su Correo"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -421,7 +373,7 @@ and open the template in the editor.
                                     <!-- Footer de la ventana -->
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                                        <button id="boton" class="btn btn-success">Guardar Usuario</button>
+                                        <button id="boton" class="btn btn-success">Guardar Cliente</button>
                                     </div>
                                 </div>
                             </div>
@@ -430,18 +382,18 @@ and open the template in the editor.
                 </div>
 
 
-                <!--Ventana emergente para Editar Usuario-->
-                <div class="modal fade" id="editUSU">
+                <!--Ventana emergente para Editar Cliente-->
+                <div class="modal fade" id="editCLI">
                     <div class="modal-dialog">
                         <form class="form-horizontal" action="../../Controller/controller.php">
-                            <input type="hidden" name="opcion1" value="usuario">
-                            <input type="hidden" name="opcion2" value="guardar_usuario">
+                            <input type="hidden" name="opcion1" value="cliente">
+                            <input type="hidden" name="opcion2" value="guardar_cliente">
 
                             <div class="modal-content">
                                 <!-- Header de la ventana --> 
                                 <div class="modal-header bg-success">
                                     <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h3 class="modal-title"><span class="glyphicon glyphicon-cog"></span> Editar Usuario</h3>
+                                    <h3 class="modal-title"><span class="glyphicon glyphicon-cog"></span> Editar Cliente</h3>
                                 </div>
 
                                 <!-- Contenido de la ventana -->
@@ -450,7 +402,7 @@ and open the template in the editor.
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Código Usuario</label>    
+                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Código Cliente</label>    
                                                 </div>
                                                 <div class="col-md-7">
                                                     <input type="hidden" id="mod_id" name="mod_id" value=""  >
@@ -514,32 +466,12 @@ and open the template in the editor.
                                                     <input type="email" class="form-control" id="mod_email" name="mod_email" />
                                                 </div>
                                             </div>  
-                                            <div class="form-group">
-                                                <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Estado </label>
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <select class="form-control" id="mod_estado" name="mod_estado">
-                                                        <option value="A">ACTIVO</option>
-                                                        <option value="I">INACTIVO</option>
-                                                    </select>
-                                                </div>  
-                                            </div>
-
-                                            <div class="form-group">
-                                                <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Clave </label>
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <input type="password" class="form-control" id="mod_clave" name="mod_clave" minlength="8" required />
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                     <!-- Footer de la ventana -->
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                                        <button type="submit" id="boton" class="btn btn-success">Guardar Usuario</button>
+                                        <button type="submit" id="boton" class="btn btn-success">Guardar Cliente</button>
                                     </div>
                                 </div>
                             </div>
