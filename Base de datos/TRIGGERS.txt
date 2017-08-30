@@ -1,0 +1,25 @@
+-------1. (cambiar el campo de costo total detalle por un valor default 0)
+ALTER TABLE `tab_fac_det_facturas` CHANGE `COSTO_TOT_DET_FACT` 
+`COSTO_TOT_DET_FACT` DECIMAL(10,2) NOT NULL DEFAULT '0';
+
+------2. TRIGGER PARA ADICIONAR EL SUBTOTAL, IVA, Y TOTAL DE LA FACTURA ----- (A)
+------------------------------------------------------------------------------------------------------------ 
+CREATE TRIGGER `tr_CalculosFactura` AFTER INSERT ON `tab_fac_det_facturas`
+ FOR EACH ROW UPDATE tab_fac_cab_facturas set tab_fac_cab_facturas.SUBT_IVA_CAB_FACT=tab_fac_cab_facturas.SUBT_IVA_CAB_FACT+ NEW.COSTO_TOT_DET_FACT,
+   				 	tab_fac_cab_facturas.IVA_CAB_FACT=  (tab_fac_cab_facturas.SUBT_IVA_CAB_FACT)*0.12,
+					tab_fac_cab_facturas.COSTO_TOT_CAB_FACT= tab_fac_cab_facturas.SUBT_IVA_CAB_FACT+ tab_fac_cab_facturas.IVA_CAB_FACT 
+WHERE tab_fac_cab_facturas.COD_CAB_FACT=NEW.COD_CAB_FACT
+
+------3. TRIGGER PARA RESTAR EL SUBTOTAL, IVA, Y TOTAL DE LA FACTURA SI SE ELIMINA UN DETALLE----- (A)
+------------------------------------------------------------------------------------------------------------ 
+CREATE TRIGGER `tr_CalculosRestaFactura` BEFORE DELETE ON `tab_fac_det_facturas`
+ FOR EACH ROW UPDATE tab_fac_cab_facturas set tab_fac_cab_facturas.SUBT_IVA_CAB_FACT=tab_fac_cab_facturas.SUBT_IVA_CAB_FACT- OLD.COSTO_TOT_DET_FACT,
+   				 	tab_fac_cab_facturas.IVA_CAB_FACT=  (tab_fac_cab_facturas.SUBT_IVA_CAB_FACT)*0.12,
+					tab_fac_cab_facturas.COSTO_TOT_CAB_FACT= tab_fac_cab_facturas.SUBT_IVA_CAB_FACT+ tab_fac_cab_facturas.IVA_CAB_FACT 
+WHERE tab_fac_cab_facturas.COD_CAB_FACT=OLD.COD_CAB_FACT
+
+------4. TRIGGER PARA ELIMINAR LOS DETALLES DE UNA FACTURA SI SE ELIMINA DICHA FACTURA----- (A)
+------------------------------------------------------------------------------------------------------------ 
+CREATE TRIGGER `tr_EliminarDetFactura` BEFORE DELETE ON `tab_fac_cab_facturas`
+ FOR EACH ROW DELETE FROM tab_fac_det_facturas 
+WHERE tab_fac_det_facturas.COD_CAB_FACT= OLD.COD_CAB_FACT
