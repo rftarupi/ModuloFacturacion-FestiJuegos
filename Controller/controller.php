@@ -7,13 +7,12 @@
 require_once '../Model/ClientesModel.php';
 require_once '../Model/UsuariosModel.php';
 require_once '../Model/TiposUsuarioModel.php';
-//require_once '../Model/AjustesModel.php';
-//require_once '../Model/ProductosModel.php';
 
 session_start();
 $usuariosModel = new UsuariosModel();
 $clientesModel = new ClientesModel();
 $tiposUsuarioModel = new TiposUsuarioModel();
+$detallesModel = new FacturaDetallesModel();
 
 $opcion1 = $_REQUEST['opcion1'];
 $opcion2 = $_REQUEST['opcion2'];
@@ -55,7 +54,6 @@ switch ($opcion1) {
         session_destroy();
         header('Location: ../View/login.php');
         break;
-
 
     // U S U A R I O 
     case "usuario":
@@ -206,13 +204,61 @@ switch ($opcion1) {
 
         break;
     
-    // A J U S T E S
-    case "ajuste":
-
-
     // S E R V I C I O S
-    case "producto":
+    case "servicio":
+    
+     // C A B E C E R A  F A C T U R A
+    case "":
+    
+    // D E T A L L E S  F A C T U R A
+    case "detalle":
+        switch ($opcion2) {
+            case "listar_detalles": //--
+                $COD_CAB_FACT = $_REQUEST['COD_CAB_FACT'];
+                $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
+                $_SESSION['listadoDetalles'] = serialize($listadoDetalles);
+                // Redireccionamos a la pagina principal para visualizar
+                header('Location: ../View/Facturas/nuevaFactura.php');
+                break;
+            
+            case "obtener_detalle": //--
+                $COD_CAB_FACT = $_REQUEST['COD_CAB_FACT'];
+                $detalle = $detallesModel->getDetalleFactura($COD_CAB_FACT);
+                $_SESSION['detalle '] = serialize($detalle);
+                // Redireccionamos a la pagina principal para visualizar
+                header('Location: ../View/Facturas/nuevaFactura.php');
+                break;
+            
+              case "insertar_detalle":
+                $COD_DET_FACT = $detallesModel->generarCodDetalle();
+                $COD_SERV = $_REQUEST['COD_SERV'];
+                $COD_CAB_FACT = $_REQUEST['COD_CAB_FACT'];
+                $TIEMPO_DET_FACT = $_REQUEST['TIEMPO_DET_FACT'];
+                $COSTO_HORA_DET_FACT = $_REQUEST['COSTO_HORA_DET_FACT'];
+                $COSTO_TOT_DET_FACT = $TIEMPO_DET_FACT*$COSTO_HORA_DET_FACT;
 
+                try {
+                    $detallesModel->insertarDetalleFactura($COD_DET_FACT, $COD_SERV, $COD_CAB_FACT, $TIEMPO_DET_FACT, $COSTO_HORA_DET_FACT, $COSTO_TOT_DET_FACT);
+                } catch (Exception $e) {
+                    $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                }
+
+                $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
+                $_SESSION['listadoDetalles'] = serialize($listadoDetalles);
+
+                header('Location: ../View/Facturas/nuevaFactura.php');
+                break;
+            
+            case "eliminar_detalle": //--
+                $COD_DET_FACT = $_REQUEST['COD_DET_FACT'];
+                $COD_CAB_FACT = $_REQUEST['COD_CAB_FACT'];
+                $detallesModel->eliminarDetalleFactura($COD_DET_FACT);
+                $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
+                $_SESSION['listadoDetalles'] = serialize($listadoDetalles);
+                // Redireccionamos a la pagina principal para visualizar
+                header('Location: ../View/Facturas/nuevaFactura.php');
+                break;
+        }      
 
     default:
         //si no existe la opcion recibida por el controlador, siempre
