@@ -4,14 +4,13 @@ session_start();
 if (isset($_SESSION['USUARIO_ACTIVO'])) {
     include_once '../../Model/CabFactura.php';
     include_once '../../Model/CabFacturasModel.php';
-    include_once '../../Model/Servicio.php';
-    include_once '../../Model/ServiciosModel.php';
+//    include_once '../../Model/Servicio.php';
+//    include_once '../../Model/ServiciosModel.php';
     include_once '../../Model/Cliente.php';
     include_once '../../Model/ClientesModel.php';
     include_once '../../Model/Usuario.php';
     include_once '../../Model/UsuariosModel.php';
-    $ajustesModel = new AjustesModel();
-    $productosModel = new ProductosModel();
+    $cabFacturasModel = new CabFacturasModel();
     $NOM = $_SESSION['NOMBRE_USUARIO'];
     $TIPO = $_SESSION['TIPO_USUARIO'];
     $USUARIO_ACTIVO = unserialize($_SESSION['USUARIO_ACTIVO']);
@@ -19,7 +18,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
     <html>
         <head>
             <meta charset="UTF-8">
-            <title>NUEVO AJUSTE</title>
+            <title>NUEVA FACTURA</title>
             <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">				
 
             <!--Importación de Dependencias al proyecto-->
@@ -95,19 +94,18 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                     <span class="icon-bar"></span>
                                 </button>
 
-                                <a href="" class="navbar-brand">MÓDULO DE INVENTARIO</a>
+                                <a href="" class="navbar-brand">FACTURACIÓN</a>
                             </div>
                             <div class="collapse navbar-collapse" id="navbar-1">
                                 <ul class="nav navbar-nav navbar-right">
                                     <li><a href=""><span class="glyphicon glyphicon-user"></span> <?php echo $NOM; ?> </a></li>
                                     <li><a href=""><span class="glyphicon glyphicon-edit"></span> <?php echo $TIPO; ?> </a></li>
-                                    <li><a href="../../Controller/controller.php?opcion1=cerrar_sesion"><span class="glyphicon glyphicon-log-out"></span> Cerrar Sesión </a></li>
+                                    <li><a href="../../Controller/controller.php?opcion1=cerrar_sesion"><span class="glyphicon glyphicon-log-out"></span> Cerrar Sesion </a></li>
                                 </ul>
                             </div>
                         </div>
                     </nav>
                 </div>
-
                 <!--CODIGO PARA INSERTAR  UN SLIDER-->
                 <div class="row">
                     <div id="carousel1" class="carousel slide" data-ride="carousel">
@@ -121,13 +119,13 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                         <!--Contenedor de las imagenes--> 
                         <div class="carousel-inner" role="listbox">
                             <div class="item">
-                                <img src="../../View/Imagenes/banner4.jpg" width="100%" alt="Imagen 1">
+                                <img src="../../Imagenes/banner.jpg" width="100%" alt="Imagen 1">
                             </div>
                             <div class="item active">
-                                <img src="../../View/Imagenes/banner9.jpg" width="100%" alt="Imagen 2">
+                                <img src="../../Imagenes/banner4.jpg" width="100%" alt="Imagen 2">
                             </div>
                             <div class="item">
-                                <img src="../../View/Imagenes/banner3.png" width="100%" alt="Imagen 3">
+                                <img src="../../Imagenes/banner6.jpg" width="100%" alt="Imagen 3">
                             </div>
                         </div>
                         <!--Controls--> 
@@ -144,7 +142,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
 
                 <!--TITULO DEL SISTEMA-->
                 <div class="row text-center">
-                    <h3>SISTEMA DE MÓDULO DE INVENTARIO</h3>
+                    <h3>MÓDULO DE FACTURACIÓN</h3>
                 </div>
 
                 <!--MENU CON BOTONES-->
@@ -152,32 +150,32 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                     <div class="col-md-6 col-md-offset-3">
                         <div class="btn-toolbar">
                             <div class="btn-group btn-group-justified">
-                                <a class="btn btn-danger alert-danger  " href="../Principal/iniciop.php">INICIO</a>
-                                <a class="btn btn-primary" href="../../View/Ajustes/inicioAjuste.php">AJUSTES</a>
-                                <a class="btn btn-primary" href="../../View/Producto/inicioProductos.php">PRODUCTOS</a>
-                                <a class="btn btn-primary" href="../../View/Usuario/inicioUsuarios.php">USUARIOS</a>
+                                <a class="btn btn-danger alert-danger" href="../Principal/inicio.php">INICIO</a>
+                                <a class="btn btn-primary" href="../../View/Clientes/inicioClientes.php">CLIENTES</a>
+                                <a class="btn btn-primary" href="../../View/Servicios/inicioServicios.php">SERVICIOS</a>
+                                <a class="btn btn-primary" href="../../View/Facturas/inicioFacturas.php">FACTURAS</a>
+                                <a class="btn btn-primary" href="../../View/Usuarios/inicioUsuarios.php">USUARIOS</a>
                                 <div class="btn-group">
                                     <button class="btn btn-primary dropdown-toggle" id="dropdownReportes" aria-extended="true" type="button" data-toggle="dropdown">
-                                        <label class="control-label">Reportes <span class="caret"></span></label>
+                                        <label class="control-label">REPORTES<span class="caret"></span></label>
                                     </button>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownReportes">
-                                        <li><a href="../Reportes/ReportesMovimientosProducto.php">Reportes de Movimientos</a></li>
-                                        <li><a href="../Reportes/ReporteBodegueros.php">Reportes de Bodegueros</a></li>
-                                        <li><a href="../Reportes/ReporteProductos.php">Reportes de Productos</a></li>
-                                        <li><a href="../Reportes/ReportesFacturacion.php">Web Service de Ventas</a></li>
-                                        <li><a href="../Reportes/ReportesCompras.php">Web Service de Compras</a></li>
+                                        <li><a href="../../View/Reportes/ReportesMovimientosProducto.php">Reportes</a></li>
+                                        <li><a href="../../View/Reportes/ReporteBodegueros.php">Reportes</a></li>
+                                        <li><a href="../../View/Reportes/ReporteProductos.php">Reportes</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                
                 <!--Título de la página-->
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="col-lg-12" style="border-bottom: 1px solid #c5c5c5">
-                                <h1><span class="glyphicon glyphicon-cog"></span> NUEVO AJUSTE DE PRODUCTOS</h1></div>
+                                <h1><span class="glyphicon glyphicon-cog"></span> NUEVA FACTURA</h1></div>
                         </div>
                     </div>
 

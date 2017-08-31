@@ -136,7 +136,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                 <div class="row" id="principal">
                     <div class="col-lg-12">
                         <div class="col-lg-12" style="border-bottom: 1px solid #c5c5c5">
-                            <h1><span class="glyphicon glyphicon-user"></span> FACTURAS</h1></div>
+                            <h1><span class="glyphicon glyphicon-list-alt"></span> FACTURAS</h1></div>
                     </div>
                 </div>
 
@@ -148,7 +148,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                     <div class="col-md-12" style="padding-top: 5px">
                         <!--La class nav nav-pills nos permite hacer menús-->
                         <ul class="nav nav-pills">
-                            <li role="presentation"><a href="nuevaFactura.php" data-toggle="modal"><h4>NUEVA FACTURA</h4></a></li>
+                            <li role="presentation"><a href="nuevaFactura.php"><h4>NUEVA FACTURA</h4></a></li>
                         </ul>
                     </div>
                 </div>
