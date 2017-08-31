@@ -7,6 +7,7 @@
 require_once '../Model/ClientesModel.php';
 require_once '../Model/UsuariosModel.php';
 require_once '../Model/TiposUsuarioModel.php';
+require_once '../Model/FacturaDetallesModel.php';
 
 session_start();
 $usuariosModel = new UsuariosModel();

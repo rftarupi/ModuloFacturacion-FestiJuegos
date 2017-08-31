@@ -1,7 +1,7 @@
 <?php
 // Clase que simula una vista de un detalle de factura
 
-class FacturaDetalle {
+class VistaFacturaDetalle {
 
     // Atributos de Usuarios
     private $COD_DET_FACT;
