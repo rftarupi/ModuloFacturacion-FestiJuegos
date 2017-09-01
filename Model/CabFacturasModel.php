@@ -18,7 +18,7 @@ class CabFacturasModel {
         //transformamos los registros en objetos de tipo CabFactura y guardamos en array
         $listadoCabFacturas = array();
         foreach ($resultado as $res) {
-            $cabFactura = new CabFactura($res['$COD_CAB_FACT'], $res['ESTADO_IMP_FAC'], $res['COD_CLI'], $res['FECHA_CAB_FACT'], $res['SUBT_IVA_CAB_FACT'], $res['IVA_CAB_FACT'], $res['COSTO_TOT_CAB_FACT']);
+            $cabFactura = new CabFactura($res['COD_CAB_FACT'], $res['ESTADO_IMP_FAC'], $res['COD_CLI'], $res['FECHA_CAB_FACT'], $res['SUBT_IVA_CAB_FACT'], $res['IVA_CAB_FACT'], $res['COSTO_TOT_CAB_FACT']);
             array_push($listadoCabFacturas, $cabFactura);
         }
 

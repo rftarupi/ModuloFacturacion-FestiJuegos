@@ -4,7 +4,10 @@ session_start();
 if (isset($_SESSION['USUARIO_ACTIVO'])) {
     include_once '../../Model/CabFactura.php';
     include_once '../../Model/CabFacturasModel.php';
+    include_once '../../Model/Cliente.php';
+    include_once '../../Model/ClientesModel.php';
     $cabFacturasModel = new CabFacturasModel();
+    $clientesModel = new ClientesModel();
     $NOM = $_SESSION['NOMBRE_USUARIO'];
     $TIPO = $_SESSION['TIPO_USUARIO'];
     ?>
@@ -191,23 +194,25 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                 }
 
                                                 foreach ($listado as $cabF) {
+                                                    $cliente = $clientesModel->getCliente($cabF->getCOD_CLI());
                                                     ?>
                                                     <tr>
-                                                        <td align="center"><a href="javascript:window.print()">Imprimir</a></td>
-                                                        <td align="center">
+                                                        <td align="center"><a href="">Imprimir</a></td>
                                                         <td><?php echo $cabF->getCOD_CAB_FACT(); ?></td>
-                                                        <td><?php echo $cabF->getCOD_CLI(); ?></td>
-                                                        <td><?php echo $cabF->getFECHA_CAB_FACT(); ?></td>
-                                                        <td><?php echo $cabF->getSUBT_IVA_CAB_FACT(); ?></td>
-                                                        <td><?php echo $cabF->getIVA_CAB_FACT(); ?></td>
-                                                        <td><?php echo $cabF->getCOSTO_TOT_CAB_FACT(); ?></td>
                                                         <td><?php
                                                             if ($cabF->getESTADO_IMP_FAC() == 'S') {
                                                                 echo 'IMPRESO';
                                                             } else {
                                                                 echo 'NO IMPRESO';
                                                             }
-                                                            ?></td>
+                                                            ?>
+                                                        </td>
+                                                        <td><?php echo $cliente->getAPELLIDOS_CLI()." ".$cliente->getNOMBRES_CLI(); ?></td>
+                                                        <td><?php echo $cabF->getFECHA_CAB_FACT(); ?></td>
+                                                        <td><?php echo $cabF->getSUBT_IVA_CAB_FACT(); ?></td>
+                                                        <td><?php echo $cabF->getIVA_CAB_FACT(); ?></td>
+                                                        <td><?php echo $cabF->getCOSTO_TOT_CAB_FACT(); ?></td>
+                                                        
 
                                                 <input type="hidden" value="<?php echo $cabF->getCOD_CAB_FACT(); ?>" id="ID_AJUSTE_PROD<?php echo $cabF->getCOD_CAB_FACT(); ?>">
                                                 <input type="hidden" value="<?php echo $cabF->getCOD_CLI(); ?>" id="MOTIVO_AJUSTE_PROD<?php echo $cabF->getCOD_CAB_FACT(); ?>" >
