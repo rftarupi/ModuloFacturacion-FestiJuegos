@@ -309,6 +309,11 @@ and open the template in the editor.
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
+                                                <div class="col-md-12" style="text-align: center;">
+                                                    <label class="control-label">Los campos con <span class="glyphicon glyphicon-asterisk"></span> son obligatorios</label>    
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Código Usuario </label>
                                                 </div>
@@ -361,7 +366,7 @@ and open the template in the editor.
 
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Fecha de Nac. </label>
+                                                    <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fecha de Nac. </label>
                                                 </div>
                                                 <div class="col-md-7">
                                                     <input type="date" class="form-control" name="FECHA_NAC_USU" min="1900-01-01" max="<?php echo date("Y-m-d") ?>">
@@ -370,16 +375,16 @@ and open the template in the editor.
 
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Dirección </label>
+                                                    <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirección </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class="form-control" name="DIRECCION_USU" placeholder="Ingrese su Dirección" required pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios" />
+                                                    <input type="text" class="form-control" name="DIRECCION_USU" placeholder="Ingrese su Dirección" pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios" />
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Teléfono </label>
+                                                    <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teléfono </label>
                                                 </div>
                                                 <div class="col-md-7">
                                                     <input onkeypress="return SoloNumeros(event);" type="text" maxlength="10" class="form-control" name="FONO_USU" placeholder="Ingrese su numero de Teléfono"/>
@@ -391,7 +396,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> E-mail </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="email" class="form-control" name="E_MAIL_USU" placeholder="Ingrese su Correo"/>
+                                                    <input type="email" class="form-control" name="E_MAIL_USU" placeholder="Ingrese su Correo" required pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" title="Ingrese un e-mail válido. Ejemplo example@hotmail.com" />
                                                 </div>
                                             </div>
 
@@ -449,6 +454,11 @@ and open the template in the editor.
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
+                                                <div class="col-md-12" style="text-align: center;">
+                                                    <label class="control-label">Los campos con <span class="glyphicon glyphicon-asterisk"></span> son obligatorios</label>    
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Código Usuario</label>    
                                                 </div>
@@ -484,7 +494,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Fecha </label>
+                                                    <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fecha </label>
                                                 </div>
                                                 <div class="col-md-7">
                                                     <input type="date" id="mod_fecha" name="mod_fecha" min="1900-01-01" max="<?php echo date("Y-m-d") ?>">
@@ -492,15 +502,15 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Dirección </label>
+                                                    <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirección </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class="form-control" id="mod_direccion" name="mod_direccion"  required pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios " />
+                                                    <input type="text" class="form-control" id="mod_direccion" name="mod_direccion" pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios " />
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Teléfono </label>
+                                                    <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teléfono </label>
                                                 </div>
                                                 <div class="col-md-7">
                                                     <input onkeypress="return SoloNumeros(event);" type="text" maxlength="10" class="form-control" id="mod_telefono" name="mod_telefono" />
@@ -511,7 +521,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> E-mail </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="email" class="form-control" id="mod_email" name="mod_email" />
+                                                    <input type="email" class="form-control" id="mod_email" name="mod_email" required pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" title="Ingrese un e-mail válido. Ejemplo example@hotmail.com" />
                                                 </div>
                                             </div>  
                                             <div class="form-group">
