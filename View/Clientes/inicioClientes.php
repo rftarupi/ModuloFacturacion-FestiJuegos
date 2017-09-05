@@ -57,6 +57,38 @@ and open the template in the editor.
                     padding-top: 50px;
                 }
             </style>
+
+            <script>
+                // Funcion para limitar el numero de caracteres de un textarea o input
+                // Tiene que recibir el evento, valor y número máximo de caracteres
+                function limitarDireccion(e, contenido, caracteres)
+                {
+                    // obtenemos la tecla pulsada
+                    var unicode = e.keyCode ? e.keyCode : e.charCode;
+
+                    // Permitimos las siguientes teclas:
+                    // 8 backspace
+                    // 46 suprimir
+                    // 13 enter
+                    // 9 tabulador
+                    // 37 izquierda
+                    // 39 derecha
+                    // 38 subir
+                    // 40 bajar
+                    if (unicode == 8 || unicode == 46 || unicode == 13 || unicode == 9 || unicode == 37 || unicode == 39 || unicode == 38 || unicode == 40)
+                        return true;
+
+                    // Si ha superado el limite de caracteres devolvemos false
+                    if (contenido.length >= caracteres) {
+                        swal({title: "Error!",
+                            text: "No se puede superar los 100 caracteres en la Dirección",
+                            type: "error",
+                            confirmButtonText: "Ok"});
+                        return false;
+                    }
+                    return true;
+                }
+            </script>
         </head>
         <body>
             <div class="container-fluid">
@@ -312,7 +344,7 @@ and open the template in the editor.
                                                     <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirección </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class="form-control" name="DIRECCION_CLI" placeholder="Ingrese su Dirección" pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-º]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios" />
+                                                    <input type="text" class="form-control"  name="DIRECCION_CLI" placeholder="Ingrese su Dirección" maxlength="100" onKeyUp="return limitarDireccion(event, this.value, 100)" onKeyDown="return limitarDireccion(event, this.value, 100)" pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-º]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios" />
                                                 </div>
                                             </div>
 
@@ -413,7 +445,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirección </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class="form-control" id="mod_direccion" name="mod_direccion"  required pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-º]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios " />
+                                                    <input type="text" class="form-control" id="mod_direccion" name="mod_direccion" maxlength="100" onKeyUp="return limitarDireccion(event, this.value, 100)" onKeyDown="return limitarDireccion(event, this.value, 100)" required pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-º]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios " />
                                                 </div>
                                             </div>
                                             <div class="form-group">

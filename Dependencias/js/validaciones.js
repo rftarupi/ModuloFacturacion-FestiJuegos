@@ -94,10 +94,10 @@ function ValidarRUC(ruc, boton) {
         } else {
             if (porcion1 == 9) {
                 swal({
-                title: "RUC correcto",
-                text: "El RUC es de una sociedad privada",
-                type: "success",
-                confirmButtonText: "Ok"});
+                    title: "RUC correcto",
+                    text: "El RUC es de una sociedad privada",
+                    type: "success",
+                    confirmButtonText: "Ok"});
             }
         }
     }
