@@ -378,7 +378,7 @@ and open the template in the editor.
                                                     <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirección </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class="form-control" name="DIRECCION_USU" placeholder="Ingrese su Dirección" pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios" />
+                                                    <input type="text" class="form-control" name="DIRECCION_USU" placeholder="Ingrese su Dirección" pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-º]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios" />
                                                 </div>
                                             </div>
 
@@ -396,7 +396,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> E-mail </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="email" class="form-control" name="E_MAIL_USU" placeholder="Ingrese su Correo" required pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" title="Ingrese un e-mail válido. Ejemplo example@hotmail.com" />
+                                                    <input type="email" class="form-control" name="E_MAIL_USU" placeholder="Ingrese su Correo" required pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_-]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}" title="Ingrese un e-mail válido. Ejemplo example@hotmail.com" />
                                                 </div>
                                             </div>
 
@@ -505,7 +505,7 @@ and open the template in the editor.
                                                     <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirección </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class="form-control" id="mod_direccion" name="mod_direccion" pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios " />
+                                                    <input type="text" class="form-control" id="mod_direccion" name="mod_direccion" pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-º]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios " />
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -521,7 +521,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> E-mail </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="email" class="form-control" id="mod_email" name="mod_email" required pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" title="Ingrese un e-mail válido. Ejemplo example@hotmail.com" />
+                                                    <input type="email" class="form-control" id="mod_email" name="mod_email" required pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_-]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}" title="Ingrese un e-mail válido. Ejemplo example@hotmail.com" />
                                                 </div>
                                             </div>  
                                             <div class="form-group">
