@@ -83,6 +83,10 @@ switch ($opcion1) {
                 $E_MAIL_USU = $_REQUEST['E_MAIL_USU'];
                 $ESTADO_USU = $_REQUEST['ESTADO_USU'];
                 $CLAVE_USU = $_REQUEST['CLAVE_USU'];
+                
+                if(empty($FECHA_NAC_USU)){
+                    $FECHA_NAC_USU=NULL;
+                }
 
                 // Enviamos parámetros a método de ingresar Usuario
                 try {
@@ -110,6 +114,10 @@ switch ($opcion1) {
                 $E_MAIL_USU = $_REQUEST['mod_email'];
                 $ESTADO_USU = $_REQUEST['mod_estado'];
                 $CLAVE_USU = $_REQUEST['mod_clave'];
+                
+                if(empty($FECHA_NAC_USU)){
+                    $FECHA_NAC_USU=NULL;
+                }
 
                 //actualizamos la información del Usuario
                 try {
@@ -157,6 +165,10 @@ switch ($opcion1) {
                 $DIRECCION_CLI = $_REQUEST['DIRECCION_CLI'];
                 $FONO_CLI = $_REQUEST['FONO_CLI'];
                 $E_MAIL_CLI = $_REQUEST['E_MAIL_CLI'];
+                
+                if(empty($FECHA_NAC_CLI)){
+                    $FECHA_NAC_CLI=NULL;
+                }
 
                 // Enviamos parámetros a método de ingresar cliente
                 try {
@@ -182,6 +194,10 @@ switch ($opcion1) {
                 $DIRECCION_CLI = $_REQUEST['mod_direccion'];
                 $FONO_CLI = $_REQUEST['mod_telefono'];
                 $E_MAIL_CLI = $_REQUEST['mod_email'];
+                
+                if(empty($FECHA_NAC_CLI)){
+                    $FECHA_NAC_CLI=NULL;
+                }
 
                 //actualizamos la información del cliente
                 try {
