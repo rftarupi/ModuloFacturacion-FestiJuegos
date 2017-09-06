@@ -1,16 +1,14 @@
 <?php
 
-//require_once $_SERVER['DOCUMENT_ROOT'] . '/Model/UsuariosModel.php';
-////require_once $_SERVER['DOCUMENT_ROOT'] . '/Model/AjustesModel.php';
-////require_once $_SERVER['DOCUMENT_ROOT'] . '/Model/ProductosModel.php';
-
 require_once '../Model/ClientesModel.php';
+require_once '../Model/ServiciosModel.php';
 require_once '../Model/UsuariosModel.php';
 require_once '../Model/TiposUsuarioModel.php';
 require_once '../Model/FacturaDetallesModel.php';
 
 session_start();
 $usuariosModel = new UsuariosModel();
+$serviciosModel = new ServiciosModel();
 $clientesModel = new ClientesModel();
 $tiposUsuarioModel = new TiposUsuarioModel();
 $detallesModel = new FacturaDetallesModel();
@@ -83,9 +81,9 @@ switch ($opcion1) {
                 $E_MAIL_USU = $_REQUEST['E_MAIL_USU'];
                 $ESTADO_USU = $_REQUEST['ESTADO_USU'];
                 $CLAVE_USU = $_REQUEST['CLAVE_USU'];
-                
-                if(empty($FECHA_NAC_USU)){
-                    $FECHA_NAC_USU=NULL;
+
+                if (empty($FECHA_NAC_USU)) {
+                    $FECHA_NAC_USU = NULL;
                 }
 
                 // Enviamos parámetros a método de ingresar Usuario
@@ -114,9 +112,9 @@ switch ($opcion1) {
                 $E_MAIL_USU = $_REQUEST['mod_email'];
                 $ESTADO_USU = $_REQUEST['mod_estado'];
                 $CLAVE_USU = $_REQUEST['mod_clave'];
-                
-                if(empty($FECHA_NAC_USU)){
-                    $FECHA_NAC_USU=NULL;
+
+                if (empty($FECHA_NAC_USU)) {
+                    $FECHA_NAC_USU = NULL;
                 }
 
                 //actualizamos la información del Usuario
@@ -140,7 +138,7 @@ switch ($opcion1) {
         }
 
         break;
-    
+
     // C L I E N T E
     case "cliente":
         switch ($opcion2) {
@@ -165,9 +163,9 @@ switch ($opcion1) {
                 $DIRECCION_CLI = $_REQUEST['DIRECCION_CLI'];
                 $FONO_CLI = $_REQUEST['FONO_CLI'];
                 $E_MAIL_CLI = $_REQUEST['E_MAIL_CLI'];
-                
-                if(empty($FECHA_NAC_CLI)){
-                    $FECHA_NAC_CLI=NULL;
+
+                if (empty($FECHA_NAC_CLI)) {
+                    $FECHA_NAC_CLI = NULL;
                 }
 
                 // Enviamos parámetros a método de ingresar cliente
@@ -194,9 +192,9 @@ switch ($opcion1) {
                 $DIRECCION_CLI = $_REQUEST['mod_direccion'];
                 $FONO_CLI = $_REQUEST['mod_telefono'];
                 $E_MAIL_CLI = $_REQUEST['mod_email'];
-                
-                if(empty($FECHA_NAC_CLI)){
-                    $FECHA_NAC_CLI=NULL;
+
+                if (empty($FECHA_NAC_CLI)) {
+                    $FECHA_NAC_CLI = NULL;
                 }
 
                 //actualizamos la información del cliente
@@ -220,13 +218,75 @@ switch ($opcion1) {
         }
 
         break;
-    
+
     // S E R V I C I O S
     case "servicio":
-    
-     // C A B E C E R A  F A C T U R A
+        switch ($opcion2) {
+            case "listar":
+                // Obtenemos el array que contiene el listado de Servicios
+                $listadoServicios = $serviciosModel->getServicios();
+
+                // Guardamos los datos en una variable de sesion serializada
+                $_SESSION['listadoServicios'] = serialize($listadoServicios);
+
+                // Redireccionamos a la pagina principal para visualizar
+                header('Location: ../View/Servicios/inicioServicios.php#principal');
+                break;
+
+            case "insertar_servicio":
+                // Obtenemos parámetros enviados desde formulario de creación de servicio
+                $COD_SERV = $_REQUEST['COD_SERV'];
+                $NOMBRE_SERV = $_REQUEST['NOMBRE_SERV'];
+                $DESCRIPCION_SERV = $_REQUEST['DESCRIPCION_SERV'];
+                $COSTO_SERV = $_REQUEST['COSTO_SERV'];
+
+                // Enviamos parámetros a método de ingresar servicio
+                try {
+                    $serviciosModel->insertarServicio($COD_SERV, $NOMBRE_SERV, $DESCRIPCION_SERV, $COSTO_SERV);
+                } catch (Exception $e) {
+                    $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                }
+
+                // Actualizamos y volvemos a serializar en variable de sesión la lista de Servicios
+                $listadoServicios = $serviciosModel->getServicios();
+                $_SESSION['listadoServicios'] = serialize($listadoServicios);
+
+                // Redireccionamos a la pagina principal para visualizar
+                header('Location: ../View/Servicios/inicioServicios.php#principal');
+                break;
+
+            case "guardar_servicio":
+                //obtenemos los parametros del formulario
+                $COD_SERV = $_REQUEST['mod_id'];
+                $NOMBRE_SERV = $_REQUEST['mod_nombre'];
+                $DESCRIPCION_SERV = $_REQUEST['mod_descripcion'];
+                $COSTO_SERV = $_REQUEST['mod_costo'];
+
+                //actualizamos la información del servicio
+                try {
+                    $serviciosModel->actualizarServicio($COD_SERV, $NOMBRE_SERV, $DESCRIPCION_SERV, $COSTO_SERV);
+                } catch (Exception $e) {
+                    $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                }
+
+                // Actualizamos y volvemos a serializar en variable de sesión la lista de Servicios
+                $listadoServicios = $serviciosModel->getServicios();
+                $_SESSION['listadoServicios'] = serialize($listadoServicios);
+
+                // Redireccionamos a la pagina principal para visualizar
+                header('Location: ../View/Servicios/inicioServicios.php#principal');
+                break;
+
+            default :
+                header('Location: ../View/Servicios/inicioServicios.php');
+                break;
+        }
+
+        break;
+        
+    // C A B E C E R A  F A C T U R A
     case "":
-    
+
     // D E T A L L E S  F A C T U R A
     case "detalle":
         switch ($opcion2) {
@@ -237,7 +297,7 @@ switch ($opcion1) {
                 // Redireccionamos a la pagina principal para visualizar
                 header('Location: ../View/Facturas/nuevaFactura.php');
                 break;
-            
+
             case "obtener_detalle": //--
                 $COD_CAB_FACT = $_REQUEST['COD_CAB_FACT'];
                 $detalle = $detallesModel->getDetalleFactura($COD_CAB_FACT);
@@ -245,14 +305,14 @@ switch ($opcion1) {
                 // Redireccionamos a la pagina principal para visualizar
                 header('Location: ../View/Facturas/nuevaFactura.php');
                 break;
-            
-              case "insertar_detalle":
+
+            case "insertar_detalle":
                 $COD_DET_FACT = $detallesModel->generarCodDetalle();
                 $COD_SERV = $_REQUEST['COD_SERV'];
                 $COD_CAB_FACT = $_REQUEST['COD_CAB_FACT'];
                 $TIEMPO_DET_FACT = $_REQUEST['TIEMPO_DET_FACT'];
                 $COSTO_HORA_DET_FACT = $_REQUEST['COSTO_HORA_DET_FACT'];
-                $COSTO_TOT_DET_FACT = $TIEMPO_DET_FACT*$COSTO_HORA_DET_FACT;
+                $COSTO_TOT_DET_FACT = $TIEMPO_DET_FACT * $COSTO_HORA_DET_FACT;
 
                 try {
                     $detallesModel->insertarDetalleFactura($COD_DET_FACT, $COD_SERV, $COD_CAB_FACT, $TIEMPO_DET_FACT, $COSTO_HORA_DET_FACT, $COSTO_TOT_DET_FACT);
@@ -265,7 +325,7 @@ switch ($opcion1) {
 
                 header('Location: ../View/Facturas/nuevaFactura.php');
                 break;
-            
+
             case "eliminar_detalle": //--
                 $COD_DET_FACT = $_REQUEST['COD_DET_FACT'];
                 $COD_CAB_FACT = $_REQUEST['COD_CAB_FACT'];
@@ -275,7 +335,7 @@ switch ($opcion1) {
                 // Redireccionamos a la pagina principal para visualizar
                 header('Location: ../View/Facturas/nuevaFactura.php');
                 break;
-        }      
+        }
 
     default:
         //si no existe la opcion recibida por el controlador, siempre
