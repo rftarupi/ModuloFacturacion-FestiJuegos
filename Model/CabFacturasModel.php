@@ -47,21 +47,53 @@ class CabFacturasModel {
     }
     
     // MÉTODO PARA INSERTAR UNA CABECERA DE FACTURA
-    public function insertarCabFactura($COD_CAB_FACT, $COD_CLI, $FECHA_CAB_FACT) {
+    public function insertarCabFactura($COD_CAB_FACT, $COD_CLI) {
         // Conexión a Base de Datos y creación de consulta sql
         $pdo = Database::connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = 'insert into tab_fac_cab_facturas(COD_CAB_FACT, COD_CLI, FECHA_CAB_FACT) values(?,?,?)';
+        $sql = 'insert into tab_fac_cab_facturas(COD_CAB_FACT, COD_CLI) values(?,?)';
         $consulta = $pdo->prepare($sql);
 
         //Ejecutamos la consulta y pasamos los parametros
         try {
-            $consulta->execute(array($COD_CAB_FACT, $COD_CLI, $FECHA_CAB_FACT));
+            $consulta->execute(array($COD_CAB_FACT, $COD_CLI));
         } catch (PDOException $e) {
             Database::disconnect();
             throw new Exception($e->getMessage());
         }
         Database::disconnect();
+    }
+    
+    // METODO PARA GENERAR AUTOMATICAMENTE EL CODIGO DE UNA FACTURA -- FACT-0001
+    public function generarCodFactura(){
+        $pdo = Database::connect();
+        $sql = 'select max(COD_CAB_FACT) as cod from tab_fac_cab_facturas';
+        $consulta = $pdo->prepare($sql);
+        $consulta->execute();
+        $res = $consulta->fetch(PDO::FETCH_ASSOC);
+        $nuevoCod = '';
+        if ($res['cod'] == NULL) {
+            $nuevoCod = 'FACT-0001';
+        } else {  
+            $rest=  ((substr($res['cod'], -4))+1).''; // Separacion de la parte numerica FACT-0023  --> 23
+            // Ciclo que completa el codigo segun lo retornado para completar los 9 caracteres 
+            // FACT-00 --> 67, FACT-0 --> 786
+            if($rest >1 && $rest <=9){
+                $nuevoCod = 'FACT-000'.$rest;
+            }else{
+                if($rest >=10 && $rest <=99){
+                    $nuevoCod = 'FACT-00'.$rest;
+                }else{
+                    if($rest >=100 && $rest <=999){
+                    $nuevoCod = 'FACT-0'.$rest;
+                    }else{
+                       $nuevoCod = 'FACT-'.$rest; 
+                    }                    
+                } 
+            }
+        }
+        Database::disconnect();
+        return $nuevoCod; // RETORNO DEL NUEVO CODIGO DE FACTURA
     }
 
 }
