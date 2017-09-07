@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#example').DataTable( {
+    $('#usuario').DataTable( {
         "pagingType": "full_numbers",
         "language": {
             "lengthMenu": "Mostrar _MENU_ usuarios por página",
