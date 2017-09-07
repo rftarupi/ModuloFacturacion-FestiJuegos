@@ -59,7 +59,7 @@ and open the template in the editor.
                     padding-top: 50px;
                 }
             </style>
-            
+
             <script>
                 // Funcion para limitar el numero de caracteres de un textarea o input
                 // Tiene que recibir el evento, valor y número máximo de caracteres
@@ -88,6 +88,24 @@ and open the template in the editor.
                             confirmButtonText: "Ok"});
                         return false;
                     }
+                    return true;
+                }
+                
+//                Función para no dejar que se ingrese fecha de nacimiento de menores de edad
+                function ValidaFechaNacimiento(fechaNacimiento, boton) {
+
+                    var fechaMaxima = new Date();
+                    fechaMaxima.setYear(fechaMaxima.getYear() - 18);
+
+                    if (Date.parse(fechaNacimiento) > fechaMaxima) {
+                        swal({title: "Error!",
+                            text: "El sistema solo admite usuarios mayores de edad.!!!",
+                            type: "error",
+                            confirmButtonText: "Ok"});
+                        boton.disabled = true;
+                        return false;
+                    }
+                    boton.disabled = false;
                     return true;
                 }
             </script>
@@ -280,7 +298,7 @@ and open the template in the editor.
                                                         <td><?php echo $tipoUsuario->getDESCRIPCION_TIPO_USU(); ?></td>
                                                         <?php
                                                         if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
-                                                            echo "<td>".$usu->getCEDULA_USU()."</td>";
+                                                            echo "<td>" . $usu->getCEDULA_USU() . "</td>";
                                                         }
                                                         ?>
                                                         <td><?php echo $usu->getNOMBRES_USU(); ?></td>
@@ -290,7 +308,7 @@ and open the template in the editor.
                                                         <td><?php echo $usu->getFONO_USU(); ?></td>
                                                         <?php
                                                         if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
-                                                            echo "<td>".$usu->getE_MAIL_USU()."</td>";
+                                                            echo "<td>" . $usu->getE_MAIL_USU() . "</td>";
                                                         }
                                                         ?>
                                                         <td><?php echo $estado; ?></td>
@@ -401,7 +419,7 @@ and open the template in the editor.
                                                     <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fecha de Nac. </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="date" class="form-control" name="FECHA_NAC_USU" min="1900-01-01" max="<?php echo date("Y-m-d") ?>">
+                                                    <input type="date" class="form-control" name="FECHA_NAC_USU" min="1900-01-01" max="<?php echo date("Y-m-d", strtotime("-18 year, -1 day")); ?>" onchange="ValidaFechaNacimiento(this.form.FECHA_NAC_USU.value, this.form.boton)" >
                                                 </div>
                                             </div>
 
@@ -529,7 +547,7 @@ and open the template in the editor.
                                                     <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fecha </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="date" id="mod_fecha" name="mod_fecha" min="1900-01-01" max="<?php echo date("Y-m-d") ?>">
+                                                    <input type="date" id="mod_fecha" name="mod_fecha" min="1900-01-01" max="<?php echo date("Y-m-d", strtotime("-18 year, -1 day")); ?>" onchange="ValidaFechaNacimiento(this.value, this.form.boton)">
                                                 </div>
                                             </div>
                                             <div class="form-group">
