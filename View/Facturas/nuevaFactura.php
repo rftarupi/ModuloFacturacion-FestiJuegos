@@ -177,20 +177,20 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="col-lg-12" style="border-bottom: 1px solid #c5c5c5">
-                                <h1><span class="glyphicon glyphicon-cog"></span> NUEVA FACTURA</h1></div>
+                                <h1><span class="glyphicon glyphicon-list-alt"></span> NUEVA FACTURA</h1></div>
                         </div>
                     </div>
                     
                        <!--Cabecera ajuste-->
                     <div class="panel panel-default">
-                        <div class="panel-heading">INFORMACIÓN DEL AJUSTE</div>
+                        <div class="panel-heading">INFORMACIÓN DE LA FACTURA</div>
                         <div class="panel-body">
                             <form action="../../Controller/controller.php">
                                 <input type="hidden" name="opcion1" value="ajuste">
                                 <input type="hidden" name="opcion2" value="insertar_ajuste_detalles">            
                                 <div class="input-group">
                                     <span class="input-group-addon">Código </span>
-                                    <input type="text" class="form-control" name="COD_CAB_FACT"  value="<?php echo $cabFacturasModel->generarCodFactura(); ?>">
+                                    <input type="text" class="form-control" name="COD_CAB_FACT" disabled="true" value="<?php echo $cabFacturasModel->generarCodFactura(); ?>">
                                 </div><br>
                                 <div class="input-group">
                                     <span class="input-group-addon">Motivo </span>
@@ -207,13 +207,33 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                     echo "<div class='alert alert-danger'>" . $_SESSION['ErrorDetalleAjuste'] . "</div>";
                                 }
                                 ?>
-                                <a href="#listaCli" data-toggle="modal"><h4>Busqueda inteligente de clientes</h4></a>
+                                <ul class="nav nav-pills"><li><a href="#listaCli" data-toggle="modal"><h5>Buscar cliente</h5></a></li>
+                                    <li><a href="#nuevoCli" data-toggle="modal"><h5>Registrar Cliente</h5></a></li></ul>
                                 <div class="input-group">
                                     <span class="input-group-addon">Cliente </span>
-                                    <input type="text" class="form-control" name="COD_CAB_FACT" value="<?php echo $cabFacturasModel->generarCodFactura(); ?>">
+                                    <input type="text" class="form-control" disabled="true" name="COD_CAB_FACT" value="
+                                                <?php   if (isset($_SESSION['cliente'])) {
+                                                    $cliente = unserialize($_SESSION['cliente']);
+                                                    echo $cliente->getNOMBRES_CLI()."  ".$cliente->getAPELLIDOS_CLI();
+                                                };   
+                                                ?>">
+                                </div><br>
+                                <div class="input-group">
+                                    <span class="input-group-addon">Cliente </span>
+                                    <input type="text" class="form-control" disabled="true" name="COD_CAB_FACT" value="
+                                                <?php   if (isset($_SESSION['cliente'])) {
+                                                    $cliente = unserialize($_SESSION['cliente']);
+                                                    echo $cliente->getCEDULA_CLI();
+                                                }
+                                                unset($_SESSION['cliente']);   
+                                                ?>">
+                                </div><br>
+                                <div class="input-group">
+                                    <span class="input-group-addon">Fecha </span>
+                                    <input type="text" class="form-control"  disabled="true" name="COD_CAB_FACT" value="<?php echo date("d-m-Y");; ?>">
                                 </div><br>
                                 <div class="form-group">
-                                    <input type="submit" value="GUARDAR AJUSTE" id="btnGuardar" class="btn btn-success"> 
+                                    <input type="submit" value="CONTINUAR" id="btnGuardar" class="btn btn-success"> 
                                     <input type="button" value="CANCELAR" id="btnGuardar" class="btn btn-danger"> 
                                 </div> 
                             </form>
@@ -243,7 +263,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                     }
                                                     ?>
                                                 </select></li>
-                                            <li><a href="#listaProd" data-toggle="modal"><h4>Busqueda inteligente de servicios</h4></a></li>
+                                            <li><a href="#listaProd" data-toggle="modal"><h5>Búsqueda inteligente de servicios</h5></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -363,15 +383,12 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                     </div>
                     <!--Fin Detalle ajuste-->
 
-                 
-
-
-                    <!--Ventana emergente para Busqueda inteligente de productos-->
+                    
+                    <!--Ventana emergente para Busqueda inteligente de servicios-->
                      <div class="modal fade" id="listaProd">
-                        <div class="modal-dialog modal-lg">
-                            <!--<form class="form-horizontal" action="#ventanasEmergentes">-->
+                        <div class="modal-dialog modal-lg">   
                             <form class="form-horizontal" action="../../Controller/controller.php">
-
+                                
                                 <div class="modal-content">
                                     <!-- Header de la ventana -->
                                     <div class="modal-header bg-success">
@@ -406,13 +423,9 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                             ?>
                                                         </tbody>
                                                     </table>
-
-                                                    <script src="../../Dependencias/DataTables/servicioFactura.js"></script>
+                                                    <script src="../../Dependencias/DataTables/servicio.js"></script>
                                                     <script src="../../Dependencias/DataTables/jquery-1.12.4.js"></script>
                                                     <script src="../../Dependencias/DataTables/jquery.dataTables.min.js"></script>
-                                                    <!--<script src="https://cdn.datatables.net/1.10.15/js/dataTables.uikit.min.js"></script>--> 
-                                                    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.24.3/css/uikit.min.css">-->
-                                                    <!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/dataTables.uikit.min.css">-->
                                                     <link rel="stylesheet" href="../../Dependencias/DataTables/jquery.dataTables.min.css">
 
                                                 </div>
@@ -423,26 +436,26 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                             </form>
                         </div>
                     </div>
-                    <!-- Fin Ventana emergente para Busqueda inteligente de productos-->
+                    <!-- Fin Ventana emergente para Busqueda inteligente de servicios-->
                     
-                     <!--Ventana emergente para Busqueda inteligente de productos-->
+                     <!--Ventana emergente para Busqueda inteligente de clientes-->
                      <div class="modal fade" id="listaCli">
                         <div class="modal-dialog modal-lg">
-                            <!--<form class="form-horizontal" action="#ventanasEmergentes">-->
                             <form class="form-horizontal" action="../../Controller/controller.php">
 
                                 <div class="modal-content">
                                     <!-- Header de la ventana -->
                                     <div class="modal-header bg-success">
                                         <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                        <h3 class="modal-title"><span class="glyphicon glyphicon-search"></span> Búsqueda de servicios</h3>
+                                        <h3 class="modal-title"><span class="glyphicon glyphicon-search"></span> Búsqueda de clientes</h3>
                                     </div>
 
                                     <!-- Contenido de la ventana -->
                                     <div class="modal-body">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <div>            
+                                                <div> 
+                                                    <a href="#lista" data-toggle="modal"><h5>Registrar Cliente</h5></a>
                                                     <table class="uk-table uk-table-hover uk-table-striped" id="cliente" cellspacing="0" width="100%">
                                                         <thead>    
                                                             <tr> 
@@ -460,20 +473,37 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                                 echo "<td>" . $cli->getCOD_CLI() . "</td>";
                                                                 echo "<td>" . $cli->getNOMBRES_CLI() . "</td>";
                                                                 echo "<td>" . $cli->getAPELLIDOS_CLI() . "</td>";
-                                                                echo "<td><center><a href='../../controller/controller.php?opcion1=ajuste&opcion2=recargarDatosProductoBusquedaInteligente&ID_PROD=" . $serv->getCOSTO_SERV() . "'>Agregar</a></center></td>";
+                                                                echo "<td><center><a href='../../controller/controller.php?opcion1=factura&opcion2=recargarDatosClienteBusquedaInteligente&COD_CLI=" . $cli->getCOD_CLI() . "'>Agregar</a></center></td>";
                                                                 echo "</tr>";
                                                             }
                                                             ?>
                                                         </tbody>
                                                     </table>
-
-                                                    <script src="../../Dependencias/DataTables/clienteFactura.js"></script>
+                                                    <script src="../../Dependencias/DataTables/cliente.js"></script>
                                                     <script src="../../Dependencias/DataTables/jquery-1.12.4.js"></script>
-                                                    <script src="../../Dependencias/DataTables/jquery.dataTables.min.js"></script>
-                                                    <!--<script src="https://cdn.datatables.net/1.10.15/js/dataTables.uikit.min.js"></script>--> 
-                                                    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.24.3/css/uikit.min.css">-->
-                                                    <!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/dataTables.uikit.min.css">-->
+                                                    <script src="../../Dependencias/DataTables/jquery.dataTables.min.js"></script>         
                                                     <link rel="stylesheet" href="../../Dependencias/DataTables/jquery.dataTables.min.css">
+
+                                                    
+     <!-- Ventana nuevo cliente-->
+     
+     <div class="modal fade" id="lista">
+                        <div class="modal-dialog">   
+                            <form class="form-horizontal" action="../../Controller/controller.php">
+                                
+                                <div class="modal-content">
+                                    <!-- Header de la ventana -->
+                                    <div class="modal-header bg-success">
+                                        <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h3 class="modal-title"><span class="glyphicon glyphicon-search"></span> Nuevo Cliente</h3>
+                                    </div>
+
+                                    <!-- Contenido de la ventana -->
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div>            
+                                                   
 
                                                 </div>
                                             </div>
@@ -483,7 +513,24 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                             </form>
                         </div>
                     </div>
-                    <!-- Fin Ventana emergente para Busqueda inteligente de productos-->
+     
+     
+     
+     <!-- Ventana nuevo Cliente-->
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Fin Ventana emergente para Busqueda inteligente de clientes-->
                     
                 </div>
             </div>

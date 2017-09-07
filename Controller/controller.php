@@ -285,7 +285,17 @@ switch ($opcion1) {
         break;
         
     // C A B E C E R A  F A C T U R A
-    case "":
+    case "factura":
+        switch ($opcion2){
+             case "recargarDatosClienteBusquedaInteligente":
+//                unset($_SESSION['ErrorStock']);
+                $COD_CLI = $_REQUEST['COD_CLI'];
+                $cliente = $clientesModel->getCliente($COD_CLI);
+                $_SESSION['cliente']=serialize($cliente);
+                header('Location: ../View/Facturas/nuevaFactura.php');
+                break;
+        }
+        break;
 
     // D E T A L L E S  F A C T U R A
     case "detalle":
@@ -336,6 +346,7 @@ switch ($opcion1) {
                 header('Location: ../View/Facturas/nuevaFactura.php');
                 break;
         }
+        break;
 
     default:
         //si no existe la opcion recibida por el controlador, siempre
