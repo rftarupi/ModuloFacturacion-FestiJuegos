@@ -81,10 +81,10 @@ and open the template in the editor.
                         return true;
 
                     // Si ha superado el limite de caracteres devolvemos false
-                    if (contenido.length >= caracteres) {
-                        swal({title: "Error!",
-                            text: "No se puede superar los 100 caracteres en la Dirección",
-                            type: "error",
+                    if (contenido.length > caracteres) {
+                        swal({title: "Advertencia!",
+                            text: "Ha ingresado 100 caracteres no podrá ingresar más",
+                            type: "warning",
                             confirmButtonText: "Ok"});
                         return false;
                     }
@@ -428,7 +428,7 @@ and open the template in the editor.
                                                     <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirección </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class="form-control" name="DIRECCION_USU" placeholder="Ingrese su Dirección" maxlength="100" onKeyUp="return limitarDireccion(event, this.value, 100)" onKeyDown="return limitarDireccion(event, this.value, 100)" pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-º]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios" />
+                                                    <input type="text" class="form-control" name="DIRECCION_USU" placeholder="Ingrese su Dirección" maxlength="100" onKeyUp="return limitarDireccion(event, this.value, 99)" onKeyDown="return limitarDireccion(event, this.value, 99)" pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-º]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios" />
                                                 </div>
                                             </div>
 
@@ -555,7 +555,7 @@ and open the template in the editor.
                                                     <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirección </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="text" class="form-control" id="mod_direccion" name="mod_direccion" maxlength="100" onKeyUp="return limitarDireccion(event, this.value, 100)" onKeyDown="return limitarDireccion(event, this.value, 100)" pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-º]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios " />
+                                                    <input type="text" class="form-control" id="mod_direccion" name="mod_direccion" maxlength="100" onKeyUp="return limitarDireccion(event, this.value, 99)" onKeyDown="return limitarDireccion(event, this.value, 99)" pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-º]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios " />
                                                 </div>
                                             </div>
                                             <div class="form-group">
