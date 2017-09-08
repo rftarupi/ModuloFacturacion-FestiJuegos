@@ -412,7 +412,7 @@ switch ($opcion1) {
 
             case "eliminar_detalle": //--
                 $COD_DET_FACT = $_REQUEST['COD_DET_FACT'];
-                $COD_CAB_FACT = $_REQUEST['COD_CAB_FACT'];
+                $COD_CAB_FACT =$_SESSION['COD_FACT_TEMP'];
                 $detallesModel->eliminarDetalleFactura($COD_DET_FACT);
                 $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
                 $_SESSION['listadoDetalles'] = serialize($listadoDetalles);

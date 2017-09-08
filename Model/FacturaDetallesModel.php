@@ -76,7 +76,7 @@ class FacturaDetallesModel {
     public function eliminarDetalleFactura($COD_DET_FACT) {
         $pdo = Database::connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "delete from tab_fac_det_facturas where COD_DET_FACT=?";
+        $sql = 'delete from tab_fac_det_facturas where COD_DET_FACT=?';
         $consulta = $pdo->prepare($sql);
         $consulta->execute(array($COD_DET_FACT));
         Database::disconnect();

@@ -173,12 +173,8 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                 <div class="input-group">
                                     <span class="input-group-addon">Código </span>
                                     <input type="text" class="form-control" id="COD_CAB_FACT" name="c" disabled="true" value="<?php echo $cabFacturasModel->generarCodFactura(); ?>">
-                                    <input type="hidden" id="COD_CAB_FACT" name="COD_CAB_FACT" value="<?php if (isset($_SESSION['COD_FACT_TEMP'])) {
-        echo $_SESSION['COD_FACT_TEMP'];
-    } else {
-        echo $cabFacturasModel->generarCodFactura();
-    } ?>">
-                                </div><br>
+                                    <input type="hidden" id="COD_CAB_FACT" name="COD_CAB_FACT" value="<?php if (isset($_SESSION['COD_FACT_TEMP'])) {echo $_SESSION['COD_FACT_TEMP'];} else { echo $cabFacturasModel->generarCodFactura();} ?>">
+                                </div>
 
                                 <?php
                                 if (isset($_SESSION['ErrorDetalleAjuste'])) {
@@ -189,8 +185,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                     echo "<div class='alert alert-danger'>" . $_SESSION['ErrorBaseDatos'] . "</div>";
                                 }
                                 ?>
-                                <ul class="nav nav-pills"><li><a href="#listaCli" data-toggle="modal"><h5>Buscar cliente</h5></a></li>
-                                    <li><a href="#nuevoCli" data-toggle="modal"><h5>Registrar Cliente</h5></a></li></ul>
+                                <ul class="nav nav-pills"><li><a href="#listaCli" data-toggle="modal"><h5>Buscar cliente</h5></a></li></ul>
                                 <div class="input-group">
 
                                     <span class="input-group-addon">Cliente </span>
@@ -285,15 +280,6 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                     </tbody>
                                 </table>
 
-
-                                <!--Mensaje de error en caso de stock no valido-->
-    <?php
-    if (isset($_SESSION['ErrorStock'])) {
-        echo "<script language='javascript'> window.addEventListener('load', ErrorStock('" . $_SESSION['ErrorStock'] . "'), false); </script>";
-        unset($_SESSION['ErrorStock']);
-    }
-    ?>
-
                                 <!--Funcionalidad del Tiempo de consumo del servicio-->
                                 <div class="row">
                                     <div class="col-sm-2">
@@ -332,7 +318,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                             foreach ($listado as $Det) {
                                                 //$serv = $serviciosModel->getServicio($Det->getCOD_SERV());
                                                 echo "<tr class='success'>";
-                                                echo "<td><a href='../../controller/controller.php?opcion1=ajuste&opcion2=eliminar_detalle&ID_DETALLE_AJUSTE_PROD=" . $Det->getCOD_DET_FACT() . "'>Eliminar</a></td>";
+                                                echo "<td><a href='../../controller/controller.php?opcion1=detalle&opcion2=eliminar_detalle&COD_DET_FACT=" . $Det->getCOD_DET_FACT() . "'>Eliminar</a></td>";
                                                 echo "<td>" . $Det->getCOD_DET_FACT() . "</td>";
                                                 echo "<td>" . $Det->getNOMBRE_SERV() . "</td>";
                                                 echo "<td>" . $Det->getTIEMPO_DET_FACT() . "</td>";
@@ -343,7 +329,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                              echo "<tr class='success'>";
                                                  echo "<td></td>";echo "<td></td>";echo "<td></td>";echo "<td></td>";
                                                  echo "<td><h4><strong>TOTAL</strong></h4></td>";
-                                                 if (isset($_SESSION['COD_FACT_TEMP'])) { echo "<td>" . $cabFacturasModel->getCabFactura($_SESSION['COD_FACT_TEMP'])->getSUBT_IVA_CAB_FACT() . "</td>";}else{ echo "<td></td>"; } 
+                                                 if (isset($_SESSION['COD_FACT_TEMP'])) { echo "<td><h4><strong>" . $cabFacturasModel->getCabFactura($_SESSION['COD_FACT_TEMP'])->getSUBT_IVA_CAB_FACT() . "</strong></h4></td>";}else{ echo "<td></td>"; } 
                                                  echo "</tr>";
                                         } else {
                                             echo "No se han cargado datos.";
@@ -351,17 +337,17 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                         ?>
                                     </tbody>
                                 </table>
-                            </form>
-                            <!--Fin de la Tabla de detalles del ajuste-->
-
-                            <!--                    <div class="col-sm-3 col-sm-offset-9">
-                                                    <input type="submit" value="GUARDAR AJUSTE" id="btnGuardar" class="btn btn-success"> 
+                                <!--Fin de la Tabla de detalles de la factura-->
+<!--                                 <div class="col-sm-3 col-sm-offset-9">
+                                                    <input type="submit" value="FINALIZAR PROCESO DE FACTURACIÓN" id="btnGuardar" class="btn btn-success"> 
                                                     <input type="submit" value="CANCELAR" id="btnGuardar" class="btn btn-danger"> 
-                                                </div>         -->
+                                                </div> -->
+                            </form>
+                            
+                   
                         </div>
                     </div>
                     <!--Fin Detalle ajuste-->
-
 
                     <!--Ventana emergente para Busqueda inteligente de servicios-->
                     <div class="modal fade" id="listaProd">
