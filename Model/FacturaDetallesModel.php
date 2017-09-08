@@ -7,12 +7,29 @@ include_once 'VistaFacturaDetalle.php';
 class FacturaDetallesModel {
     
     // MÉTODO PARA OBTENER LOS DETALLES DE UNA FACTURA ESPECÍFICA (VISTA)
-    public function getDetallesFactura($COD_CAB_FACT) {
+//    public function getDetallesFactura($COD_CAB_FACT) {
+//        // Obtención de informacion de la Base de Datos mediante consulta sql
+//        $pdo = Database::connect();
+//        $sql = "select d.COD_DET_FACT, s.NOMBRE_SERV, d.TIEMPO_DET_FACT, d.COSTO_HORA_DET_FACT, d.COSTO_TOT_DET_FACT"
+//              ." from tab_fac_det_facturas d, tab_fac_servicios s"
+//              ." where s.COD_SERV=d.COD_SERV and d.COD_CAB_FACT=".$COD_CAB_FACT;
+//        $resultado = $pdo->query($sql);
+//        //transformamos los registros en objetos de tipo Usuario y guardamos en array
+//        $listadoDetallesFact = array();
+//        foreach ($resultado as $res) {
+//            $detalleFact = new VistaFacturaDetalle($res['COD_DET_FACT'], $res['NOMBRE_SERV'], $res['TIEMPO_DET_FACT'], $res['COSTO_HORA_DET_FACT'], $res['COSTO_TOT_DET_FACT']);
+//            array_push($listadoDetallesFact, $detalleFact);
+//        }
+//        Database::disconnect();
+//        return $listadoDetallesFact;
+//    }
+    
+     public function getDetallesFactura($COD_CAB_FACT) {
         // Obtención de informacion de la Base de Datos mediante consulta sql
         $pdo = Database::connect();
-        $sql = "select d.COD_DET_FACT, s.NOMBRE_SERV, d.TIEMPO_DET_FACT, d.COSTO_HORA_DET_FACT, d.COSTO_TOT_DET_FACT"
-              ." from tab_fac_det_facturas d, tab_fac_servicios s"
-              ." where s.COD_SERV=d.COD_SERV and d.COD_CAB_FACT=".$COD_CAB_FACT;
+        $sql = 'select d.COD_DET_FACT, s.NOMBRE_SERV, d.TIEMPO_DET_FACT, d.COSTO_HORA_DET_FACT, d.COSTO_TOT_DET_FACT'
+              .' from tab_fac_det_facturas d, tab_fac_servicios s'
+              .' where s.COD_SERV=d.COD_SERV and d.COD_CAB_FACT="'.$COD_CAB_FACT.'"';
         $resultado = $pdo->query($sql);
         //transformamos los registros en objetos de tipo Usuario y guardamos en array
         $listadoDetallesFact = array();
@@ -78,8 +95,9 @@ class FacturaDetallesModel {
         }
         Database::disconnect();
     }
+
     
-    // METODO PARA GENERAR AUTOMATICAMENTE EL CODIGO DE UN DETALLE DE FACTURA -- DETA-0001
+  // METODO PARA GENERAR AUTOMATICAMENTE EL CODIGO DE UN DETALLE DE FACTURA -- DETF-0001
     public function generarCodDetalle(){
         $pdo = Database::connect();
         $sql = 'select max(COD_DET_FACT) as cod from tab_fac_det_facturas';
@@ -88,26 +106,26 @@ class FacturaDetallesModel {
         $res = $consulta->fetch(PDO::FETCH_ASSOC);
         $nuevoCod = '';
         if ($res['cod'] == NULL) {
-            $nuevoCod = 'DETA-0001';
+            $nuevoCod = 'DETF-0001';
         } else {  
-            $rest=  ((substr($res['cod'], -4))+1).''; // Separacion de la parte numerica DETA-0023  --> 23
+            $rest=  ((substr($res['cod'], -4))+1).''; // Separacion de la parte numerica DETF-0023  --> 23
             // Ciclo que completa el codigo segun lo retornado para completar los 9 caracteres 
-            // DETA-00 --> 67, DETA-0 --> 786
+            // DETF-00 --> 67, DETF-0 --> 786
             if($rest >1 && $rest <=9){
-                $nuevoCod = 'DETA-000'.$rest;
+                $nuevoCod = 'DETF-000'.$rest;
             }else{
                 if($rest >=10 && $rest <=99){
-                    $nuevoCod = 'DETA-00'.$rest;
+                    $nuevoCod = 'DETF-00'.$rest;
                 }else{
                     if($rest >=100 && $rest <=999){
-                    $nuevoCod = 'DETA-0'.$rest;
+                    $nuevoCod = 'DETF-0'.$rest;
                     }else{
-                       $nuevoCod = 'DETA-'.$rest; 
+                       $nuevoCod = 'DETF-'.$rest; 
                     }                    
                 } 
             }
         }
         Database::disconnect();
-        return $nuevoCod; // RETORNO DEL NUEVO CODIGO DEL DETALLE DE FACTURA
+        return $nuevoCod; // RETORNO DEL NUEVO CODIGO DE DETALLE FACTURA
     }
 }

@@ -186,6 +186,30 @@ switch ($opcion1) {
                 // Redireccionamos a la pagina principal para visualizar
                 header('Location: ../View/Clientes/inicioClientes.php#principal');
                 break;
+                
+                case "insertar_cliente_aux":
+                // Obtenemos parámetros enviados desde formulario de creación de cliente
+                $COD_CLI = $_REQUEST['COD_CLI'];
+                $CEDULA_CLI = $_REQUEST['CEDULA_CLI'];
+                $NOMBRES_CLI = $_REQUEST['NOMBRES_CLI'];
+                $APELLIDOS_CLI = $_REQUEST['APELLIDOS_CLI'];
+                $FECHA_NAC_CLI = $_REQUEST['FECHA_NAC_CLI'];
+                $DIRECCION_CLI = $_REQUEST['DIRECCION_CLI'];
+                $FONO_CLI = $_REQUEST['FONO_CLI'];
+                $E_MAIL_CLI = $_REQUEST['E_MAIL_CLI'];
+
+                if (empty($FECHA_NAC_CLI)) {
+                    $FECHA_NAC_CLI = NULL;
+                }
+                try {
+                    $clientesModel->insertarCliente($COD_CLI, $CEDULA_CLI, $NOMBRES_CLI, $APELLIDOS_CLI, $FECHA_NAC_CLI, $DIRECCION_CLI, $FONO_CLI, $E_MAIL_CLI);
+                } catch (Exception $e) {
+                    $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                }
+                $listadoClientes = $clientesModel->getClientes();
+                $_SESSION['listadoClientes'] = serialize($listadoClientes);
+                header('Location: ../View/Facturas/nuevaFactura.php');
+                break;
 
             case "guardar_cliente":
                 //obtenemos los parametros del formulario
@@ -292,15 +316,15 @@ switch ($opcion1) {
     case "factura":
         switch ($opcion2){      
             case "insertar_factura":
-                $COD_CAB_FACT = $_REQUEST['COD_CAB_FACT'];
+//                $COD_CAB_FACT=  $facturasModel->generarCodFactura();
+                $COD_CAB_FACT =  $_REQUEST['COD_CAB_FACT'];
+                $_SESSION['COD_FACT_TEMP']=$COD_CAB_FACT;
                 $COD_CLI = $_REQUEST['COD_CLI'];
                 try {
-                   $facturasModel->insertarCabFactura($COD_CAB_FACT, "CLIE-0002");
-//                   $facturasModel->insertarCabFactura("FACT-0005", "CLIE-0002");
+                   $facturasModel->insertarCabFactura($COD_CAB_FACT, $COD_CLI);
                 } catch (Exception $e) {
                     $_SESSION['ErrorBaseDatos'] = $e->getMessage();
                 }
-                
                 $listadoFacturas = $facturasModel->getCabFacturas();
                 $_SESSION['listadoFacturas'] = serialize($listadoFacturas);
                 header('Location: ../View/Facturas/nuevaFactura.php');
@@ -364,15 +388,18 @@ switch ($opcion1) {
                 break;
 
             case "insertar_detalle":
-                $COD_DET_FACT = $detallesModel->generarCodDetalle();
+//              $COD_DET_FACT = $detallesModel->generarCodDetalle();
+                $COD_DET_FACT = $_REQUEST['COD_DET_FACT'];
                 $COD_SERV = $_REQUEST['COD_SERV'];
-                $COD_CAB_FACT = $_REQUEST['COD_CAB_FACT'];
+                $COD_CAB_FACT = $_SESSION['COD_FACT_TEMP'];
+//                $COD_CAB_FACT = $_REQUEST['COD_CAB_FACT'];
                 $TIEMPO_DET_FACT = $_REQUEST['TIEMPO_DET_FACT'];
-                $COSTO_HORA_DET_FACT = $_REQUEST['COSTO_HORA_DET_FACT'];
+                $serv=$serviciosModel->getServicio($COD_SERV);
+                $COSTO_HORA_DET_FACT = $serv->getCOSTO_SERV() ;
                 $COSTO_TOT_DET_FACT = $TIEMPO_DET_FACT * $COSTO_HORA_DET_FACT;
 
                 try {
-                    $detallesModel->insertarDetalleFactura($COD_DET_FACT, $COD_SERV, $COD_CAB_FACT, $TIEMPO_DET_FACT, $COSTO_HORA_DET_FACT, $COSTO_TOT_DET_FACT);
+                    $detallesModel->insertarDetalleFactura($COD_DET_FACT, $COD_SERV,  $COD_CAB_FACT , $TIEMPO_DET_FACT ,$COSTO_HORA_DET_FACT, $COSTO_TOT_DET_FACT);
                 } catch (Exception $e) {
                     $_SESSION['ErrorBaseDatos'] = $e->getMessage();
                 }

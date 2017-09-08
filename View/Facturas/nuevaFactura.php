@@ -10,13 +10,14 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
     include_once '../../Model/ClientesModel.php';
     include_once '../../Model/Usuario.php';
     include_once '../../Model/UsuariosModel.php';
+    include_once '../../Model/FacturaDetallesModel.php';
     $cabFacturasModel = new CabFacturasModel();
     $serviciosModel = new ServiciosModel();
     $clientesModel = new ClientesModel();
+    $detallesModel = new FacturaDetallesModel();
     $NOM = $_SESSION['NOMBRE_USUARIO'];
     $TIPO = $_SESSION['TIPO_USUARIO'];
     $USUARIO_ACTIVO = unserialize($_SESSION['USUARIO_ACTIVO']);
-  
     ?>
     <html>
         <head>
@@ -31,8 +32,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
             <script src="../../Dependencias/js/bootstrap-table.js"></script>
             <script src = "../../Dependencias/SweetAlert/sweetalert.min.js" type="text/javascript"></script>
             <script src="../../Dependencias/js/validaciones.js"></script>
-
-            <!--<script src="../../Dependencias/DataTables/jquery.dataTables.min.js"></script>-->
+                <!--<script src="../../Dependencias/DataTables/jquery.dataTables.min.js"></script>-->
 
             <!--Importaciones Css-->
             <link href="../../Dependencias/css/bootstrap-table.css" rel="stylesheet" />
@@ -59,29 +59,13 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                     $.ajax({
                         data: COD_SERV,
                         url: '../../controller/controller.php?opcion1=factura&opcion2=recargarDatosServicio&COD_SERV=' + COD_SERV,
-                                type: 'post',
+                        type: 'post',
                         success: function (response) {
                             $("#TblServ").html(response);
                         }
                     });
                 }
             </script>
-
-            <script LANGUAGE="JavaScript">
-                function ErrorStock(msjError)
-                {
-                    alert(msjError);
-                }
-            </script>
-            <script LANGUAGE="JavaScript">
-                function r(id)
-
-                {
-                    alert(id);
-    <?php $a = "id" ?>
-                }
-            </script>
-
         </head>
         <body>
             <div class="container-fluid">
@@ -96,7 +80,6 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </button>
-
                                 <a href="" class="navbar-brand">FACTURACIÓN</a>
                             </div>
                             <div class="collapse navbar-collapse" id="navbar-1">
@@ -144,9 +127,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                 </div>
 
                 <!--TITULO DEL SISTEMA-->
-                <div class="row text-center">
-                    <h3>MÓDULO DE FACTURACIÓN</h3>
-                </div>
+                <div class="row text-center"><h3>MÓDULO DE FACTURACIÓN</h3></div>
 
                 <!--MENU CON BOTONES-->
                 <div class="row">
@@ -181,8 +162,8 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                 <h1><span class="glyphicon glyphicon-list-alt"></span> NUEVA FACTURA</h1></div>
                         </div>
                     </div>
-                    
-                       <!--Cabecera ajuste-->
+
+                    <!--Cabecera ajuste-->
                     <div class="panel panel-default">
                         <div class="panel-heading">INFORMACIÓN DE LA FACTURA</div>
                         <div class="panel-body">
@@ -191,35 +172,52 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                 <input type="hidden" name="opcion2" value="insertar_factura">            
                                 <div class="input-group">
                                     <span class="input-group-addon">Código </span>
-                                    <input type="text" class="form-control" name="COD_CAB_FACT" disabled="true" value="<?php echo $cabFacturasModel->generarCodFactura(); ?>">
+                                    <input type="text" class="form-control" id="COD_CAB_FACT" name="c" disabled="true" value="<?php echo $cabFacturasModel->generarCodFactura(); ?>">
+                                    <input type="hidden" id="COD_CAB_FACT" name="COD_CAB_FACT" value="<?php if (isset($_SESSION['COD_FACT_TEMP'])) {
+        echo $_SESSION['COD_FACT_TEMP'];
+    } else {
+        echo $cabFacturasModel->generarCodFactura();
+    } ?>">
                                 </div><br>
-                             
+
                                 <?php
                                 if (isset($_SESSION['ErrorDetalleAjuste'])) {
                                     echo "<div class='alert alert-danger'>" . $_SESSION['ErrorDetalleAjuste'] . "</div>";
                                 }
-                                
+
+                                if (isset($_SESSION['ErrorBaseDatos'])) {
+                                    echo "<div class='alert alert-danger'>" . $_SESSION['ErrorBaseDatos'] . "</div>";
+                                }
                                 ?>
                                 <ul class="nav nav-pills"><li><a href="#listaCli" data-toggle="modal"><h5>Buscar cliente</h5></a></li>
                                     <li><a href="#nuevoCli" data-toggle="modal"><h5>Registrar Cliente</h5></a></li></ul>
                                 <div class="input-group">
-                                     
+
                                     <span class="input-group-addon">Cliente </span>
-                                        <?php     if (isset($_SESSION['cliente'])) {
-                                                $cl = unserialize($_SESSION['cliente']); 
-                                                $nombres=$cl->getNOMBRES_CLI()."  ".$cl->getAPELLIDOS_CLI();
-                                                $cedula= $cl->getCEDULA_CLI();
-                                                $codigo = $cl->getCOD_CLI();}
-                                                ?>
-                                   
-                                    <input type="text" class="form-control" disabled="true" name="NOMBRES_CLI" value="<?php if(isset($nombres)){echo $nombres; } ?>"> 
-                                    
+                                    <?php
+                                    if (isset($_SESSION['cliente'])) {
+                                        $cl = unserialize($_SESSION['cliente']);
+                                        $nombres = $cl->getNOMBRES_CLI() . "  " . $cl->getAPELLIDOS_CLI();
+                                        $cedula = $cl->getCEDULA_CLI();
+                                        $codigo = $cl->getCOD_CLI();
+                                    }
+                                    ?>
+
+                                    <input type="text" class="form-control" disabled="true" name="NOMBRES_CLI" value="<?php if (isset($nombres)) {
+                                        echo $nombres;
+                                    } ?>"> 
+
                                 </div><br>
                                 <div class="input-group">
                                     <span class="input-group-addon">Cédula </span>
-                                    <input type="text" class="form-control" disabled="true" name="CEDULA_CLI" value="<?php if(isset($cedula)){ echo $cedula;} ?>">
+                                    <input type="text" class="form-control" disabled="true" name="CEDULA_CLI" value="<?php if (isset($cedula)) {
+                                        echo $cedula;
+                                    } ?>">
                                 </div><br>
-                                <input type="hidden" name="COD_CLI" value="<?php if(isset($codigo)){ echo $codigo;} ?> ">
+                                <input type="hidden" id="COD_CLI" name="COD_CLI" value="<?php if (isset($codigo)) {
+                                        echo $codigo;
+                                    } ?> ">
+
                                 <div class="input-group">
                                     <span class="input-group-addon">Fecha </span>
                                     <input type="text" class="form-control"  disabled="true" name="FECHA_CAB_FACT" value="<?php echo date("d-m-Y"); ?>">
@@ -241,79 +239,79 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                             <!--Formulario para adicionar un detalle del ajuste-->
                             <form action="../../Controller/controller.php">
                                 <input type="hidden" name="opcion1" value="detalle">
-                                <input type="hidden" name="opcion2" value="insertar_detalle_ajuste">
+                                <input type="hidden" name="opcion2" value="insertar_detalle">
+                                <input type="hidden" id="COD_DET_FACT" name="COD_DET_FACT" value="<?php echo $detallesModel->generarCodDetalle(); ?>">
+                                <input type="hidden" id="COD_FACT_TEMP" name="COD_FACT_TEMP" value=" <?php if (isset($_SESSION['COD_FACT_TEMP'])) { echo $_SESSION['COD_FACT_TEMP'];} ?>">
+
                                 <div class="form-inline">
                                     <div class="form-group">
                                         <ul class="nav nav-pills">
                                             <li><label>SERVICIO:</label>
                                                 <select name="COD_SERV" id="CboIDServicio" class="form-control" onchange="ObtenerDatosServicio($('#CboIDServicio').val());
-                                                        return false;">
+                                                            return false;">
                                                     <option value="" disabled selected>Seleccione un Servicio</option>
-                                                    <?php
-                                                    $listaServicios = $serviciosModel->getServicios();
-                                                    foreach ($listaServicios as $serv) {
-                                                        echo "<option value='" . $serv->getCOD_SERV() . "'>" . "Servicio: " . $serv->getNOMBRE_SERV() . "</option>";
-                                                    }
-                                                    ?>
+    <?php
+    $listaServicios = $serviciosModel->getServicios();
+    foreach ($listaServicios as $serv) {
+        echo "<option value='" . $serv->getCOD_SERV() . "'>" . "Servicio: " . $serv->getNOMBRE_SERV() . "</option>";
+    }
+    ?>
                                                 </select></li>
                                             <li><a href="#listaProd" data-toggle="modal"><h5>Búsqueda inteligente de servicios</h5></a></li>
                                         </ul>
                                     </div>
                                 </div>
-                                
+
                                 <table class="table table-striped table-bordered table-condensed table-hover" id="TblServ">
                                     <thead>    
                                         <tr> 
                                             <th>SERVICIO</th>
                                             <th>COSTO</th>
-                                        
+
                                         </tr> 
                                     </thead>
                                     <tbody>
-                                        <?php
-                                        if (isset($_SESSION['servicio'])) {
-                                            $servicio = unserialize($_SESSION['servicio']);
-                                            echo "<tr class='success'>";
-                                            echo "<input type='hidden' name='COD_SERV' value='" . $servicio->getCOD_SERV() . "'>";
-                                            echo "<td>" . $servicio->getNOMBRE_SERV() . "</td>";
-                                            echo "<td>" . $servicio->getCOSTO_SERV() . "</td>";
-                                            echo "</tr>";
-                                            unset ($_SESSION['servicio']);
-                                        }
-                                        ?>
+    <?php
+    if (isset($_SESSION['servicio'])) {
+        $servicio = unserialize($_SESSION['servicio']);
+        echo "<tr class='success'>";
+        echo "<input type='hidden' name='COD_SERV' value='" . $servicio->getCOD_SERV() . "'>";
+        echo "<td>" . $servicio->getNOMBRE_SERV() . "</td>";
+        echo "<td>" . $servicio->getCOSTO_SERV() . "</td>";
+        echo "</tr>";
+        unset($_SESSION['servicio']);
+    }
+    ?>
                                     </tbody>
                                 </table>
 
 
                                 <!--Mensaje de error en caso de stock no valido-->
-                                <?php
-                                if (isset($_SESSION['ErrorStock'])) {
-//                                   echo "<div class='alert alert-danger'>" . $_SESSION['ErrorStock'] . "</div>";
-//                                     echo "<div onload='ErrorStock();'></div>";
-//                                     echo "<body onload='ErrorStock();'></body>";
-                                    echo "<script language='javascript'> window.addEventListener('load', ErrorStock('" . $_SESSION['ErrorStock'] . "'), false); </script>";
-                                    unset($_SESSION['ErrorStock']);
-                                }
-                                ?>
+    <?php
+    if (isset($_SESSION['ErrorStock'])) {
+        echo "<script language='javascript'> window.addEventListener('load', ErrorStock('" . $_SESSION['ErrorStock'] . "'), false); </script>";
+        unset($_SESSION['ErrorStock']);
+    }
+    ?>
 
-                                <!--Ingreso o salida y nuevo stock-->
+                                <!--Funcionalidad del Tiempo de consumo del servicio-->
                                 <div class="row">
                                     <div class="col-sm-2">
                                         <label for="A">Tiempo de consumo del servicio</label><br>
                                     </div>
                                     <div class="col-sm-2">
-                                        <input type="text" class="form-control" name="cantidad" size="150" maxlength="1000" minlength="1" placeholder="Ingrese el tiempo que se consumirá el servicio" required onkeypress="return SoloNumeros(event)" />
+                                        <input type="text" class="form-control" name="TIEMPO_DET_FACT" size="150" maxlength="1000" minlength="1" placeholder="Ingrese el tiempo que se consumirá el servicio" required onkeypress="return SoloNumeros(event)" />
                                     </div>
                                     <div class="col-sm-2">
                                         <input type="submit" value="Agregar" id="btnGuardar" class="btn btn-success"> 
                                     </div>
                                     <div class="col-sm-6"></div>
                                 </div>
-                                <!--Fin de Ingreso o salida y nuevo stock-->
-                                <!--Fin del Formulario para adicionar un detalle del ajuste-->
+                                <!--Fin de la Funcionalidad del Tiempo de consumo del servicio-->
+                                <!--Fin del Formulario para adicionar un detalle de la factura-->
                                 <br><br>
 
-                                <!--Tabla de detalles del ajuste-->  
+                                <!--Tabla de detalles de la factura-->  
                                 <table class="table table-striped table-bordered table-condensed table-hover" data-toggle="table" data-pagination="true">
                                     <thead>
                                         <tr> 
@@ -328,29 +326,25 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                     </thead>
                                     <tbody>
                                         <?php
-                                        //verificamos si existe en sesion el listado de clientes:
-                                        if (isset($_SESSION['listaAjusteDet'])) {
-                                            $listado = unserialize($_SESSION['listaAjusteDet']);
-                                            foreach ($listado as $ajusteDet) {
-                                                $prod = $productosModel->getProducto($ajusteDet->getID_PROD());
+                                        //verificamos si existe en sesion el listado de detalles:
+                                        if (isset($_SESSION['listadoDetalles'])) {
+                                            $listado = unserialize($_SESSION['listadoDetalles']);
+                                            foreach ($listado as $Det) {
+                                                //$serv = $serviciosModel->getServicio($Det->getCOD_SERV());
                                                 echo "<tr class='success'>";
-                                                echo "<td><a href='../../controller/controller.php?opcion1=ajuste&opcion2=eliminar_detalle&ID_DETALLE_AJUSTE_PROD=" . $ajusteDet->getID_DETALLE_AJUSTE_PROD() . "'>Eliminar</a></td>";
-                                                echo "<td>" . $ajusteDet->getID_DETALLE_AJUSTE_PROD() . "</td>";
-                                                echo "<td>" . $ajusteDet->getNOMBRE_PROD() . "</td>";
-                                                echo "<td>" . $ajusteDet->getCAMBIO_STOCK_PROD() . "</td>";
-                                                if ($ajusteDet->getTIPOMOV_DETAJUSTE_PROD() == "I") {
-                                                    echo "<td>INGRESO</td>";
-                                                } else {
-                                                    echo "<td>SALIDA</td>";
-                                                }
-                                                echo "<td>" . $ajusteDet->getPVP_PROD() . "</td>";
-                                                if ($prod->getGRAVA_IVA_PROD() == "S") {
-                                                    echo "<td>SI</td>";
-                                                } else {
-                                                    echo "<td>NO</td>";
-                                                }
-                                                echo "</tr>";
+                                                echo "<td><a href='../../controller/controller.php?opcion1=ajuste&opcion2=eliminar_detalle&ID_DETALLE_AJUSTE_PROD=" . $Det->getCOD_DET_FACT() . "'>Eliminar</a></td>";
+                                                echo "<td>" . $Det->getCOD_DET_FACT() . "</td>";
+                                                echo "<td>" . $Det->getNOMBRE_SERV() . "</td>";
+                                                echo "<td>" . $Det->getTIEMPO_DET_FACT() . "</td>";
+                                                echo "<td>" . $Det->getCOSTO_HORA_DET_FACT() . "</td>";
+                                                echo "<td>" . $Det->getCOSTO_TOT_DET_FACT() . "</td>";
+                                                echo "</tr>"; 
                                             }
+                                             echo "<tr class='success'>";
+                                                 echo "<td></td>";echo "<td></td>";echo "<td></td>";echo "<td></td>";
+                                                 echo "<td><h4><strong>TOTAL</strong></h4></td>";
+                                                 if (isset($_SESSION['COD_FACT_TEMP'])) { echo "<td>" . $cabFacturasModel->getCabFactura($_SESSION['COD_FACT_TEMP'])->getSUBT_IVA_CAB_FACT() . "</td>";}else{ echo "<td></td>"; } 
+                                                 echo "</tr>";
                                         } else {
                                             echo "No se han cargado datos.";
                                         }
@@ -368,12 +362,12 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                     </div>
                     <!--Fin Detalle ajuste-->
 
-                    
+
                     <!--Ventana emergente para Busqueda inteligente de servicios-->
-                     <div class="modal fade" id="listaProd">
+                    <div class="modal fade" id="listaProd">
                         <div class="modal-dialog modal-lg">   
                             <form class="form-horizontal" action="../../Controller/controller.php">
-                                
+
                                 <div class="modal-content">
                                     <!-- Header de la ventana -->
                                     <div class="modal-header bg-success">
@@ -396,17 +390,17 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                             </tr> 
                                                         </thead> 
                                                         <tbody>
-                                                            <?php
-                                                            $listaServicios = $serviciosModel->getServicios();
-                                                            foreach ($listaServicios as $serv) {
-                                                                echo "<tr class='success'>";
-                                                                echo "<td>" . $serv->getCOD_SERV() . "</td>";
-                                                                echo "<td>" . $serv->getNOMBRE_SERV() . "</td>";
-                                                                echo "<td>" . $serv->getCOSTO_SERV() . "</td>";
-                                                                echo "<td><center><a href='../../controller/controller.php?opcion1=factura&opcion2=recargarDatosServicioBusquedaInteligente&COD_SERV=" . $serv->getCOD_SERV() . "'>Agregar</a></center></td>";
-                                                                echo "</tr>";
-                                                            }
-                                                            ?>
+    <?php
+    $listaServicios = $serviciosModel->getServicios();
+    foreach ($listaServicios as $serv) {
+        echo "<tr class='success'>";
+        echo "<td>" . $serv->getCOD_SERV() . "</td>";
+        echo "<td>" . $serv->getNOMBRE_SERV() . "</td>";
+        echo "<td>" . $serv->getCOSTO_SERV() . "</td>";
+        echo "<td><center><a href='../../controller/controller.php?opcion1=factura&opcion2=recargarDatosServicioBusquedaInteligente&COD_SERV=" . $serv->getCOD_SERV() . "'>Agregar</a></center></td>";
+        echo "</tr>";
+    }
+    ?>
                                                         </tbody>
                                                     </table>
                                                     <script src="../../Dependencias/DataTables/servicio.js"></script>
@@ -423,9 +417,9 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                         </div>
                     </div>
                     <!-- Fin Ventana emergente para Busqueda inteligente de servicios-->
-                    
-                     <!--Ventana emergente para Busqueda inteligente de clientes-->
-                     <div class="modal fade" id="listaCli">
+
+                    <!--Ventana emergente para Busqueda inteligente de clientes-->
+                    <div class="modal fade" id="listaCli">
                         <div class="modal-dialog modal-lg">
                             <form class="form-horizontal" action="../../Controller/controller.php">
 
@@ -441,7 +435,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div> 
-                                                    <a href="#lista" data-toggle="modal"><h5>Registrar Cliente</h5></a>
+                                                    <a href="#nuevoCLI" data-toggle="modal"><h5>Registrar Cliente</h5></a>
                                                     <table class="uk-table uk-table-hover uk-table-striped" id="cliente" cellspacing="0" width="100%">
                                                         <thead>    
                                                             <tr> 
@@ -452,17 +446,17 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                             </tr> 
                                                         </thead> 
                                                         <tbody>
-                                                            <?php
-                                                            $listaClientes = $clientesModel->getClientes();
-                                                            foreach ($listaClientes as $cli) {
-                                                                echo "<tr class='success'>";
-                                                                echo "<td>" . $cli->getCEDULA_CLI() . "</td>";
-                                                                echo "<td>" . $cli->getNOMBRES_CLI() . "</td>";
-                                                                echo "<td>" . $cli->getAPELLIDOS_CLI() . "</td>";
-                                                                echo "<td><center><a href='../../controller/controller.php?opcion1=factura&opcion2=recargarDatosClienteBusquedaInteligente&COD_CLI=" . $cli->getCOD_CLI() . "'>Agregar</a></center></td>";
-                                                                echo "</tr>";
-                                                            }
-                                                            ?>
+    <?php
+    $listaClientes = $clientesModel->getClientes();
+    foreach ($listaClientes as $cli) {
+        echo "<tr class='success'>";
+        echo "<td>" . $cli->getCEDULA_CLI() . "</td>";
+        echo "<td>" . $cli->getNOMBRES_CLI() . "</td>";
+        echo "<td>" . $cli->getAPELLIDOS_CLI() . "</td>";
+        echo "<td><center><a href='../../controller/controller.php?opcion1=factura&opcion2=recargarDatosClienteBusquedaInteligente&COD_CLI=" . $cli->getCOD_CLI() . "'>Agregar</a></center></td>";
+        echo "</tr>";
+    }
+    ?>
                                                         </tbody>
                                                     </table>
                                                     <script src="../../Dependencias/DataTables/cliente.js"></script>
@@ -470,44 +464,110 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                     <script src="../../Dependencias/DataTables/jquery.dataTables.min.js"></script>         
                                                     <link rel="stylesheet" href="../../Dependencias/DataTables/jquery.dataTables.min.css">
 
-                                                    
-     <!-- Ventana nuevo cliente-->
-     
-     <div class="modal fade" id="lista">
-                        <div class="modal-dialog">   
-                            <form class="form-horizontal" action="../../Controller/controller.php">
-                                
-                                <div class="modal-content">
-                                    <!-- Header de la ventana -->
-                                    <div class="modal-header bg-success">
-                                        <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                        <h3 class="modal-title"><span class="glyphicon glyphicon-search"></span> Nuevo Cliente</h3>
-                                    </div>
 
-                                    <!-- Contenido de la ventana -->
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div>            
-                                                   
+                                                    <!-- Ventana nuevo cliente-->
+                                                    <div class="modal fade" id="nuevoCLI">
+                                                        <div class="modal-dialog">
+                                                            <form class="form-horizontal" action="../../Controller/controller.php">
+                                                                <input type="hidden" name="opcion1" value="cliente">
+                                                                <input type="hidden" name="opcion2" value="insertar_cliente_aux">
+                                                                <div class="modal-content">
+                                                                    <!-- Header de la ventana -->
+                                                                    <div class="modal-header bg-success">
+                                                                        <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                                        <h3 class="modal-title"><span class="glyphicon glyphicon-user"></span> Nuevo Cliente </h3>
+                                                                    </div>
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-     
-     
-     
-     <!-- Ventana nuevo Cliente-->
-                                                    
-                                                    
-                                                    
-                                                    
-                                                    
+                                                                    <!-- Contenido de la ventana -->
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                <div class="form-group">
+                                                                                    <div class="col-md-3 col-md-offset-1">
+                                                                                        <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Código Cliente </label>
+                                                                                    </div>
+                                                                                    <div class="col-md-7">
+                                                                                    <?php echo $clientesModel->generarCliente(); ?>
+                                                                                        <input type="hidden" name="COD_CLI" value="<?php echo $clientesModel->generarCliente() ?>">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <div class="col-md-3 col-md-offset-1">
+                                                                                        <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Cédula / RUC </label>
+                                                                                    </div>
+                                                                                    <div class="col-md-7">
+                                                                                        <input type="text" onkeypress="return SoloNumeros(event);" maxlength="13" minlength="10" class="form-control" name="CEDULA_CLI"  placeholder="Ingrese su N° de Cedula o RUC" onchange="ValidarIdentificacion(this.form.CEDULA_CLI.value, this.form.boton)" required />
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="form-group">
+                                                                                    <div class="col-md-3 col-md-offset-1">
+                                                                                        <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Nombres </label>
+                                                                                    </div>
+                                                                                    <div class="col-md-7">
+                                                                                        <input onkeypress="return SoloLetras(event);" type="text" class="form-control" name="NOMBRES_CLI" placeholder="Ingrese sus Nombres" required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-ZñÑáéíóúÁÉÍÓÚ]+)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|" title="El campo no admite espacios en blanco innecesarios, ni admite espacios al inicio o final" />
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="form-group">
+                                                                                    <div class="col-md-3 col-md-offset-1">
+                                                                                        <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Apellidos </label>
+                                                                                    </div>
+                                                                                    <div class="col-md-7">
+                                                                                        <input onkeypress="return SoloLetras(event);" type="text" class="form-control" name="APELLIDOS_CLI" placeholder="Ingrese sus Apellidos" required="true" required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-ZñÑáéíóúÁÉÍÓÚ]+)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|" title="El campo no admite espacios en blanco innecesarios, ni admite espacios al inicio o final" />
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="form-group">
+                                                                                    <div class="col-md-3 col-md-offset-1">
+                                                                                        <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fecha de Nac. </label>
+                                                                                    </div>
+                                                                                    <div class="col-md-7">
+                                                                                        <input type="date" class="form-control" name="FECHA_NAC_CLI" min="1900-01-01" max="<?php echo date("Y-m-d") ?>">
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="form-group">
+                                                                                    <div class="col-md-3 col-md-offset-1">
+                                                                                        <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirección </label>
+                                                                                    </div>
+                                                                                    <div class="col-md-7">
+                                                                                        <input type="text" class="form-control"  name="DIRECCION_CLI" placeholder="Ingrese su Dirección" maxlength="100" onKeyUp="return limitarDireccion(event, this.value, 99)" onKeyDown="return limitarDireccion(event, this.value, 99)" pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-º]+)*[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios" />
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="form-group">
+                                                                                    <div class="col-md-3 col-md-offset-1">
+                                                                                        <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teléfono </label>
+                                                                                    </div>
+                                                                                    <div class="col-md-7">
+                                                                                        <input onkeypress="return SoloNumeros(event);" type="text" maxlength="10" class="form-control" name="FONO_CLI" placeholder="Ingrese su numero de Teléfono"/>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="form-group">
+                                                                                    <div class="col-md-3 col-md-offset-1">
+                                                                                        <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> E-mail </label>
+                                                                                    </div>
+                                                                                    <div class="col-md-7">
+                                                                                        <input type="email" class="form-control" name="E_MAIL_CLI" placeholder="Ingrese su Correo" required pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_-]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}" title="Ingrese un e-mail válido. Ejemplo example@hotmail.com" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- Footer de la ventana -->
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                                                            <button id="boton" class="btn btn-success">Guardar Cliente</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Fin Ventana nuevo Cliente-->
+
+
                                                 </div>
                                             </div>
                                         </div>
@@ -517,7 +577,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                         </div>
                     </div>
                     <!-- Fin Ventana emergente para Busqueda inteligente de clientes-->
-                    
+
                 </div>
             </div>
         </body>
