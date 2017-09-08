@@ -5,12 +5,14 @@ require_once '../Model/ServiciosModel.php';
 require_once '../Model/UsuariosModel.php';
 require_once '../Model/TiposUsuarioModel.php';
 require_once '../Model/FacturaDetallesModel.php';
+require_once '../Model/CabFacturasModel.php';
 
 session_start();
 $usuariosModel = new UsuariosModel();
 $serviciosModel = new ServiciosModel();
 $clientesModel = new ClientesModel();
 $tiposUsuarioModel = new TiposUsuarioModel();
+$facturasModel = new CabFacturasModel();
 $detallesModel = new FacturaDetallesModel();
 
 $opcion1 = $_REQUEST['opcion1'];
@@ -18,6 +20,8 @@ $opcion2 = $_REQUEST['opcion2'];
 
 unset($_SESSION['ErrorInicioSesion']);
 unset($_SESSION['ErrorBaseDatos']);
+unset ($_SESSION['servicio']);
+//unset ($_SESSION['cliente']);
 
 
 switch ($opcion1) {
@@ -286,13 +290,56 @@ switch ($opcion1) {
         
     // C A B E C E R A  F A C T U R A
     case "factura":
-        switch ($opcion2){
+        switch ($opcion2){      
+            case "insertar_factura":
+                $COD_CAB_FACT = $_REQUEST['COD_CAB_FACT'];
+                $COD_CLI = $_REQUEST['COD_CLI'];
+                try {
+                   $facturasModel->insertarCabFactura($COD_CAB_FACT, "CLIE-0002");
+//                   $facturasModel->insertarCabFactura("FACT-0005", "CLIE-0002");
+                } catch (Exception $e) {
+                    $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                }
+                
+                $listadoFacturas = $facturasModel->getCabFacturas();
+                $_SESSION['listadoFacturas'] = serialize($listadoFacturas);
+                header('Location: ../View/Facturas/nuevaFactura.php');
+                break;
+            
              case "recargarDatosClienteBusquedaInteligente":
 //                unset($_SESSION['ErrorStock']);
                 $COD_CLI = $_REQUEST['COD_CLI'];
                 $cliente = $clientesModel->getCliente($COD_CLI);
                 $_SESSION['cliente']=serialize($cliente);
+                 $_SESSION['clnom']=$cliente->getNOMBRES_CLI()."  ".$cliente->getAPELLIDOS_CLI();
+                 $_SESSION['clced']=$cliente->getCEDULA_CLI();
+                 $_SESSION['clcod']=$cliente->getCOD_CLI();
                 header('Location: ../View/Facturas/nuevaFactura.php');
+                break;
+            
+             case "recargarDatosServicioBusquedaInteligente":
+//                unset($_SESSION['ErrorStock']);
+                $COD_SERV = $_REQUEST['COD_SERV'];
+                $servicio = $serviciosModel->getServicio($COD_SERV);
+                $_SESSION['servicio']=serialize($servicio);
+                header('Location: ../View/Facturas/nuevaFactura.php');
+                break;
+            
+            case "recargarDatosServicio":
+                unset($_SESSION['ErrorStock']);
+                $COD_SERV = $_REQUEST['COD_SERV'];
+                $servicio = $serviciosModel->getServicio($COD_SERV);           
+                echo "<thead>
+                <tr>
+                <th width='50%'>SERVICIO</th>
+                <th width='50%'>COSTO</th>
+                </thead>
+                <tbody>
+                <tr class = 'info'>
+                <td>" . $servicio->getNOMBRE_SERV() . "</td>
+                <td>" . $servicio->getCOSTO_SERV() . "</td>         
+                </tr>
+                </tbody>";  
                 break;
         }
         break;
