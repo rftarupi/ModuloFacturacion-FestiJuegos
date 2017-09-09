@@ -151,7 +151,8 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                     <div class="col-md-12" style="padding-top: 5px">
                         <!--La class nav nav-pills nos permite hacer menús-->
                         <ul class="nav nav-pills">
-                            <li role="presentation"><a href="nuevaFactura.php"><h4>NUEVA FACTURA</h4></a></li>
+                             <?php echo "<li role='presentation'><a href='../../Controller/controller.php?opcion1=factura&opcion2=insertar_factura&COD_CAB_FACT=".$cabFacturasModel->generarCodFactura()."'><h4>NUEVA FACTURA</h4></a></li>" ?>
+                            <!--<li role="presentation"><a href="nuevaFactura.php?COD_CAB_FACT=53"><h4>NUEVA FACTURA</h4></a></li>-->
                         </ul>
                     </div>
                 </div>

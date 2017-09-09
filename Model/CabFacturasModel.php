@@ -47,16 +47,31 @@ class CabFacturasModel {
     }
     
     // MÉTODO PARA INSERTAR UNA CABECERA DE FACTURA
-    public function insertarCabFactura($COD_CAB_FACT, $COD_CLI) {
+    public function insertarCabFactura($COD_CAB_FACT) {
         // Conexión a Base de Datos y creación de consulta sql
         $pdo = Database::connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = 'insert into tab_fac_cab_facturas(COD_CAB_FACT, COD_CLI) values(?,?)';
+        $sql = 'insert into tab_fac_cab_facturas(COD_CAB_FACT) values(?)';
         $consulta = $pdo->prepare($sql);
 
         //Ejecutamos la consulta y pasamos los parametros
         try {
-            $consulta->execute(array($COD_CAB_FACT, $COD_CLI));
+            $consulta->execute(array($COD_CAB_FACT));
+        } catch (PDOException $e) {
+            Database::disconnect();
+            throw new Exception($e->getMessage());
+        }
+        Database::disconnect();
+    }
+    
+    // MÉTODO PARA INSERTAR(ACTUALIZAR) EL CLIENTE DE UNA FACTURA
+    public function actualizarClienteFactura($COD_CAB_FACT, $COD_CLI) {
+        $pdo = Database::connect();
+        $sql = 'update tab_fac_cab_facturas set COD_CLI=? where COD_CAB_FACT=?';
+        $consulta = $pdo->prepare($sql);
+
+        try {
+            $consulta->execute(array($COD_CLI,$COD_CAB_FACT));
         } catch (PDOException $e) {
             Database::disconnect();
             throw new Exception($e->getMessage());

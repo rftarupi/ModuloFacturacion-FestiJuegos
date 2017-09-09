@@ -168,12 +168,9 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                         <div class="panel-heading">INFORMACIÓN DE LA FACTURA</div>
                         <div class="panel-body">
                             <form action="../../Controller/controller.php">
-                                <input type="hidden" name="opcion1" value="factura">
-                                <input type="hidden" name="opcion2" value="insertar_factura">            
                                 <div class="input-group">
                                     <span class="input-group-addon">Código </span>
-                                    <input type="text" class="form-control" id="COD_CAB_FACT" name="c" disabled="true" value="<?php echo $cabFacturasModel->generarCodFactura(); ?>">
-                                    <input type="hidden" id="COD_CAB_FACT" name="COD_CAB_FACT" value="<?php if (isset($_SESSION['COD_FACT_TEMP'])) {echo $_SESSION['COD_FACT_TEMP'];} else { echo $cabFacturasModel->generarCodFactura();} ?>">
+                                    <input type="text" class="form-control" id="COD_CAB_FACT" name="c" disabled="true" value="<?php echo $_SESSION['COD_FACT_TEMP']; ?>">
                                 </div>
 
                                 <?php
@@ -197,30 +194,18 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                         $codigo = $cl->getCOD_CLI();
                                     }
                                     ?>
-
-                                    <input type="text" class="form-control" disabled="true" name="NOMBRES_CLI" value="<?php if (isset($nombres)) {
-                                        echo $nombres;
-                                    } ?>"> 
-
+                                    <input type="text" class="form-control" disabled="true" name="NOMBRES_CLI" value="<?php if (isset($nombres)) { echo $nombres; } ?>"> 
                                 </div><br>
                                 <div class="input-group">
                                     <span class="input-group-addon">Cédula </span>
-                                    <input type="text" class="form-control" disabled="true" name="CEDULA_CLI" value="<?php if (isset($cedula)) {
-                                        echo $cedula;
-                                    } ?>">
+                                    <input type="text" class="form-control" disabled="true" name="CEDULA_CLI" value="<?php if (isset($cedula)) { echo $cedula; } ?>">
                                 </div><br>
-                                <input type="hidden" id="COD_CLI" name="COD_CLI" value="<?php if (isset($codigo)) {
-                                        echo $codigo;
-                                    } ?> ">
 
                                 <div class="input-group">
                                     <span class="input-group-addon">Fecha </span>
                                     <input type="text" class="form-control"  disabled="true" name="FECHA_CAB_FACT" value="<?php echo date("d-m-Y"); ?>">
                                 </div><br>
-                                <div class="form-group">
-                                    <input type="submit" value="CONTINUAR" id="btnGuardar" class="btn btn-success"> 
-                                    <input type="button" value="CANCELAR" id="btnGuardar" class="btn btn-danger"> 
-                                </div> 
+           
                             </form>
                         </div>
                     </div>
@@ -256,13 +241,11 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                         </ul>
                                     </div>
                                 </div>
-
                                 <table class="table table-striped table-bordered table-condensed table-hover" id="TblServ">
                                     <thead>    
                                         <tr> 
                                             <th>SERVICIO</th>
                                             <th>COSTO</th>
-
                                         </tr> 
                                     </thead>
                                     <tbody>
@@ -337,14 +320,10 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                         ?>
                                     </tbody>
                                 </table>
-                                <!--Fin de la Tabla de detalles de la factura-->
-<!--                                 <div class="col-sm-3 col-sm-offset-9">
-                                                    <input type="submit" value="FINALIZAR PROCESO DE FACTURACIÓN" id="btnGuardar" class="btn btn-success"> 
-                                                    <input type="submit" value="CANCELAR" id="btnGuardar" class="btn btn-danger"> 
-                                                </div> -->
+                               <div class="col-sm-3 col-sm-offset-9">
+                                   <ul class="nav nav-pills"><li><a href="VistaPreviaFactura.php" class="btn btn-success navbar-btn"><h5>FINALIZAR</h5></a></li><li><a href="#listaCli" class="btn btn-danger navbar-btn"><h5>CANCELAR</h5></a></li></ul>
+                                </div> 
                             </form>
-                            
-                   
                         </div>
                     </div>
                     <!--Fin Detalle ajuste-->
@@ -450,7 +429,6 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                     <script src="../../Dependencias/DataTables/jquery.dataTables.min.js"></script>         
                                                     <link rel="stylesheet" href="../../Dependencias/DataTables/jquery.dataTables.min.css">
 
-
                                                     <!-- Ventana nuevo cliente-->
                                                     <div class="modal fade" id="nuevoCLI">
                                                         <div class="modal-dialog">
@@ -552,8 +530,6 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                         </div>
                                                     </div>
                                                     <!-- Fin Ventana nuevo Cliente-->
-
-
                                                 </div>
                                             </div>
                                         </div>
@@ -567,7 +543,6 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                 </div>
             </div>
         </body>
-
     </html>
     <?php
 } else {
