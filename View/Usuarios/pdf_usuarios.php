@@ -10,16 +10,16 @@ require ('../../Dependencias/ExportarPDF/FPDF/PDF_HTML.php');
 $pdf = new PDF_HTML();
 $pdf->AddPage('L', 'A4');
 $pdf->SetFont('Times');
-$pdf->SetFontSize(9);
 
-$pdf->Image('img/Titulo_X2.jpg', 3, 0, 200, 57);
+$pdf->Image('img/Titulo_X2.jpg', 3, 0, 300, 57);
 $pdf->Ln(30);
-$pdf->Cell(0, 9, '_______________________________________________', 0, 0, 'C', 0);
-$pdf->Ln(10);
+$pdf->Ln(20);
 $pdf->SetFillColor(2, 152, 116);
+$pdf->SetFontSize(20);
 $pdf->Cell(0, 9, 'REPORTE DE USUARIOS', 0, 0, 'C', 0);
 $pdf->Ln(15);
 
+$pdf->SetFontSize(9);
 $pdf->SetTextColor(240, 255, 240);
 $pdf->CellFitSpace(20, 6, utf8_decode('CÓDIGO'), 1, 0, 'C', 1);
 $pdf->CellFitSpace(20, 6, 'TIPO', 1, 0, 'C', 1);
