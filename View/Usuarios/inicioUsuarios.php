@@ -223,6 +223,7 @@ and open the template in the editor.
                                 echo "<li role = 'presentation'><a href = '#nuevoUSU' data-toggle = 'modal'><h4>NUEVO USUARIO</h4></a></li>";
                             }
                             ?>
+                            <li role="presentation"><a href="../../Controller/controller.php?opcion1=usuario&opcion2=exportar_pdf">PDF</a></li>
                         </ul>
                     </div>
                 </div>

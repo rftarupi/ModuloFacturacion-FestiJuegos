@@ -1,0 +1,27 @@
+
+<?php
+
+require ('FPDF/PDF_HTML.php');
+
+$pdf = new PDF_HTML();
+$pdf->AddPage();
+$pdf->Cell(55,20);
+$pdf->Image('img/Titulo_X2.jpg', 0, 0, 200, 0);
+$pdf->Ln(45);
+$pdf->SetFont('Arial');
+
+$pdf->Write(0,'____________________________________________________________________________________');
+
+$pdf->Ln(7);
+$pdf->Cell(0, 9, 'CABECERA DEL AJUSTE' , 0,0,'C', 0);
+$pdf->Ln(7);
+$pdf->Cell(0, 9, 'ID DEL AJUSTE :' , 0,0,'L', 0);
+$pdf->Ln(7);
+$pdf->Cell(0, 9, 'MOTIVO :'  , 0,0,'L', 0);
+$pdf->Ln(15);
+$pdf->Write(0, '___________________________________________________________________________________');
+
+$pdf->Output();
+
+
+?>
