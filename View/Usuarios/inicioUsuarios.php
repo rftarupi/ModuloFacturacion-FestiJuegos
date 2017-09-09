@@ -221,9 +221,9 @@ and open the template in the editor.
                             // Verificamos si es Administrador habilitamos la funcion de crear usuarios
                             if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
                                 echo "<li role = 'presentation'><a href = '#nuevoUSU' data-toggle = 'modal'><h4>NUEVO USUARIO</h4></a></li>";
+                                echo "<li role = 'presentation'><a href='../../Controller/controller.php?opcion1=usuario&opcion2=exportar_pdf' target='_blank' ><h4><span class='glyphicon glyphicon glyphicon-open-file'></span> EXPORTAR A PDF</h4></a></li>";
                             }
                             ?>
-                            <li role="presentation"><a href="../../Controller/controller.php?opcion1=usuario&opcion2=exportar_pdf" target="_blank" ><h4>EXPORTAR A PDF</h4></a></li>
                         </ul>
                     </div>
                 </div>
