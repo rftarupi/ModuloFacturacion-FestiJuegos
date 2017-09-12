@@ -100,7 +100,20 @@ class CabFacturasModel {
         }
         
         // METODO PARA ACTUALIZAR UNA FECHA DE FACTURA
-         public function actualizarFechaFactura($COD_CAB_FACT){
+         public function actualizarCostoTotalFactura($COD_CAB_FACT, $COSTO_TOT_CAB_FACT){
+        	$pdo = Database::connect();
+	        $sql = 'update tab_fac_cab_facturas set COSTO_TOT_CAB_FACT=? where COD_CAB_FACT=?';
+	        $consulta = $pdo->prepare($sql);
+	        try {
+	            $consulta->execute(array($COSTO_TOT_CAB_FACT, $COD_CAB_FACT));
+	        } catch (PDOException $e) {
+	            Database::disconnect();
+	            throw new Exception($e->getMessage());
+	        }
+	        Database::disconnect();
+	    }
+        // METODO PARA ACTUALIZAR EL COSTO TOTAL DE UNA FACTURA  
+        public function actualizarFechaFactura($COD_CAB_FACT){
         	$pdo = Database::connect();
 	        $sql = 'update tab_fac_cab_facturas set FECHA_CAB_FACT=CURRENT_TIMESTAMP where COD_CAB_FACT=?';
 	        $consulta = $pdo->prepare($sql);

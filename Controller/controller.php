@@ -21,6 +21,7 @@ $opcion2 = $_REQUEST['opcion2'];
 unset($_SESSION['ErrorInicioSesion']);
 unset($_SESSION['ErrorBaseDatos']);
 unset($_SESSION['servicio']);
+unset($_SESSION['listadoDetalles']);
 //unset ($_SESSION['cliente']);
 
 
@@ -421,6 +422,10 @@ switch ($opcion1) {
                 $serv=$serviciosModel->getServicio($COD_SERV);
                 $COSTO_HORA_DET_FACT = $serv->getCOSTO_SERV() ;
                 $COSTO_TOT_DET_FACT = $TIEMPO_DET_FACT * $COSTO_HORA_DET_FACT;
+                
+                $factu=$facturasModel->getCabFactura($COD_CAB_FACT);
+                $cosTot= ($factu->getCOSTO_TOT_CAB_FACT())+$COSTO_TOT_DET_FACT;
+                $facturasModel->actualizarCostoTotalFactura($COD_CAB_FACT, $cosTot);
 
                 try {
                     $detallesModel->insertarDetalleFactura($COD_DET_FACT, $COD_SERV,  $COD_CAB_FACT , $TIEMPO_DET_FACT ,$COSTO_HORA_DET_FACT, $COSTO_TOT_DET_FACT);
