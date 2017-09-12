@@ -369,6 +369,26 @@ switch ($opcion1) {
                 </tr>
                 </tbody>";  
                 break;
+            
+            case "finalizar_factura":
+                $COD_CAB_FACT=$_REQUEST['COD_FACT_TEMP'];
+                try {
+                  $facturasModel->actualizarFechaFactura($COD_CAB_FACT);
+                } catch (Exception $e) {
+                    $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                }
+                $listadoFacturas = $facturasModel->getCabFacturas();
+                $_SESSION['listadoFacturas'] = serialize($listadoFacturas);
+                unset($_SESSION['COD_FACT_TEMP']);
+                header('Location: ../View/Facturas/VistaPreviaFactura.php');
+                break;
+            
+            case "cancelar_factura":
+                unset($_SESSION['COD_FACT_TEMP']);
+                $listadoFacturas = $facturasModel->getCabFacturas();
+                $_SESSION['listadoFacturas'] = serialize($listadoFacturas);
+                header('Location: ../View/Facturas/inicioFacturas.php');
+                break;
         }
         break;
 

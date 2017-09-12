@@ -8,6 +8,8 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
     include_once '../../Model/ClientesModel.php';
     $cabFacturasModel = new CabFacturasModel();
     $clientesModel = new ClientesModel();
+    
+    $cabFacturasModel->verificarFechaFactura();
     $NOM = $_SESSION['NOMBRE_USUARIO'];
     $TIPO = $_SESSION['TIPO_USUARIO'];
     ?>
@@ -179,8 +181,6 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                     <th>ESTADO IMPRESIÓN</th>
                                                     <th>CLIENTE</th>
                                                     <th>FECHA FACTURA</th>
-                                                    <th>SUBTOTAL</th>
-                                                    <th>IVA</th>
                                                     <th>TOTAL</th>
                                                 </tr>
                                             </thead>
@@ -210,8 +210,6 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                         </td>
                                                         <td><?php echo $cliente->getAPELLIDOS_CLI()." ".$cliente->getNOMBRES_CLI(); ?></td>
                                                         <td><?php echo $cabF->getFECHA_CAB_FACT(); ?></td>
-                                                        <td><?php echo $cabF->getSUBT_IVA_CAB_FACT(); ?></td>
-                                                        <td><?php echo $cabF->getIVA_CAB_FACT(); ?></td>
                                                         <td><?php echo $cabF->getCOSTO_TOT_CAB_FACT(); ?></td>
                                                         
 

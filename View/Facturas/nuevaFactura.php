@@ -312,7 +312,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                              echo "<tr class='success'>";
                                                  echo "<td></td>";echo "<td></td>";echo "<td></td>";echo "<td></td>";
                                                  echo "<td><h4><strong>TOTAL</strong></h4></td>";
-                                                 if (isset($_SESSION['COD_FACT_TEMP'])) { echo "<td><h4><strong>" . $cabFacturasModel->getCabFactura($_SESSION['COD_FACT_TEMP'])->getSUBT_IVA_CAB_FACT() . "</strong></h4></td>";}else{ echo "<td></td>"; } 
+                                                 if (isset($_SESSION['COD_FACT_TEMP'])) { echo "<td><h4><strong>" . $cabFacturasModel->getCabFactura($_SESSION['COD_FACT_TEMP'])->getCOSTO_TOT_CAB_FACT() . "</strong></h4></td>";}else{ echo "<td></td>"; } 
                                                  echo "</tr>";
                                         } else {
                                             echo "No se han cargado datos.";
@@ -321,7 +321,10 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                     </tbody>
                                 </table>
                                <div class="col-sm-3 col-sm-offset-9">
-                                   <ul class="nav nav-pills"><li><a href="VistaPreviaFactura.php" class="btn btn-success navbar-btn"><h5>FINALIZAR</h5></a></li><li><a href="#listaCli" class="btn btn-danger navbar-btn"><h5>CANCELAR</h5></a></li></ul>
+                                   <ul class="nav nav-pills">
+                                        <li><a href="../../controller/controller.php?opcion1=factura&opcion2=finalizar_factura&COD_FACT_TEMP=<?php echo $_SESSION['COD_FACT_TEMP']; ?>" class="btn btn-success navbar-btn"><h5>FINALIZAR</h5></a></li>
+                                        <li><a href="../../controller/controller.php?opcion1=factura&opcion2=cancelar_factura" class="btn btn-danger navbar-btn"><h5>CANCELAR</h5></a></li>
+                                   </ul>
                                 </div> 
                             </form>
                         </div>

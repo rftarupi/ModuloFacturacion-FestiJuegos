@@ -18,7 +18,7 @@ class CabFacturasModel {
         //transformamos los registros en objetos de tipo CabFactura y guardamos en array
         $listadoCabFacturas = array();
         foreach ($resultado as $res) {
-            $cabFactura = new CabFactura($res['COD_CAB_FACT'], $res['ESTADO_IMP_FAC'], $res['COD_CLI'], $res['FECHA_CAB_FACT'], $res['SUBT_IVA_CAB_FACT'], $res['IVA_CAB_FACT'], $res['COSTO_TOT_CAB_FACT']);
+            $cabFactura = new CabFactura($res['COD_CAB_FACT'], $res['ESTADO_IMP_FAC'], $res['COD_CLI'], $res['FECHA_CAB_FACT'], $res['COSTO_TOT_CAB_FACT']);
             array_push($listadoCabFacturas, $cabFactura);
         }
 
@@ -39,7 +39,7 @@ class CabFacturasModel {
 
         // Guardamos el resultado obtenido en objeto tipo CabFactura
         $res = $consulta->fetch(PDO::FETCH_ASSOC);
-        $cabFactura = new CabFactura($res['COD_CAB_FACT'], $res['ESTADO_IMP_FAC'], $res['COD_CLI'], $res['FECHA_CAB_FACT'], $res['SUBT_IVA_CAB_FACT'], $res['IVA_CAB_FACT'], $res['COSTO_TOT_CAB_FACT']);
+        $cabFactura = new CabFactura($res['COD_CAB_FACT'], $res['ESTADO_IMP_FAC'], $res['COD_CLI'], $res['FECHA_CAB_FACT'], $res['COSTO_TOT_CAB_FACT']);
         Database::disconnect();
 
         // Retornamos el CabFactura encontrado
@@ -78,6 +78,40 @@ class CabFacturasModel {
         }
         Database::disconnect();
     }
+    
+     // METODO PARA ELIMINAR UNA FACTURA (SOLO SE LO USA EN EL MODEL)
+    	protected function eliminarFactura($COD_CAB_FACT){
+	       $pdo = Database::connect();
+	        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		        $sql = 'delete from tab_fac_cab_facturas where COD_CAB_FACT=?';
+	        $consulta = $pdo->prepare($sql);
+	        $consulta->execute(array($COD_CAB_FACT));
+	        Database::disconnect();
+	    }
+
+	// METODO PARA VERIFICAR SI UNA FECHA NO ES NULA
+         public function verificarFechaFactura(){
+        $listadoCabFacturas= $this->getCabFacturas();
+        foreach ($listadoCabFacturas as $fact) {
+            if($fact->getFECHA_CAB_FACT()==NULL){
+                $this->eliminarFactura($fact->getCOD_CAB_FACT());
+            }
+          }
+        }
+        
+        // METODO PARA ACTUALIZAR UNA FECHA DE FACTURA
+         public function actualizarFechaFactura($COD_CAB_FACT){
+        	$pdo = Database::connect();
+	        $sql = 'update tab_fac_cab_facturas set FECHA_CAB_FACT=CURRENT_TIMESTAMP where COD_CAB_FACT=?';
+	        $consulta = $pdo->prepare($sql);
+	        try {
+	            $consulta->execute(array($COD_CAB_FACT));
+	        } catch (PDOException $e) {
+	            Database::disconnect();
+	            throw new Exception($e->getMessage());
+	        }
+	        Database::disconnect();
+	    }
     
     // METODO PARA GENERAR AUTOMATICAMENTE EL CODIGO DE UNA FACTURA -- FACT-0001
     public function generarCodFactura(){
