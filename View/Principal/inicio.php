@@ -2,8 +2,10 @@
 <?php
 session_start();
 if (isset($_SESSION['USUARIO_ACTIVO'])) {
+    require_once '../../Model/InicioModel.php';
     $NOM = $_SESSION['NOMBRE_USUARIO'];
     $TIPO = $_SESSION['TIPO_USUARIO'];
+    $inicio = new Inicio();
     ?>
     <html>
         <head>
@@ -121,14 +123,20 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                 <div class="panel panel-default">
                     <div class="panel-heading"><h4>Tablero General</h4></div>
                     <table class="table">
-                        <tr>
-                            <td><center><h1><b>$1620</b></h1>Total de Ventas Mensuales</center></td>
-                        <td><center><h1><b>50</b></h1>Total de Facturas Mensuales</center></td>
+                        <?php
+                        echo '<tr>';
+                        $totMens = $inicio->getTotMens(date('Y-m-1'),date('Y-m-1',strtotime('+1 month')));
+                        echo '<td><center><h1><b>'. $totMens .'</b></h1>Total de Ventas Mensuales</center></td>';
+                        $totFact = $inicio->getTotFact(date('Y-m-1'),date('Y-m-1',strtotime('+1 month')));
+                        echo '<td><center><h1><b>'. $totFact .'</b></h1>Total de Facturas Mensuales</center></td>
                         </tr>
-                        <tr>
-                            <td><center><h1><b>20</b></h1>Servicios en Total</center></td>
-                        <td><center><h1><b>12</b></h1>Clientes en Total</center></td>
-                        </tr>
+                        <tr>';
+                        $numServ = $inicio->getNumServicios();
+                        echo '<td><center><h1><b>'. $numServ .'</b></h1>Servicios en Total</center></td>';
+                        $numCli = $inicio->getNumClientes();
+                        echo '<td><center><h1><b>'. $numCli .'</b></h1>Clientes en Total</center></td>
+                        </tr>';
+                        ?>
                     </table>
                 </div>
             </div>
