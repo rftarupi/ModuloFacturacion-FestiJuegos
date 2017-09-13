@@ -174,10 +174,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                 </div>
 
                                 <?php
-                                if (isset($_SESSION['ErrorDetalleAjuste'])) {
-                                    echo "<div class='alert alert-danger'>" . $_SESSION['ErrorDetalleAjuste'] . "</div>";
-                                }
-
+                                
                                 if (isset($_SESSION['ErrorBaseDatos'])) {
                                     echo "<div class='alert alert-danger'>" . $_SESSION['ErrorBaseDatos'] . "</div>";
                                 }
@@ -222,7 +219,11 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                 <input type="hidden" name="opcion2" value="insertar_detalle">
                                 <input type="hidden" id="COD_DET_FACT" name="COD_DET_FACT" value="<?php echo $detallesModel->generarCodDetalle(); ?>">
                                 <input type="hidden" id="COD_FACT_TEMP" name="COD_FACT_TEMP" value=" <?php if (isset($_SESSION['COD_FACT_TEMP'])) { echo $_SESSION['COD_FACT_TEMP'];} ?>">
-
+                                 <?php
+                                if (isset($_SESSION['ErrorDetalleAjuste'])) {
+                                    echo "<div class='alert alert-danger'>" . "Error, no se ha escojido un servicio: ".$_SESSION['ErrorDetalleAjuste'] . "</div>";
+                                }
+                                   ?>
                                 <div class="form-inline">
                                     <div class="form-group">
                                         <ul class="nav nav-pills">

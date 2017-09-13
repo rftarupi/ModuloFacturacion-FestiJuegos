@@ -20,6 +20,7 @@ $opcion2 = $_REQUEST['opcion2'];
 
 unset($_SESSION['ErrorInicioSesion']);
 unset($_SESSION['ErrorBaseDatos']);
+unset($_SESSION['ErrorDetalleAjuste']);
 unset($_SESSION['servicio']);
 unset($_SESSION['listadoDetalles']);
 //unset ($_SESSION['cliente']);
@@ -247,7 +248,7 @@ switch ($opcion1) {
                 // Redireccionamos a la pagina principal para visualizar
                 header('Location: ../View/Clientes/inicioClientes.php#principal');
                 break;
-                
+
             case "exportar_pdf":
                 $listadoClientes = $clientesModel->getClientes();
                 $_SESSION['listadoClientes'] = serialize($listadoClientes);
@@ -329,12 +330,12 @@ switch ($opcion1) {
 
     // C A B E C E R A  F A C T U R A
     case "factura":
-        switch ($opcion2){      
+        switch ($opcion2) {
             case "insertar_factura":
-                $COD_CAB_FACT =  $_REQUEST['COD_CAB_FACT'];
-                $_SESSION['COD_FACT_TEMP']=$COD_CAB_FACT;
+                $COD_CAB_FACT = $_REQUEST['COD_CAB_FACT'];
+                $_SESSION['COD_FACT_TEMP'] = $COD_CAB_FACT;
                 try {
-                   $facturasModel->insertarCabFactura($COD_CAB_FACT);
+                    $facturasModel->insertarCabFactura($COD_CAB_FACT);
                 } catch (Exception $e) {
                     $_SESSION['ErrorBaseDatos'] = $e->getMessage();
                 }
@@ -342,35 +343,35 @@ switch ($opcion1) {
                 $_SESSION['listadoFacturas'] = serialize($listadoFacturas);
                 header('Location: ../View/Facturas/nuevaFactura.php');
                 break;
-            
-             case "recargarDatosClienteBusquedaInteligente":
+
+            case "recargarDatosClienteBusquedaInteligente":
 //                unset($_SESSION['ErrorStock']);
                 $COD_CLI = $_REQUEST['COD_CLI'];
-                $COD_CAB_FACT= $_SESSION['COD_FACT_TEMP'];
+                $COD_CAB_FACT = $_SESSION['COD_FACT_TEMP'];
                 $cliente = $clientesModel->getCliente($COD_CLI);
-                $_SESSION['cliente']=serialize($cliente);
+                $_SESSION['cliente'] = serialize($cliente);
                 $COD_CAB_FACT = $_SESSION['COD_FACT_TEMP'];
                 $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
                 $_SESSION['listadoDetalles'] = serialize($listadoDetalles);
                 $facturasModel->actualizarClienteFactura($COD_CAB_FACT, $COD_CLI);
                 header('Location: ../View/Facturas/nuevaFactura.php#inicio');
                 break;
-            
-             case "recargarDatosServicioBusquedaInteligente":
+
+            case "recargarDatosServicioBusquedaInteligente":
 //                unset($_SESSION['ErrorStock']);
                 $COD_SERV = $_REQUEST['COD_SERV'];
                 $servicio = $serviciosModel->getServicio($COD_SERV);
-                $_SESSION['servicio']=serialize($servicio);
+                $_SESSION['servicio'] = serialize($servicio);
                 $COD_CAB_FACT = $_SESSION['COD_FACT_TEMP'];
                 $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
                 $_SESSION['listadoDetalles'] = serialize($listadoDetalles);
                 header('Location: ../View/Facturas/nuevaFactura.php#detalle');
                 break;
-            
+
             case "recargarDatosServicio":
                 unset($_SESSION['ErrorStock']);
                 $COD_SERV = $_REQUEST['COD_SERV'];
-                $servicio = $serviciosModel->getServicio($COD_SERV);           
+                $servicio = $serviciosModel->getServicio($COD_SERV);
                 echo "<thead>
                 <tr>
                 <th width='50%'>SERVICIO</th>
@@ -381,22 +382,30 @@ switch ($opcion1) {
                 <td>" . $servicio->getNOMBRE_SERV() . "</td>
                 <td>" . $servicio->getCOSTO_SERV() . "</td>         
                 </tr>
-                </tbody>";  
+                </tbody>";
                 break;
-            
+
             case "finalizar_factura":
-                $COD_CAB_FACT=$_REQUEST['COD_FACT_TEMP'];
-                try {
-                  $facturasModel->actualizarFechaFactura($COD_CAB_FACT);
-                } catch (Exception $e) {
-                    $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                $COD_CAB_FACT = $_REQUEST['COD_FACT_TEMP'];
+                if ($facturasModel->getCabFactura($COD_CAB_FACT)->getCOD_CLI() == NULL) {
+                     $_SESSION['ErrorBaseDatos']= "Error, no se ha escogido el cliente";
+                     $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
+                     $_SESSION['listadoDetalles'] = serialize($listadoDetalles);
+                     header('Location: ../View/Facturas/nuevaFactura.php#inicio');
+                } else {
+                    try {
+                        $facturasModel->actualizarFechaFactura($COD_CAB_FACT);
+                    } catch (Exception $e) {
+                        $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                    }
+                    $listadoFacturas = $facturasModel->getCabFacturas();
+                    $_SESSION['listadoFacturas'] = serialize($listadoFacturas);
+                    unset($_SESSION['COD_FACT_TEMP']);
+                    header('Location: ../View/Facturas/VistaPreviaFactura.php');
                 }
-                $listadoFacturas = $facturasModel->getCabFacturas();
-                $_SESSION['listadoFacturas'] = serialize($listadoFacturas);
-                unset($_SESSION['COD_FACT_TEMP']);
-                header('Location: ../View/Facturas/VistaPreviaFactura.php');
+
                 break;
-            
+
             case "cancelar_factura":
                 unset($_SESSION['COD_FACT_TEMP']);
                 $listadoFacturas = $facturasModel->getCabFacturas();
@@ -408,7 +417,7 @@ switch ($opcion1) {
 
     // D E T A L L E S  F A C T U R A
     case "detalle":
-       switch ($opcion2) {
+        switch ($opcion2) {
             case "listar_detalles": //--
                 $COD_CAB_FACT = $_REQUEST['COD_CAB_FACT'];
                 $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
@@ -432,18 +441,18 @@ switch ($opcion1) {
                 $COD_CAB_FACT = $_SESSION['COD_FACT_TEMP'];
 //                $COD_CAB_FACT = $_REQUEST['COD_CAB_FACT'];
                 $TIEMPO_DET_FACT = $_REQUEST['TIEMPO_DET_FACT'];
-                $serv=$serviciosModel->getServicio($COD_SERV);
-                $COSTO_HORA_DET_FACT = $serv->getCOSTO_SERV() ;
+                $serv = $serviciosModel->getServicio($COD_SERV);
+                $COSTO_HORA_DET_FACT = $serv->getCOSTO_SERV();
                 $COSTO_TOT_DET_FACT = $TIEMPO_DET_FACT * $COSTO_HORA_DET_FACT;
-                
-                $factu=$facturasModel->getCabFactura($COD_CAB_FACT);
-                $cosTot= ($factu->getCOSTO_TOT_CAB_FACT())+$COSTO_TOT_DET_FACT;
+
+                $factu = $facturasModel->getCabFactura($COD_CAB_FACT);
+                $cosTot = ($factu->getCOSTO_TOT_CAB_FACT()) + $COSTO_TOT_DET_FACT;
                 $facturasModel->actualizarCostoTotalFactura($COD_CAB_FACT, $cosTot);
 
                 try {
-                    $detallesModel->insertarDetalleFactura($COD_DET_FACT, $COD_SERV,  $COD_CAB_FACT , $TIEMPO_DET_FACT ,$COSTO_HORA_DET_FACT, $COSTO_TOT_DET_FACT);
+                    $detallesModel->insertarDetalleFactura($COD_DET_FACT, $COD_SERV, $COD_CAB_FACT, $TIEMPO_DET_FACT, $COSTO_HORA_DET_FACT, $COSTO_TOT_DET_FACT);
                 } catch (Exception $e) {
-                    $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                    $_SESSION['ErrorDetalleAjuste'] = $e->getMessage();
                 }
 
                 $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
@@ -454,7 +463,7 @@ switch ($opcion1) {
 
             case "eliminar_detalle": //--
                 $COD_DET_FACT = $_REQUEST['COD_DET_FACT'];
-                $COD_CAB_FACT =$_SESSION['COD_FACT_TEMP'];
+                $COD_CAB_FACT = $_SESSION['COD_FACT_TEMP'];
                 $detallesModel->eliminarDetalleFactura($COD_DET_FACT);
                 $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
                 $_SESSION['listadoDetalles'] = serialize($listadoDetalles);
