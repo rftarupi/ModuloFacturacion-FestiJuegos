@@ -168,41 +168,43 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                         <div class="panel-heading">INFORMACIÓN DE LA FACTURA</div>
                         <div class="panel-body">
                             <form action="../../Controller/controller.php">
-                                <div class="input-group">
-                                    <span class="input-group-addon">Código </span>
-                                    <input type="text" class="form-control" id="COD_CAB_FACT" name="c" disabled="true" value="<?php echo $_SESSION['COD_FACT_TEMP']; ?>">
-                                </div>
-
                                 <?php
-                                
+                                if (isset($_SESSION['ErrorDetalleAjuste'])) {
+                                    echo "<div class='alert alert-danger'>" . $_SESSION['ErrorDetalleAjuste'] . "</div>";
+                                }
+
                                 if (isset($_SESSION['ErrorBaseDatos'])) {
                                     echo "<div class='alert alert-danger'>" . $_SESSION['ErrorBaseDatos'] . "</div>";
                                 }
                                 ?>
-                                <ul class="nav nav-pills"><li><a href="#listaCli" data-toggle="modal"><h5>Buscar cliente</h5></a></li></ul>
                                 <div class="input-group">
+                                    <b>Código de Factura: </b><p><?php echo $_SESSION['COD_FACT_TEMP']; ?></p>
+                                </div>
 
-                                    <span class="input-group-addon">Cliente </span>
+                                <div class="panel-default">
+                                    <b>Fecha: </b><p><?php echo date('l\, j \d\e F \d\e Y'); ?></p>
+                                </div>
+                                <b>Cliente: </b>
+                                <p>
                                     <?php
                                     if (isset($_SESSION['cliente'])) {
                                         $cl = unserialize($_SESSION['cliente']);
-                                        $nombres = $cl->getNOMBRES_CLI() . "  " . $cl->getAPELLIDOS_CLI();
+                                        $nombre = $cl->getAPELLIDOS_CLI() . ' ' . $cl->getNOMBRES_CLI();
                                         $cedula = $cl->getCEDULA_CLI();
+                                        $direccion = $cl->getDIRECCION_CLI();
                                         $codigo = $cl->getCOD_CLI();
+                                    } else {
+                                        echo 'Agregue el cliente desde \'Buscar o Agregar Cliente\'';
+                                    } if (isset($nombre)) {
+                                        echo $nombre . '<br>';
+                                    } if (isset($cedula)) {
+                                        echo $cedula . '<br>';
+                                    } if (isset($direccion)) {
+                                        echo $direccion . '<br>';
                                     }
                                     ?>
-                                    <input type="text" class="form-control" disabled="true" name="NOMBRES_CLI" value="<?php if (isset($nombres)) { echo $nombres; } ?>"> 
-                                </div><br>
-                                <div class="input-group">
-                                    <span class="input-group-addon">Cédula </span>
-                                    <input type="text" class="form-control" disabled="true" name="CEDULA_CLI" value="<?php if (isset($cedula)) { echo $cedula; } ?>">
-                                </div><br>
-
-                                <div class="input-group">
-                                    <span class="input-group-addon">Fecha </span>
-                                    <input type="text" class="form-control"  disabled="true" name="FECHA_CAB_FACT" value="<?php echo date("d-m-Y"); ?>">
-                                </div><br>
-           
+                                </p>
+                                <ul class="nav nav-pills"><li><a href="#listaCli" data-toggle="modal"><h5>Buscar o Agregar cliente</h5></a></li></ul>
                             </form>
                         </div>
                     </div>
@@ -218,25 +220,27 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                 <input type="hidden" name="opcion1" value="detalle">
                                 <input type="hidden" name="opcion2" value="insertar_detalle">
                                 <input type="hidden" id="COD_DET_FACT" name="COD_DET_FACT" value="<?php echo $detallesModel->generarCodDetalle(); ?>">
-                                <input type="hidden" id="COD_FACT_TEMP" name="COD_FACT_TEMP" value=" <?php if (isset($_SESSION['COD_FACT_TEMP'])) { echo $_SESSION['COD_FACT_TEMP'];} ?>">
-                                 <?php
+                                <input type="hidden" id="COD_FACT_TEMP" name="COD_FACT_TEMP" value=" <?php if (isset($_SESSION['COD_FACT_TEMP'])) {
+                                    echo $_SESSION['COD_FACT_TEMP'];
+                                } ?>">
+                                <?php
                                 if (isset($_SESSION['ErrorDetalleAjuste'])) {
-                                    echo "<div class='alert alert-danger'>" . "Error, no se ha escojido un servicio: ".$_SESSION['ErrorDetalleAjuste'] . "</div>";
+                                    echo "<div class='alert alert-danger'>" . "Error, no se ha escojido un servicio: " . $_SESSION['ErrorDetalleAjuste'] . "</div>";
                                 }
-                                   ?>
+                                ?>
                                 <div class="form-inline">
                                     <div class="form-group">
                                         <ul class="nav nav-pills">
                                             <li><label>SERVICIO:</label>
                                                 <select name="COD_SERV" id="CboIDServicio" class="form-control" onchange="ObtenerDatosServicio($('#CboIDServicio').val());
-                                                            return false;">
+                                                        return false;">
                                                     <option value="" disabled selected>Seleccione un Servicio</option>
-    <?php
-    $listaServicios = $serviciosModel->getServicios();
-    foreach ($listaServicios as $serv) {
-        echo "<option value='" . $serv->getCOD_SERV() . "'>" . $serv->getNOMBRE_SERV() . "</option>";
-    }
-    ?>
+                                                    <?php
+                                                    $listaServicios = $serviciosModel->getServicios();
+                                                    foreach ($listaServicios as $serv) {
+                                                        echo "<option value='" . $serv->getCOD_SERV() . "'>" . $serv->getNOMBRE_SERV() . "</option>";
+                                                    }
+                                                    ?>
                                                 </select></li>
                                             <li><a href="#listaProd" data-toggle="modal"><h5>Búsqueda inteligente de servicios</h5></a></li>
                                         </ul>
@@ -250,17 +254,17 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                         </tr> 
                                     </thead>
                                     <tbody>
-    <?php
-    if (isset($_SESSION['servicio'])) {
-        $servicio = unserialize($_SESSION['servicio']);
-        echo "<tr class='success'>";
-        echo "<input type='hidden' name='COD_SERV' value='" . $servicio->getCOD_SERV() . "'>";
-        echo "<td>" . $servicio->getNOMBRE_SERV() . "</td>";
-        echo "<td>" . $servicio->getCOSTO_SERV() . "</td>";
-        echo "</tr>";
-        unset($_SESSION['servicio']);
-    }
-    ?>
+                                        <?php
+                                        if (isset($_SESSION['servicio'])) {
+                                            $servicio = unserialize($_SESSION['servicio']);
+                                            echo "<tr class='success'>";
+                                            echo "<input type='hidden' name='COD_SERV' value='" . $servicio->getCOD_SERV() . "'>";
+                                            echo "<td>" . $servicio->getNOMBRE_SERV() . "</td>";
+                                            echo "<td>" . $servicio->getCOSTO_SERV() . "</td>";
+                                            echo "</tr>";
+                                            unset($_SESSION['servicio']);
+                                        }
+                                        ?>
                                     </tbody>
                                 </table>
 
@@ -308,24 +312,31 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                 echo "<td>" . $Det->getTIEMPO_DET_FACT() . "</td>";
                                                 echo "<td>" . $Det->getCOSTO_HORA_DET_FACT() . "</td>";
                                                 echo "<td>" . $Det->getCOSTO_TOT_DET_FACT() . "</td>";
-                                                echo "</tr>"; 
+                                                echo "</tr>";
                                             }
-                                             echo "<tr class='success'>";
-                                                 echo "<td></td>";echo "<td></td>";echo "<td></td>";echo "<td></td>";
-                                                 echo "<td><h4><strong>TOTAL</strong></h4></td>";
-                                                 if (isset($_SESSION['COD_FACT_TEMP'])) { echo "<td><h4><strong>" . $cabFacturasModel->getCabFactura($_SESSION['COD_FACT_TEMP'])->getCOSTO_TOT_CAB_FACT() . "</strong></h4></td>";}else{ echo "<td></td>"; } 
-                                                 echo "</tr>";
+                                            echo "<tr class='success'>";
+                                            echo "<td></td>";
+                                            echo "<td></td>";
+                                            echo "<td></td>";
+                                            echo "<td></td>";
+                                            echo "<td><h4><strong>TOTAL</strong></h4></td>";
+                                            if (isset($_SESSION['COD_FACT_TEMP'])) {
+                                                echo "<td><h4><strong>" . $cabFacturasModel->getCabFactura($_SESSION['COD_FACT_TEMP'])->getCOSTO_TOT_CAB_FACT() . "</strong></h4></td>";
+                                            } else {
+                                                echo "<td></td>";
+                                            }
+                                            echo "</tr>";
                                         } else {
                                             echo "No se han cargado datos.";
                                         }
                                         ?>
                                     </tbody>
                                 </table>
-                               <div class="col-sm-3 col-sm-offset-9">
-                                   <ul class="nav nav-pills">
+                                <div class="col-sm-3 col-sm-offset-9">
+                                    <ul class="nav nav-pills">
                                         <li><a href="../../controller/controller.php?opcion1=factura&opcion2=finalizar_factura&COD_FACT_TEMP=<?php echo $_SESSION['COD_FACT_TEMP']; ?>" class="btn btn-success navbar-btn"><h5>FINALIZAR</h5></a></li>
                                         <li><a href="../../controller/controller.php?opcion1=factura&opcion2=cancelar_factura" class="btn btn-danger navbar-btn"><h5>CANCELAR</h5></a></li>
-                                   </ul>
+                                    </ul>
                                 </div> 
                             </form>
                         </div>
@@ -359,17 +370,17 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                             </tr> 
                                                         </thead> 
                                                         <tbody>
-    <?php
-    $listaServicios = $serviciosModel->getServicios();
-    foreach ($listaServicios as $serv) {
-        echo "<tr class='success'>";
-        echo "<td>" . $serv->getCOD_SERV() . "</td>";
-        echo "<td>" . $serv->getNOMBRE_SERV() . "</td>";
-        echo "<td>" . $serv->getCOSTO_SERV() . "</td>";
-        echo "<td><center><a href='../../controller/controller.php?opcion1=factura&opcion2=recargarDatosServicioBusquedaInteligente&COD_SERV=" . $serv->getCOD_SERV() . "'>Agregar</a></center></td>";
-        echo "</tr>";
-    }
-    ?>
+                                                            <?php
+                                                            $listaServicios = $serviciosModel->getServicios();
+                                                            foreach ($listaServicios as $serv) {
+                                                                echo "<tr class='success'>";
+                                                                echo "<td>" . $serv->getCOD_SERV() . "</td>";
+                                                                echo "<td>" . $serv->getNOMBRE_SERV() . "</td>";
+                                                                echo "<td>" . $serv->getCOSTO_SERV() . "</td>";
+                                                                echo "<td><center><a href='../../controller/controller.php?opcion1=factura&opcion2=recargarDatosServicioBusquedaInteligente&COD_SERV=" . $serv->getCOD_SERV() . "'>Agregar</a></center></td>";
+                                                                echo "</tr>";
+                                                            }
+                                                            ?>
                                                         </tbody>
                                                     </table>
                                                     <script src="../../Dependencias/DataTables/servicio.js"></script>
@@ -415,17 +426,17 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                             </tr> 
                                                         </thead> 
                                                         <tbody>
-    <?php
-    $listaClientes = $clientesModel->getClientes();
-    foreach ($listaClientes as $cli) {
-        echo "<tr class='success'>";
-        echo "<td>" . $cli->getCEDULA_CLI() . "</td>";
-        echo "<td>" . $cli->getNOMBRES_CLI() . "</td>";
-        echo "<td>" . $cli->getAPELLIDOS_CLI() . "</td>";
-        echo "<td><center><a href='../../controller/controller.php?opcion1=factura&opcion2=recargarDatosClienteBusquedaInteligente&COD_CLI=" . $cli->getCOD_CLI() . "'>Agregar</a></center></td>";
-        echo "</tr>";
-    }
-    ?>
+                                                            <?php
+                                                            $listaClientes = $clientesModel->getClientes();
+                                                            foreach ($listaClientes as $cli) {
+                                                                echo "<tr class='success'>";
+                                                                echo "<td>" . $cli->getCEDULA_CLI() . "</td>";
+                                                                echo "<td>" . $cli->getNOMBRES_CLI() . "</td>";
+                                                                echo "<td>" . $cli->getAPELLIDOS_CLI() . "</td>";
+                                                                echo "<td><center><a href='../../controller/controller.php?opcion1=factura&opcion2=recargarDatosClienteBusquedaInteligente&COD_CLI=" . $cli->getCOD_CLI() . "'>Agregar</a></center></td>";
+                                                                echo "</tr>";
+                                                            }
+                                                            ?>
                                                         </tbody>
                                                     </table>
                                                     <script src="../../Dependencias/DataTables/cliente.js"></script>
@@ -455,7 +466,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                                                         <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Código Cliente </label>
                                                                                     </div>
                                                                                     <div class="col-md-7">
-                                                                                    <?php echo $clientesModel->generarCliente(); ?>
+    <?php echo $clientesModel->generarCliente(); ?>
                                                                                         <input type="hidden" name="COD_CLI" value="<?php echo $clientesModel->generarCliente() ?>">
                                                                                     </div>
                                                                                 </div>
