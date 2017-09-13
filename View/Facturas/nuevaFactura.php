@@ -302,7 +302,8 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                             foreach ($listado as $Det) {
                                                 //$serv = $serviciosModel->getServicio($Det->getCOD_SERV());
                                                 echo "<tr class='success'>";
-                                                echo "<td><a href='../../controller/controller.php?opcion1=detalle&opcion2=eliminar_detalle&COD_DET_FACT=" . $Det->getCOD_DET_FACT() . "'>Eliminar</a></td>";
+//                                                echo "<td><a href='../../controller/controller.php?opcion1=detalle&opcion2=eliminar_detalle&COD_DET_FACT=" . $Det->getCOD_DET_FACT() . "'>Eliminar</a></td>";
+                                                echo "<td><a href='../../controller/controller.php?opcion1=detalle&opcion2=eliminar_detalle&COD_DET_FACT=" . $Det->getCOD_DET_FACT() . "&COSTO_TOT_DET_FACT=".$Det->getCOSTO_TOT_DET_FACT()."'>Eliminar</a></td>";
                                                 echo "<td>" . $Det->getCOD_DET_FACT() . "</td>";
                                                 echo "<td>" . $Det->getNOMBRE_SERV() . "</td>";
                                                 echo "<td>" . $Det->getTIEMPO_DET_FACT() . "</td>";

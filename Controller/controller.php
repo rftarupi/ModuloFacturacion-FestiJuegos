@@ -470,12 +470,18 @@ switch ($opcion1) {
 
             case "eliminar_detalle": //--
                 $COD_DET_FACT = $_REQUEST['COD_DET_FACT'];
-                $COD_CAB_FACT = $_SESSION['COD_FACT_TEMP'];
+                 $COD_CAB_FACT = $_SESSION['COD_FACT_TEMP'];
+                $COSTO_TOT_DET_FACT= $_REQUEST['COSTO_TOT_DET_FACT'];
+                $cosTot=($facturasModel->getCabFactura($COD_CAB_FACT)->getCOSTO_TOT_CAB_FACT())-$COSTO_TOT_DET_FACT;
+//                $cosTot=(4.80)-(4.80);
+                
+                $facturasModel->actualizarCostoTotalFactura($COD_CAB_FACT, $cosTot);
                 $detallesModel->eliminarDetalleFactura($COD_DET_FACT);
+                
                 $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
                 $_SESSION['listadoDetalles'] = serialize($listadoDetalles);
                 // Redireccionamos a la pagina principal para visualizar
-                header('Location: ../View/Facturas/nuevaFactura.php');
+                header('Location: ../View/Facturas/nuevaFactura.php#detalle');
                 break;
         }
         break;
