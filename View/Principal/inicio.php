@@ -118,10 +118,18 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                     </div>
                 </div>
                 <br><br><br>
-                <div class="row">
-                    <center>
-                        <img src="../Imagenes/bienvenidos.png" />
-                    </center>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h4>Tablero General</h4></div>
+                    <table class="table">
+                        <tr>
+                            <td><center><h1><b>$1620</b></h1>Total de Ventas Mensuales</center></td>
+                        <td><center><h1><b>50</b></h1>Total de Facturas Mensuales</center></td>
+                        </tr>
+                        <tr>
+                            <td><center><h1><b>20</b></h1>Servicios en Total</center></td>
+                        <td><center><h1><b>12</b></h1>Clientes en Total</center></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </body>
