@@ -124,11 +124,12 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                     <div class="panel-heading"><h4>Tablero General</h4></div>
                     <table class="table">
                         <?php
+                        setlocale(LC_ALL,'es_ES');//Se supone que cambia los formatos de fecha al español pero no funciona
                         echo '<tr>';
                         $totMens = $inicio->getTotMens(date('Y-m-1'),date('Y-m-1',strtotime('+1 month')));
-                        echo '<td><center><h1><b>'. $totMens .'</b></h1>Total de Ventas Mensuales</center></td>';
+                        echo '<td><center><h1><b>$'. $totMens .'</b></h1>Total de Ventas del mes de '. date('F') .'</center></td>';
                         $totFact = $inicio->getTotFact(date('Y-m-1'),date('Y-m-1',strtotime('+1 month')));
-                        echo '<td><center><h1><b>'. $totFact .'</b></h1>Total de Facturas Mensuales</center></td>
+                        echo '<td><center><h1><b>'. $totFact .'</b></h1>Total de Facturas del mes de '. date('F') .'</center></td>
                         </tr>
                         <tr>';
                         $numServ = $inicio->getNumServicios();
