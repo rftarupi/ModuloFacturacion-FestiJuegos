@@ -349,8 +349,11 @@ switch ($opcion1) {
                 $COD_CAB_FACT= $_SESSION['COD_FACT_TEMP'];
                 $cliente = $clientesModel->getCliente($COD_CLI);
                 $_SESSION['cliente']=serialize($cliente);
+                $COD_CAB_FACT = $_SESSION['COD_FACT_TEMP'];
+                $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
+                $_SESSION['listadoDetalles'] = serialize($listadoDetalles);
                 $facturasModel->actualizarClienteFactura($COD_CAB_FACT, $COD_CLI);
-                header('Location: ../View/Facturas/nuevaFactura.php');
+                header('Location: ../View/Facturas/nuevaFactura.php#inicio');
                 break;
             
              case "recargarDatosServicioBusquedaInteligente":
@@ -358,7 +361,10 @@ switch ($opcion1) {
                 $COD_SERV = $_REQUEST['COD_SERV'];
                 $servicio = $serviciosModel->getServicio($COD_SERV);
                 $_SESSION['servicio']=serialize($servicio);
-                header('Location: ../View/Facturas/nuevaFactura.php');
+                $COD_CAB_FACT = $_SESSION['COD_FACT_TEMP'];
+                $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
+                $_SESSION['listadoDetalles'] = serialize($listadoDetalles);
+                header('Location: ../View/Facturas/nuevaFactura.php#detalle');
                 break;
             
             case "recargarDatosServicio":
@@ -443,7 +449,7 @@ switch ($opcion1) {
                 $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
                 $_SESSION['listadoDetalles'] = serialize($listadoDetalles);
 
-                header('Location: ../View/Facturas/nuevaFactura.php');
+                header('Location: ../View/Facturas/nuevaFactura.php#detalle');
                 break;
 
             case "eliminar_detalle": //--

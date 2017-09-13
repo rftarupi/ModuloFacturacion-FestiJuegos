@@ -127,7 +127,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                 </div>
 
                 <!--TITULO DEL SISTEMA-->
-                <div class="row text-center"><h3>MÓDULO DE FACTURACIÓN</h3></div>
+                <div class="row text-center" id="inicio"><h3>MÓDULO DE FACTURACIÓN</h3></div>
 
                 <!--MENU CON BOTONES-->
                 <div class="row">
@@ -212,7 +212,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                     <!--Fin Cabecera ajuste-->
 
                     <!--Detalle ajuste-->
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" id="detalle">
                         <div class="panel-heading">DETALLES DE LA FACTURA</div>
                         <div class="panel-body">
 
@@ -233,7 +233,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
     <?php
     $listaServicios = $serviciosModel->getServicios();
     foreach ($listaServicios as $serv) {
-        echo "<option value='" . $serv->getCOD_SERV() . "'>" . "Servicio: " . $serv->getNOMBRE_SERV() . "</option>";
+        echo "<option value='" . $serv->getCOD_SERV() . "'>" . $serv->getNOMBRE_SERV() . "</option>";
     }
     ?>
                                                 </select></li>
