@@ -169,10 +169,6 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                         <div class="panel-body">
                             <form action="../../Controller/controller.php">
                                 <?php
-                                if (isset($_SESSION['ErrorDetalleAjuste'])) {
-                                    echo "<div class='alert alert-danger'>" . $_SESSION['ErrorDetalleAjuste'] . "</div>";
-                                }
-
                                 if (isset($_SESSION['ErrorBaseDatos'])) {
                                     echo "<div class='alert alert-danger'>" . $_SESSION['ErrorBaseDatos'] . "</div>";
                                 }
@@ -274,7 +270,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                         <label for="A">Tiempo de consumo del servicio</label><br>
                                     </div>
                                     <div class="col-sm-2">
-                                        <input type="text" class="form-control" name="TIEMPO_DET_FACT" size="150" maxlength="1000" minlength="1" placeholder="Ingrese el tiempo que se consumirá el servicio" required onkeypress="return SoloNumeros(event)" />
+                                        <input type="number" class="form-control" name="TIEMPO_DET_FACT" size="150" maxlength="1000" placeholder="Ingrese el tiempo que se consumirá el servicio" required onkeypress="return SoloNumeros(event)" />
                                     </div>
                                     <div class="col-sm-2">
                                         <input type="submit" value="Agregar" id="btnGuardar" class="btn btn-success"> 

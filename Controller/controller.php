@@ -388,20 +388,27 @@ switch ($opcion1) {
             case "finalizar_factura":
                 $COD_CAB_FACT = $_REQUEST['COD_FACT_TEMP'];
                 if ($facturasModel->getCabFactura($COD_CAB_FACT)->getCOD_CLI() == NULL) {
-                     $_SESSION['ErrorBaseDatos']= "Error, no se ha escogido el cliente";
-                     $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
-                     $_SESSION['listadoDetalles'] = serialize($listadoDetalles);
-                     header('Location: ../View/Facturas/nuevaFactura.php#inicio');
+                    $_SESSION['ErrorBaseDatos'] = "Error, no se ha escogido el cliente";
+                    $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
+                    $_SESSION['listadoDetalles'] = serialize($listadoDetalles);
+                    header('Location: ../View/Facturas/nuevaFactura.php#inicio');
                 } else {
-                    try {
-                        $facturasModel->actualizarFechaFactura($COD_CAB_FACT);
-                    } catch (Exception $e) {
-                        $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                    if ($facturasModel->getCabFactura($COD_CAB_FACT)->getCOSTO_TOT_CAB_FACT() > 0) {
+                        try {
+                            $facturasModel->actualizarFechaFactura($COD_CAB_FACT);
+                        } catch (Exception $e) {
+                            $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                        }
+                        $listadoFacturas = $facturasModel->getCabFacturas();
+                        $_SESSION['listadoFacturas'] = serialize($listadoFacturas);
+                        unset($_SESSION['COD_FACT_TEMP']);
+                        header('Location: ../View/Facturas/VistaPreviaFactura.php');
+                    }else{
+                        $_SESSION['ErrorDetalleAjuste'] = "Error, no se encontraron detalles, ingrese al menos un detalle";
+                        $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
+                        $_SESSION['listadoDetalles'] = serialize($listadoDetalles);
+                        header('Location: ../View/Facturas/nuevaFactura.php#detalle');
                     }
-                    $listadoFacturas = $facturasModel->getCabFacturas();
-                    $_SESSION['listadoFacturas'] = serialize($listadoFacturas);
-                    unset($_SESSION['COD_FACT_TEMP']);
-                    header('Location: ../View/Facturas/VistaPreviaFactura.php');
                 }
 
                 break;
