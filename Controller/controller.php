@@ -247,6 +247,13 @@ switch ($opcion1) {
                 // Redireccionamos a la pagina principal para visualizar
                 header('Location: ../View/Clientes/inicioClientes.php#principal');
                 break;
+                
+            case "exportar_pdf":
+                $listadoClientes = $clientesModel->getClientes();
+                $_SESSION['listadoClientes'] = serialize($listadoClientes);
+
+                header('Location: ../View/Clientes/pdf_clientes.php');
+                break;
 
             default :
                 header('Location: ../View/Clientes/inicioClientes.php');

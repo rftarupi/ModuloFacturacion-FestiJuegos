@@ -198,6 +198,12 @@ and open the template in the editor.
                         <!--La class nav nav-pills nos permite hacer menús-->
                         <ul class="nav nav-pills">
                             <li role = 'presentation'><a href = '#nuevoCLI' data-toggle = 'modal'><h4>NUEVO CLIENTE</h4></a></li>
+                             <?php
+                            // Verificamos si es Administrador habilitamos la funcion de crear usuarios
+                            if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
+                                echo "<li role = 'presentation'><a href='../../Controller/controller.php?opcion1=cliente&opcion2=exportar_pdf' target='_blank' ><h4><span class='glyphicon glyphicon glyphicon-open-file'></span> EXPORTAR A PDF</h4></a></li>";
+                            }
+                            ?>
                         </ul>
                     </div>
                 </div>
