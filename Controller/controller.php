@@ -320,6 +320,13 @@ switch ($opcion1) {
                 // Redireccionamos a la pagina principal para visualizar
                 header('Location: ../View/Servicios/inicioServicios.php#principal');
                 break;
+            
+            case "exportar_pdf":
+                $listadoServicios = $serviciosModel->getServicios();
+                $_SESSION['listadoServicios'] = serialize($listadoServicios);
+
+                header('Location: ../View/Servicios/pdf_servicios.php');
+                break;
 
             default :
                 header('Location: ../View/Servicios/inicioServicios.php');
