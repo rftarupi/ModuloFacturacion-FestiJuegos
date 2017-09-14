@@ -339,6 +339,7 @@ switch ($opcion1) {
     case "factura":
         switch ($opcion2) {
             case "insertar_factura":
+                unset($_SESSION['cliente']);
                 $COD_CAB_FACT = $_REQUEST['COD_CAB_FACT'];
                 $_SESSION['COD_FACT_TEMP'] = $COD_CAB_FACT;
                 try {
@@ -466,7 +467,7 @@ switch ($opcion1) {
                 try {
                     $detallesModel->insertarDetalleFactura($COD_DET_FACT, $COD_SERV, $COD_CAB_FACT, $TIEMPO_DET_FACT, $COSTO_HORA_DET_FACT, $COSTO_TOT_DET_FACT);
                 } catch (Exception $e) {
-                    $_SESSION['ErrorDetalleAjuste'] = $e->getMessage();
+                    $_SESSION['ErrorDetalleAjuste'] = "Error, no se ha escojido un servicio: ".$e->getMessage();
                 }
 
                 $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);

@@ -221,7 +221,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                 } ?>">
                                 <?php
                                 if (isset($_SESSION['ErrorDetalleAjuste'])) {
-                                    echo "<div class='alert alert-danger'>" . "Error, no se ha escojido un servicio: " . $_SESSION['ErrorDetalleAjuste'] . "</div>";
+                                    echo "<div class='alert alert-danger'>" . $_SESSION['ErrorDetalleAjuste'] . "</div>";
                                 }
                                 ?>
                                 <div class="form-inline">
