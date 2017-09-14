@@ -9,22 +9,21 @@ require('../../Dependencias/ExportarPDF/FPDF/mc_table.php');
 
 $pdf = new PDF_MC_Table();
 $pdf->SetWidths(array(23, 25, 30, 30, 30, 25, 30, 23, 35, 20));
-srand(microtime() * 1000000);
 $pdf->AddPage('L', 'A4');
-
-
-$pdf->Image('img/Titulo_X2.jpg', 0, 10, 300, 57);
-$pdf->Ln(60);
-
 $pdf->SetFont('Times');
 $pdf->SetFontSize(11);
+
+//Fecha del Sistema
+date_default_timezone_set('America/Guayaquil');
+$pdf->Cell(10,0,utf8_decode('Fecha y Hora del Reporte: ').date('d-M-Y H:i'));
+$pdf->Image('img/Titulo_X2.jpg', 0, 20, 300, 57);
+$pdf->Ln(70);
 $pdf->SetTextColor(240, 255, 240); //Letra color blanco
 
 $pdf->HeaderRow(array(utf8_decode('CÓDIGO'), 'TIPO', utf8_decode('CÉDULA/RUC'), 'NOMBRES', 'APELLIDOS', 'FECHA NAC.',
     utf8_decode('DIRECCIÓN'), utf8_decode('TELÉFONO'), 'E-MAIL', 'ESTADO'));
 
 if (isset($_SESSION['listadoUsuarios'])) {
-
     $listado = unserialize($_SESSION['listadoUsuarios']);
     $pdf->SetTextColor(0,0,0);
     foreach ($listado as $usu) {
