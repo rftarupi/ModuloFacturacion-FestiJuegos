@@ -320,7 +320,7 @@ switch ($opcion1) {
                 // Redireccionamos a la pagina principal para visualizar
                 header('Location: ../View/Servicios/inicioServicios.php#principal');
                 break;
-            
+
             case "exportar_pdf":
                 $listadoServicios = $serviciosModel->getServicios();
                 $_SESSION['listadoServicios'] = serialize($listadoServicios);
@@ -411,7 +411,7 @@ switch ($opcion1) {
                         $_SESSION['listadoFacturas'] = serialize($listadoFacturas);
                         unset($_SESSION['COD_FACT_TEMP']);
                         header('Location: ../View/Facturas/VistaPreviaFactura.php');
-                    }else{
+                    } else {
                         $_SESSION['ErrorDetalleAjuste'] = "Error, no se encontraron detalles, ingrese al menos un detalle";
                         $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
                         $_SESSION['listadoDetalles'] = serialize($listadoDetalles);
@@ -425,6 +425,18 @@ switch ($opcion1) {
                 unset($_SESSION['COD_FACT_TEMP']);
                 $listadoFacturas = $facturasModel->getCabFacturas();
                 $_SESSION['listadoFacturas'] = serialize($listadoFacturas);
+                header('Location: ../View/Facturas/inicioFacturas.php');
+                break;
+
+            case "reporteDia":
+                $fecha_inicio = $_REQUEST['fecha_inicio']." 00:00:00";
+                $fecha_fin = $_REQUEST['fecha_fin']." 23:59:59";
+                $listadoFiltradoFacturas = $facturasModel->getFiltradoFacturasFecha($fecha_inicio, $fecha_fin);
+                $_SESSION['listadoFiltradoFacturas'] = serialize($listadoFiltradoFacturas);
+                header('Location: ../View/Facturas/reportesDiarios.php');
+                break;
+
+            default:
                 header('Location: ../View/Facturas/inicioFacturas.php');
                 break;
         }
@@ -467,7 +479,7 @@ switch ($opcion1) {
                 try {
                     $detallesModel->insertarDetalleFactura($COD_DET_FACT, $COD_SERV, $COD_CAB_FACT, $TIEMPO_DET_FACT, $COSTO_HORA_DET_FACT, $COSTO_TOT_DET_FACT);
                 } catch (Exception $e) {
-                    $_SESSION['ErrorDetalleAjuste'] = "Error, no se ha escojido un servicio: ".$e->getMessage();
+                    $_SESSION['ErrorDetalleAjuste'] = "Error, no se ha escojido un servicio: " . $e->getMessage();
                 }
 
                 $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
@@ -478,14 +490,14 @@ switch ($opcion1) {
 
             case "eliminar_detalle": //--
                 $COD_DET_FACT = $_REQUEST['COD_DET_FACT'];
-                 $COD_CAB_FACT = $_SESSION['COD_FACT_TEMP'];
-                $COSTO_TOT_DET_FACT= $_REQUEST['COSTO_TOT_DET_FACT'];
-                $cosTot=($facturasModel->getCabFactura($COD_CAB_FACT)->getCOSTO_TOT_CAB_FACT())-$COSTO_TOT_DET_FACT;
+                $COD_CAB_FACT = $_SESSION['COD_FACT_TEMP'];
+                $COSTO_TOT_DET_FACT = $_REQUEST['COSTO_TOT_DET_FACT'];
+                $cosTot = ($facturasModel->getCabFactura($COD_CAB_FACT)->getCOSTO_TOT_CAB_FACT()) - $COSTO_TOT_DET_FACT;
 //                $cosTot=(4.80)-(4.80);
-                
+
                 $facturasModel->actualizarCostoTotalFactura($COD_CAB_FACT, $cosTot);
                 $detallesModel->eliminarDetalleFactura($COD_DET_FACT);
-                
+
                 $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
                 $_SESSION['listadoDetalles'] = serialize($listadoDetalles);
                 // Redireccionamos a la pagina principal para visualizar

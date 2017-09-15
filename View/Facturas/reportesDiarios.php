@@ -8,7 +8,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
     include_once '../../Model/ClientesModel.php';
     $cabFacturasModel = new CabFacturasModel();
     $clientesModel = new ClientesModel();
-    
+
     $cabFacturasModel->verificarFechaFactura();
     $NOM = $_SESSION['NOMBRE_USUARIO'];
     $TIPO = $_SESSION['TIPO_USUARIO'];
@@ -141,21 +141,31 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                 <div class="row" id="principal">
                     <div class="col-lg-12">
                         <div class="col-lg-12" style="border-bottom: 1px solid #c5c5c5">
-                            <h1><span class="glyphicon glyphicon-list-alt"></span> FACTURAS</h1></div>
+                            <h1><span class="glyphicon glyphicon-list-alt"></span> REPORTES DEL DÍA</h1></div>
                     </div>
                 </div>
 
                 <!--La clase col nos permite que la pagina sea responsive mediante numero de columnas
                      donde el total de columnas es 12 y
                      donde lg es en tamaño de escritorio, md medianos, sm tablets, xs celulares -->
-
+                <br>
                 <div class="row">
-                    <div class="col-md-12" style="padding-top: 5px">
-                        <!--La class nav nav-pills nos permite hacer menús-->
-                        <ul class="nav nav-pills">
-                             <?php echo "<li role='presentation'><a href='../../Controller/controller.php?opcion1=factura&opcion2=insertar_factura&COD_CAB_FACT=".$cabFacturasModel->generarCodFactura()."'><h4>NUEVA FACTURA</h4></a></li>" ?>
-                            <li role="presentation"><a href="reportesDiarios.php"><h4>REPORTES DEL DÍA</h4></a></li>
-                        </ul>
+                    <div class="col-lg-6 col-lg-offset-3">
+                        <form action="../../Controller/controller.php" class="form-inline">
+                            <input type="hidden" name="opcion1" value="factura" />
+                            <input type="hidden" name="opcion2" value="reporteDia" />
+                            <div class="form-group">
+                                <label class="control-label">Fecha Inicio: </label>
+                                <input type="date" class="form-control" name="fecha_inicio" value="<?php date_default_timezone_set('America/Guayaquil'); echo date('Y-m-d'); ?>" />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Fecha Fin: </label>
+                                <input type="date" class="form-control" name="fecha_fin" value="<?php echo date('Y-m-d'); ?>" />
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-success" value="Filtrar Facturas">
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -187,11 +197,10 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                             <tbody>
                                                 <?php
                                                 // Verificamos si existe la variable de sesión que contiene la lista de Cabeceras de Factura
-                                                if (isset($_SESSION['listadoCabFacturas'])) {
-                                                    // Deserializamos y mostraremos los atributos de los clientes usando un ciclo for
-                                                    $listado = unserialize($_SESSION['listadoCabFacturas']);
+                                                if (isset($_SESSION['listadoFiltradoFacturas'])) {
+                                                    $listado = unserialize($_SESSION['listadoFiltradoFacturas']);
                                                 } else {
-                                                    $listado = $cabFacturasModel->getCabFacturas();
+                                                    $listado = $cabFacturasModel->getFiltradoFacturasFecha(date("Y-m-d 00:00:00"), date("Y-m-d 23:59:59"));
                                                 }
 
                                                 foreach ($listado as $cabF) {
@@ -208,10 +217,10 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                             }
                                                             ?>
                                                         </td>
-                                                        <td><?php echo $cliente->getAPELLIDOS_CLI()." ".$cliente->getNOMBRES_CLI(); ?></td>
+                                                        <td><?php echo $cliente->getAPELLIDOS_CLI() . " " . $cliente->getNOMBRES_CLI(); ?></td>
                                                         <td><?php echo $cabF->getFECHA_CAB_FACT(); ?></td>
                                                         <td><?php echo $cabF->getCOSTO_TOT_CAB_FACT(); ?></td>
-                                                        
+
 
                                                 <input type="hidden" value="<?php echo $cabF->getCOD_CAB_FACT(); ?>" id="ID_AJUSTE_PROD<?php echo $cabF->getCOD_CAB_FACT(); ?>">
                                                 <input type="hidden" value="<?php echo $cabF->getCOD_CLI(); ?>" id="MOTIVO_AJUSTE_PROD<?php echo $cabF->getCOD_CAB_FACT(); ?>" >
