@@ -128,6 +128,9 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                         setlocale(LC_TIME, 'spanish');
                         echo '<tr>';
                         $totMens = $inicio->getTotMens(date('Y-m-1'),date('Y-m-1',strtotime('+1 month')));
+                        if ($totMens == 0){
+                            $totMens = '0.00';
+                        }
                         echo '<td><center><h1><b>$'. $totMens .'</b></h1>Total de Ventas del mes de '. strftime('%B', strtotime(date('Y-m-d'))) .'</center></td>';
                         $totFact = $inicio->getTotFact(date('Y-m-1'),date('Y-m-1',strtotime('+1 month')));
                         echo '<td><center><h1><b>'. $totFact .'</b></h1>Total de Facturas del mes de '. strftime('%B', strtotime(date('Y-m-d'))) .'</center></td>

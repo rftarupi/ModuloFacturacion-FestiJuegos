@@ -197,7 +197,7 @@ and open the template in the editor.
                     <div class="col-md-12" style="padding-top: 5px">
                         <!--La class nav nav-pills nos permite hacer menús-->
                         <ul class="nav nav-pills">
-                            <li role = 'presentation'><a href = '#nuevoCLI' data-toggle = 'modal'><h4>NUEVO CLIENTE</h4></a></li>
+                            <li role = 'presentation'><a href = '#nuevoCLI' data-toggle = 'modal'><h4><span class='glyphicon glyphicon-plus'></span> NUEVO CLIENTE</h4></a></li>
                              <?php
                             // Verificamos si es Administrador habilitamos la funcion de crear usuarios
                             if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
@@ -365,10 +365,10 @@ and open the template in the editor.
 
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> E-mail </label>
+                                                    <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E-mail </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="email" class="form-control" name="E_MAIL_CLI" placeholder="Ingrese su Correo" required pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_-]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}" title="Ingrese un e-mail válido. Ejemplo example@hotmail.com" />
+                                                    <input type="email" class="form-control" name="E_MAIL_CLI" placeholder="Ingrese su Correo" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_-]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}" title="Ingrese un e-mail válido. Ejemplo example@hotmail.com" />
                                                 </div>
                                             </div>
                                         </div>

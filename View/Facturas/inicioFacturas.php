@@ -8,7 +8,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
     include_once '../../Model/ClientesModel.php';
     $cabFacturasModel = new CabFacturasModel();
     $clientesModel = new ClientesModel();
-    
+
     $cabFacturasModel->verificarFechaFactura();
     $NOM = $_SESSION['NOMBRE_USUARIO'];
     $TIPO = $_SESSION['TIPO_USUARIO'];
@@ -153,8 +153,11 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                     <div class="col-md-12" style="padding-top: 5px">
                         <!--La class nav nav-pills nos permite hacer menús-->
                         <ul class="nav nav-pills">
-                             <?php echo "<li role='presentation'><a href='../../Controller/controller.php?opcion1=factura&opcion2=insertar_factura&COD_CAB_FACT=".$cabFacturasModel->generarCodFactura()."'><h4>NUEVA FACTURA</h4></a></li>" ?>
-                            <li role="presentation"><a href="reportesDiarios.php"><h4>REPORTES DEL DÍA</h4></a></li>
+                            <?php echo "<li role='presentation'><a href='../../Controller/controller.php?opcion1=factura&opcion2=insertar_factura&COD_CAB_FACT=" . $cabFacturasModel->generarCodFactura() . "'>" ?>
+                            <h4><span class='glyphicon glyphicon-plus'></span> NUEVA FACTURA</h4></a></li>
+                            <li role="presentation"><a href="reportesDiarios.php">
+                                    <h4><span class="glyphicon glyphicon-paperclip"></span> REPORTES DEL DÍA</h4></a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -208,10 +211,10 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                             }
                                                             ?>
                                                         </td>
-                                                        <td><?php echo $cliente->getAPELLIDOS_CLI()." ".$cliente->getNOMBRES_CLI(); ?></td>
+                                                        <td><?php echo $cliente->getAPELLIDOS_CLI() . " " . $cliente->getNOMBRES_CLI(); ?></td>
                                                         <td><?php echo $cabF->getFECHA_CAB_FACT(); ?></td>
                                                         <td><?php echo $cabF->getCOSTO_TOT_CAB_FACT(); ?></td>
-                                                        
+
 
                                                 <input type="hidden" value="<?php echo $cabF->getCOD_CAB_FACT(); ?>" id="ID_AJUSTE_PROD<?php echo $cabF->getCOD_CAB_FACT(); ?>">
                                                 <input type="hidden" value="<?php echo $cabF->getCOD_CLI(); ?>" id="MOTIVO_AJUSTE_PROD<?php echo $cabF->getCOD_CAB_FACT(); ?>" >

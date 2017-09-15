@@ -169,7 +169,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                     }
                                     ?>
                                 </p>
-                                <ul class="nav nav-pills"><li><a href="#listaCli" data-toggle="modal"><h5>Buscar o Agregar cliente</h5></a></li></ul>
+                                <ul class="nav nav-pills"><li><a href="#listaCli" data-toggle="modal"><h5><span class='glyphicon glyphicon-plus'></span> Buscar o Agregar cliente</h5></a></li></ul>
                             </form>
                         </div>
                     </div>
@@ -383,7 +383,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div> 
-                                                    <a href="#nuevoCLI" data-toggle="modal"><h5>Registrar Cliente</h5></a>
+                                                    <a href="#nuevoCLI" data-toggle="modal"><h5><span class="glyphicon glyphicon-plus"></span> Registrar Cliente</h5></a>
                                                     <table class="uk-table uk-table-hover uk-table-striped" id="cliente" cellspacing="0" width="100%">
                                                         <thead>    
                                                             <tr> 

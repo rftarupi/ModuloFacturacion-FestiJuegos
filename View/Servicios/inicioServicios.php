@@ -200,7 +200,7 @@ and open the template in the editor.
                     <div class="col-md-12" style="padding-top: 5px">
                         <!--La class nav nav-pills nos permite hacer menús-->
                         <ul class="nav nav-pills">
-                            <li role = 'presentation'><a href = '#nuevoSERV' data-toggle = 'modal'><h4>NUEVO SERVICIO</h4></a></li>
+                            <li role = 'presentation'><a href = '#nuevoSERV' data-toggle = 'modal'><h4><span class='glyphicon glyphicon-plus'></span> NUEVO SERVICIO</h4></a></li>
                             <li role = 'presentation'><a href='../../Controller/controller.php?opcion1=servicio&opcion2=exportar_pdf' target='_blank' ><h4><span class='glyphicon glyphicon glyphicon-open-file'></span> EXPORTAR A PDF</h4></a></li>
                         </ul>
                     </div>
