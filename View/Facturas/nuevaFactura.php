@@ -136,6 +136,8 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                         <div class="panel-body">
                             <form action="../../Controller/controller.php">
                                 <?php
+                                date_default_timezone_set('America/Lima');
+                                setlocale(LC_TIME, 'spanish');
                                 if (isset($_SESSION['ErrorBaseDatos'])) {
                                     echo "<div class='alert alert-danger'>" . $_SESSION['ErrorBaseDatos'] . "</div>";
                                 }
@@ -145,7 +147,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                 </div>
 
                                 <div class="panel-default">
-                                    <b>Fecha: </b><p><?php echo date('l\, j \d\e F \d\e Y'); ?></p>
+                                    <b>Fecha: </b><p><?php echo strftime("%A, %d de %B del %Y", strtotime(date('Y-m-d'))); ?></p>
                                 </div>
                                 <b>Cliente: </b>
                                 <p>
