@@ -8,7 +8,7 @@ include_once '../../Model/Cliente.php';
 require('../../Dependencias/ExportarPDF/FPDF/mc_table.php');
 
 $pdf = new PDF_MC_Table();
-$pdf->SetWidths(array(20, 25, 40, 40, 25, 51, 26, 45));
+$pdf->SetWidths(array(20, 29, 37, 37, 25, 51, 26, 45));
 $pdf->AddPage('L', 'A4');
 $pdf->SetFont('Times');
 $pdf->SetFontSize(11);

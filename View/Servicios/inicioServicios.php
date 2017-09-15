@@ -300,7 +300,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Nombre </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return ValidarLongitudNombre(this.form.nom.value);" id="nom" name="nom" type="text" class="form-control" name="NOMBRE_SERV" placeholder="Ingrese el Nombre del Servicio" required/>
+                                                    <input onkeypress="return ValidarLongitudNombre(this.form.NOMBRE_SERV.value);" id="NOMBRE_SERV" type="text" class="form-control" name="NOMBRE_SERV" placeholder="Ingrese el Nombre del Servicio" required/>
                                                 </div>
                                             </div>
                                             
@@ -309,7 +309,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Descripción </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return ValidarLongitud(this.form.des.value);" id="des" name="des" type="text" class="form-control" name="DESCRIPCION_SERV" placeholder="Ingrese una descripción para el Servicio" required/>
+                                                    <input onkeypress="return ValidarLongitud(this.form.DESCRIPCION_SERV.value);" id="DESCRIPCION_SERV" name="DESCRIPCION_SERV" type="text" class="form-control" name="DESCRIPCION_SERV" placeholder="Ingrese una descripción para el Servicio" required/>
                                                    
                                                 </div>
                                             </div>
