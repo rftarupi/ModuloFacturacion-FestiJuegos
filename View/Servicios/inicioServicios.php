@@ -57,6 +57,41 @@ and open the template in the editor.
                     padding-top: 50px;
                 }
             </style>
+            
+            <script language="javascript">
+                function ValidarLongitud(des) {
+                    var des = des;
+                    array = des.split("");
+                    num = array.length;
+                   
+                   if(num<=199){
+                       return true;
+                   }else{
+                        swal({
+                    title: "Aviso",
+                    text: "La longitud en este campo es de máximo 200 caracteres",
+                    type: "info",
+                    confirmButtonText: "Ok"});
+                       return false;
+                   }
+                }
+                function ValidarLongitudNombre(des) {
+                    var des = des;
+                    array = des.split("");
+                    num = array.length;
+                   
+                   if(num<=49){
+                       return true;
+                   }else{
+                        swal({
+                    title: "Aviso",
+                    text: "La longitud en este campo es de máximo 50 caracteres",
+                    type: "info",
+                    confirmButtonText: "Ok"});
+                       return false;
+                   }
+                }
+            </script>
         </head>
         <body>
             <div class="container-fluid">
@@ -265,7 +300,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Nombre </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return SoloLetras(event);" type="text" class="form-control" name="NOMBRE_SERV" placeholder="Ingrese el Nombre del Servicio" required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-ZñÑáéíóúÁÉÍÓÚ]+)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|" title="El campo no admite espacios en blanco innecesarios, ni admite espacios al inicio o final" />
+                                                    <input onkeypress="return ValidarLongitudNombre(this.form.nom.value);" id="nom" name="nom" type="text" class="form-control" name="NOMBRE_SERV" placeholder="Ingrese el Nombre del Servicio" required/>
                                                 </div>
                                             </div>
                                             
@@ -274,7 +309,8 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Descripción </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return SoloLetras(event);" type="text" class="form-control" name="DESCRIPCION_SERV" placeholder="Ingrese una descripción para el Servicio" required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-ZñÑáéíóúÁÉÍÓÚ]+)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|" title="El campo no admite espacios en blanco innecesarios, ni admite espacios al inicio o final" />
+                                                    <input onkeypress="return ValidarLongitud(this.form.des.value);" id="des" name="des" type="text" class="form-control" name="DESCRIPCION_SERV" placeholder="Ingrese una descripción para el Servicio" required/>
+                                                   
                                                 </div>
                                             </div>
 
