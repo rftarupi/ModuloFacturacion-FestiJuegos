@@ -92,40 +92,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                         </div>
                     </nav>
                 </div>
-                <!--CODIGO PARA INSERTAR  UN SLIDER-->
-                <div class="row">
-                    <div id="carousel1" class="carousel slide" data-ride="carousel">
-                        <!--Indicatodores--> 
-                        <ol class="carousel-indicators">
-                            <li data-target="#carousel1" data-slide-to="0" class="active"></li>
-                            <li data-target="#carousel1" data-slide-to="1"></li>
-                            <li data-target="#carousel1" data-slide-to="2"></li>
-                        </ol> 
-
-                        <!--Contenedor de las imagenes--> 
-                        <div class="carousel-inner" role="listbox">
-                            <div class="item">
-                                <img src="../../Imagenes/banner.jpg" width="100%" alt="Imagen 1">
-                            </div>
-                            <div class="item active">
-                                <img src="../../Imagenes/banner4.jpg" width="100%" alt="Imagen 2">
-                            </div>
-                            <div class="item">
-                                <img src="../../Imagenes/banner6.jpg" width="100%" alt="Imagen 3">
-                            </div>
-                        </div>
-                        <!--Controls--> 
-                        <a class="left carousel-control" href="#carousel1" role="button" data-slide="prev">
-                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                            <span class="sr-only">Anterior</span>
-                        </a>
-                        <a class="right carousel-control" href="#carousel1" role="button" data-slide="next">
-                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                            <span class="sr-only">Siguiente</span>
-                        </a>
-                    </div>
-                </div>
-
+                
                 <!--TITULO DEL SISTEMA-->
                 <div class="row text-center" id="inicio"><h3>MÓDULO DE FACTURACIÓN</h3></div>
 
@@ -216,20 +183,22 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                 <input type="hidden" name="opcion1" value="detalle">
                                 <input type="hidden" name="opcion2" value="insertar_detalle">
                                 <input type="hidden" id="COD_DET_FACT" name="COD_DET_FACT" value="<?php echo $detallesModel->generarCodDetalle(); ?>">
-                                <input type="hidden" id="COD_FACT_TEMP" name="COD_FACT_TEMP" value=" <?php if (isset($_SESSION['COD_FACT_TEMP'])) {
+                                <input type="hidden" id="COD_FACT_TEMP" name="COD_FACT_TEMP" value=" <?php
+                                if (isset($_SESSION['COD_FACT_TEMP'])) {
                                     echo $_SESSION['COD_FACT_TEMP'];
-                                } ?>">
-                                <?php
-                                if (isset($_SESSION['ErrorDetalleAjuste'])) {
-                                    echo "<div class='alert alert-danger'>" . $_SESSION['ErrorDetalleAjuste'] . "</div>";
                                 }
-                                ?>
+                                ?>">
+                                       <?php
+                                       if (isset($_SESSION['ErrorDetalleAjuste'])) {
+                                           echo "<div class='alert alert-danger'>" . $_SESSION['ErrorDetalleAjuste'] . "</div>";
+                                       }
+                                       ?>
                                 <div class="form-inline">
                                     <div class="form-group">
                                         <ul class="nav nav-pills">
                                             <li><label>SERVICIO:</label>
                                                 <select name="COD_SERV" id="CboIDServicio" class="form-control" onchange="ObtenerDatosServicio($('#CboIDServicio').val());
-                                                        return false;">
+                                                            return false;">
                                                     <option value="" disabled selected>Seleccione un Servicio</option>
                                                     <?php
                                                     $listaServicios = $serviciosModel->getServicios();
@@ -269,8 +238,11 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                     <div class="col-sm-2">
                                         <label for="A">Tiempo de consumo del servicio</label><br>
                                     </div>
-                                    <div class="col-sm-2">
-                                        <input type="number" class="form-control" name="TIEMPO_DET_FACT" size="150" maxlength="1000" placeholder="Ingrese el tiempo que se consumirá el servicio" required onkeypress="return SoloNumeros(event)" />
+                                    <div class="col-sm-1">
+                                        <input type="number" class="form-control" min="1" max="6" name="TIEMPO_HRS" maxlength="1" placeholder="Hrs." required="true" onkeypress="return SoloNumeros(event)" />
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <input type="number" class="form-control" min="1" max="59" name="TIEMPO_MIN" maxlength="2" placeholder="Min." required="true" onkeypress="return SoloNumeros(event)" />
                                     </div>
                                     <div class="col-sm-2">
                                         <input type="submit" value="Agregar" id="btnGuardar" class="btn btn-success"> 
@@ -303,7 +275,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                 //$serv = $serviciosModel->getServicio($Det->getCOD_SERV());
                                                 echo "<tr class='success'>";
 //                                                echo "<td><a href='../../controller/controller.php?opcion1=detalle&opcion2=eliminar_detalle&COD_DET_FACT=" . $Det->getCOD_DET_FACT() . "'>Eliminar</a></td>";
-                                                echo "<td><a href='../../controller/controller.php?opcion1=detalle&opcion2=eliminar_detalle&COD_DET_FACT=" . $Det->getCOD_DET_FACT() . "&COSTO_TOT_DET_FACT=".$Det->getCOSTO_TOT_DET_FACT()."'>Eliminar</a></td>";
+                                                echo "<td><a href='../../controller/controller.php?opcion1=detalle&opcion2=eliminar_detalle&COD_DET_FACT=" . $Det->getCOD_DET_FACT() . "&COSTO_TOT_DET_FACT=" . $Det->getCOSTO_TOT_DET_FACT() . "'>Eliminar</a></td>";
                                                 echo "<td>" . $Det->getCOD_DET_FACT() . "</td>";
                                                 echo "<td>" . $Det->getNOMBRE_SERV() . "</td>";
                                                 echo "<td>" . $Det->getTIEMPO_DET_FACT() . "</td>";
@@ -463,7 +435,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                                                         <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Código Cliente </label>
                                                                                     </div>
                                                                                     <div class="col-md-7">
-    <?php echo $clientesModel->generarCliente(); ?>
+                                                                                        <?php echo $clientesModel->generarCliente(); ?>
                                                                                         <input type="hidden" name="COD_CLI" value="<?php echo $clientesModel->generarCliente() ?>">
                                                                                     </div>
                                                                                 </div>

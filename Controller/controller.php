@@ -467,8 +467,11 @@ switch ($opcion1) {
                 $COD_SERV = $_REQUEST['COD_SERV'];
                 $COD_CAB_FACT = $_SESSION['COD_FACT_TEMP'];
 //                $COD_CAB_FACT = $_REQUEST['COD_CAB_FACT'];
-                $TIEMPO_DET_FACT = $_REQUEST['TIEMPO_DET_FACT'];
+                $TIEMPO_HRS = $_REQUEST['TIEMPO_HRS'];
+                $TIEMPO_MIN = $_REQUEST['TIEMPO_MIN'];
                 $serv = $serviciosModel->getServicio($COD_SERV);
+                $TIEMPO_CALC= $TIEMPO_MIN/60;
+                $TIEMPO_DET_FACT = $TIEMPO_HRS+$TIEMPO_CALC;
                 $COSTO_HORA_DET_FACT = $serv->getCOSTO_SERV();
                 $COSTO_TOT_DET_FACT = $TIEMPO_DET_FACT * $COSTO_HORA_DET_FACT;
 
