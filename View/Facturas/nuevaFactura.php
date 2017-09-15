@@ -239,10 +239,10 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                         <label for="A">Tiempo de consumo del servicio</label><br>
                                     </div>
                                     <div class="col-sm-1">
-                                        <input type="number" class="form-control" min="1" max="6" name="TIEMPO_HRS" maxlength="1" placeholder="Hrs." required="true" onkeypress="return SoloNumeros(event)" />
+                                        <input type="number" class="form-control" min="0" max="6" name="TIEMPO_HRS" maxlength="1" placeholder="Hrs." required="true" onkeypress="return SoloNumeros(event)" title="ola k ase" />
                                     </div>
                                     <div class="col-sm-1">
-                                        <input type="number" class="form-control" min="1" max="59" name="TIEMPO_MIN" maxlength="2" placeholder="Min." required="true" onkeypress="return SoloNumeros(event)" />
+                                        <input type="number" class="form-control" min="0" max="59" name="TIEMPO_MIN" maxlength="2" placeholder="Min." required="true" onkeypress="return SoloNumeros(event)" />
                                     </div>
                                     <div class="col-sm-2">
                                         <input type="submit" value="Agregar" id="btnGuardar" class="btn btn-success"> 
@@ -259,7 +259,6 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                         <tr> 
                                             <!--<th colspan="2">ACCIONES</th>-->
                                             <th>ACCIONES</th>
-                                            <th>CODIGO DETALLE</th>
                                             <th>SERVICIO</th>
                                             <th>TIEMPO</th>
                                             <th>COSTO POR HORA</th>
@@ -276,21 +275,19 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                 echo "<tr class='success'>";
 //                                                echo "<td><a href='../../controller/controller.php?opcion1=detalle&opcion2=eliminar_detalle&COD_DET_FACT=" . $Det->getCOD_DET_FACT() . "'>Eliminar</a></td>";
                                                 echo "<td><a href='../../controller/controller.php?opcion1=detalle&opcion2=eliminar_detalle&COD_DET_FACT=" . $Det->getCOD_DET_FACT() . "&COSTO_TOT_DET_FACT=" . $Det->getCOSTO_TOT_DET_FACT() . "'>Eliminar</a></td>";
-                                                echo "<td>" . $Det->getCOD_DET_FACT() . "</td>";
                                                 echo "<td>" . $Det->getNOMBRE_SERV() . "</td>";
-                                                echo "<td>" . $Det->getTIEMPO_DET_FACT() . "</td>";
-                                                echo "<td>" . $Det->getCOSTO_HORA_DET_FACT() . "</td>";
-                                                echo "<td>" . $Det->getCOSTO_TOT_DET_FACT() . "</td>";
+                                                echo "<td>" . $detallesModel->GetTiempoDetalle($Det->getTIEMPO_DET_FACT()) ."</td>";//AQUI ES
+                                                echo "<td>" . '$ ' . $Det->getCOSTO_HORA_DET_FACT() . "</td>";
+                                                echo "<td>" . '$ ' . $Det->getCOSTO_TOT_DET_FACT() . "</td>";
                                                 echo "</tr>";
                                             }
                                             echo "<tr class='success'>";
                                             echo "<td></td>";
                                             echo "<td></td>";
                                             echo "<td></td>";
-                                            echo "<td></td>";
                                             echo "<td><h4><strong>TOTAL</strong></h4></td>";
                                             if (isset($_SESSION['COD_FACT_TEMP'])) {
-                                                echo "<td><h4><strong>" . $cabFacturasModel->getCabFactura($_SESSION['COD_FACT_TEMP'])->getCOSTO_TOT_CAB_FACT() . "</strong></h4></td>";
+                                                echo "<td><h4><strong>$ " . $cabFacturasModel->getCabFactura($_SESSION['COD_FACT_TEMP'])->getCOSTO_TOT_CAB_FACT() . "</strong></h4></td>";
                                             } else {
                                                 echo "<td></td>";
                                             }

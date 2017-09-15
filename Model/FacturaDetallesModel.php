@@ -95,8 +95,18 @@ class FacturaDetallesModel {
         }
         Database::disconnect();
     }
-
     
+    // METODO PARA GENERAR HORAS Y MINUTOS DEL TIEMPO DE C/DETALLE DEL SERVICIO
+     public function GetTiempoDetalle($TIEMPO_DET_FACT) {
+        $hora = explode(".", $TIEMPO_DET_FACT);
+        $hora[1] = round(($hora[1]*60/100));
+        if($hora[1] < 10){
+            $hora[1] = '0'.$hora[1];
+        }
+        $res = $hora[0].'h'.$hora[1];
+        return $res;
+    }
+
   // METODO PARA GENERAR AUTOMATICAMENTE EL CODIGO DE UN DETALLE DE FACTURA -- DETF-0001
     public function generarCodDetalle(){
         $pdo = Database::connect();
