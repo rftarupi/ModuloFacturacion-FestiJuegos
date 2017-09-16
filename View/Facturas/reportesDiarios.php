@@ -156,7 +156,10 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                             <input type="hidden" name="opcion2" value="reporteDia" />
                             <div class="form-group">
                                 <label class="control-label">Fecha Inicio: </label>
-                                <input type="date" class="form-control" name="fecha_inicio" value="<?php date_default_timezone_set('America/Guayaquil'); echo date('Y-m-d'); ?>" />
+                                <input type="date" class="form-control" name="fecha_inicio" value="<?php
+                                date_default_timezone_set('America/Guayaquil');
+                                echo date('Y-m-d');
+                                ?>" />
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Fecha Fin: </label>
@@ -203,8 +206,10 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                     $listado = $cabFacturasModel->getFiltradoFacturasFecha(date("Y-m-d 00:00:00"), date("Y-m-d 23:59:59"));
                                                 }
 
+                                                $sumaTotalReporte = 0;
                                                 foreach ($listado as $cabF) {
                                                     $cliente = $clientesModel->getCliente($cabF->getCOD_CLI());
+                                                    $sumaTotalReporte+=$cabF->getCOSTO_TOT_CAB_FACT();
                                                     ?>
                                                     <tr>
                                                         <td align="center"><a href="">Imprimir</a></td>
@@ -231,6 +236,14 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                             ?>
                                             </tbody>
                                         </table>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-1 col-lg-offset-10">
+                                            <h2>TOTAL:</h2>
+                                        </div>
+                                        <div class="col-lg-1">
+                                            <h2><?php echo $sumaTotalReporte; ?></h2>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
