@@ -431,9 +431,12 @@ switch ($opcion1) {
             case "reporteDia":
                 $fecha_inicio = $_REQUEST['fecha_inicio']." 00:00:00";
                 $fecha_fin = $_REQUEST['fecha_fin']." 23:59:59";
+                
+                $_SESSION['FECHA_I'] = $_REQUEST['fecha_inicio'];
+                $_SESSION['FECHA_F'] = $_REQUEST['fecha_fin'];
                 $listadoFiltradoFacturas = $facturasModel->getFiltradoFacturasFecha($fecha_inicio, $fecha_fin);
                 $_SESSION['listadoFiltradoFacturas'] = serialize($listadoFiltradoFacturas);
-                header('Location: ../View/Facturas/reportesDiarios.php');
+                header('Location: ../View/Facturas/reportesDiarios.php#filtrado');
                 break;
 
             default:

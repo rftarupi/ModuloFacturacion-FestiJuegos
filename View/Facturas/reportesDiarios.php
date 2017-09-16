@@ -149,7 +149,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                      donde el total de columnas es 12 y
                      donde lg es en tamaño de escritorio, md medianos, sm tablets, xs celulares -->
                 <br>
-                <div class="row">
+                <div class="row" id="filtrado">
                     <div class="col-lg-6 col-lg-offset-3">
                         <form action="../../Controller/controller.php" class="form-inline">
                             <input type="hidden" name="opcion1" value="factura" />
@@ -158,12 +158,22 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                 <label class="control-label">Fecha Inicio: </label>
                                 <input type="date" class="form-control" name="fecha_inicio" value="<?php
                                 date_default_timezone_set('America/Guayaquil');
-                                echo date('Y-m-d');
-                                ?>" />
+                                if (isset($_SESSION['FECHA_I'])) {
+                                    echo $_SESSION['FECHA_I'];
+                                } else {
+                                    echo date('Y-m-d');
+                                }
+                                ?>" min="1900-01-01" max="<?php echo date("Y-m-d") ?>" />
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Fecha Fin: </label>
-                                <input type="date" class="form-control" name="fecha_fin" value="<?php echo date('Y-m-d'); ?>" />
+                                <input type="date" class="form-control" name="fecha_fin" value="<?php
+                                if (isset($_SESSION['FECHA_F'])) {
+                                    echo $_SESSION['FECHA_F'];
+                                } else {
+                                    echo date('Y-m-d');
+                                }
+                                ?>" min="1900-01-01" max="<?php echo date("Y-m-d") ?>" />
                             </div>
                             <div class="form-group">
                                 <input type="submit" class="btn btn-success" value="Filtrar Facturas">
