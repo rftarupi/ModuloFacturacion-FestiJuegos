@@ -89,6 +89,27 @@ and open the template in the editor.
                     return true;
                 }
             </script>
+
+            <script>
+                function ValidarIdentificacionCliente(id, boton) {
+                    var id = id;
+                    array = id.split("");
+                    num = array.length;
+                    if (num <= 10) {
+                        ValidarCedula(id, boton);
+                    } else if (num > 10 && num <= 13) {
+                        if (num == 11) {
+                            swal({
+                                title: "Pasaporte ingresado",
+                                text: "El pasaporte contiene la logitud adecuada",
+                                type: "success",
+                                confirmButtonText: "Ok"});
+                        }else{
+                          ValidarRUC(id, boton);  
+                        }
+                    }
+                }
+            </script>
         </head>
         <body>
             <div class="container-fluid">
@@ -198,7 +219,7 @@ and open the template in the editor.
                         <!--La class nav nav-pills nos permite hacer menús-->
                         <ul class="nav nav-pills">
                             <li role = 'presentation'><a href = '#nuevoCLI' data-toggle = 'modal'><h4><span class='glyphicon glyphicon-plus'></span> NUEVO CLIENTE</h4></a></li>
-                             <?php
+                            <?php
                             // Verificamos si es Administrador habilitamos la funcion de crear usuarios
                             if ($usuarioSesion->getCOD_TIPO_USU() == "TUSU-0001") {
                                 echo "<li role = 'presentation'><a href='../../Controller/controller.php?opcion1=cliente&opcion2=exportar_pdf' target='_blank' ><h4><span class='glyphicon glyphicon glyphicon-open-file'></span> EXPORTAR A PDF</h4></a></li>";
@@ -314,7 +335,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Cédula / RUC </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="text" onkeypress="return SoloNumeros(event);" maxlength="13" minlength="10" class="form-control" name="CEDULA_CLI"  placeholder="Ingrese su N° de Cedula o RUC" onchange="ValidarIdentificacion(this.form.CEDULA_CLI.value, this.form.boton)" required />
+                                                    <input type="text" onkeypress="return SoloNumeros(event);" maxlength="13" minlength="10" class="form-control" name="CEDULA_CLI"  placeholder="Ingrese su N° de Cedula o RUC" onchange="ValidarIdentificacionCliente(this.form.CEDULA_CLI.value, this.form.boton)" required />
                                                 </div>
                                             </div>
 
