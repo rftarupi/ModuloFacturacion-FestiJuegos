@@ -42,6 +42,8 @@ switch ($opcion1) {
                 $_SESSION['NOMBRE_USUARIO'] = $usuario->getNOMBRES_USU();
                 $_SESSION['TIPO_USUARIO'] = $tipoUsuario->getDESCRIPCION_TIPO_USU();
                 $_SESSION['USUARIO_ACTIVO'] = serialize($usuario);
+                // Verifica las facturas incompletas(sin detalles o no finalizadas) y las borra
+                $facturasModel->verificarFechaFactura();
                 header('Location: ../View/Principal/inicio.php');
             } else {
                 $_SESSION['ErrorInicioSesion'] = "Contraseña incorrecta";

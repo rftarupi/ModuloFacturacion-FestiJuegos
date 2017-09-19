@@ -368,16 +368,16 @@ and open the template in the editor.
                                                 <div class="col-md-3 col-md-offset-1">
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Nombre </label>
                                                 </div>
-                                                <div class="col-md-7">
-                                                    <input onkeypress="return SoloLetras(event);"type="text" class="form-control" id="mod_nombre" name="mod_nombre"  required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-ZñÑáéíóúÁÉÍÓÚ]+)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|" title="El campo no admite espacios en blanco innecesarios, ni admite espacios al inicio o final" />
+                                                <div class="col-md-7">                                                    
+                                                    <input onkeypress="return ValidarLongitudNombre(this.form.mod_nombre.value);" type="text" class="form-control" id="mod_nombre" name="mod_nombre"  required/>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Descripción </label>
                                                 </div>
-                                                <div class="col-md-7">
-                                                    <input onkeypress="return SoloLetras(event);"type="text" class="form-control" id="mod_descripcion" name="mod_descripcion"  required pattern="|^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-ZñÑáéíóúÁÉÍÓÚ]+)*[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$|" title="El campo no admite espacios en blanco innecesarios, ni admite espacios al inicio o final" />
+                                                <div class="col-md-7">                                                   
+                                                    <input onkeypress="return ValidarLongitud(this.form.mod_descripcion.value); "type="text" class="form-control" id="mod_descripcion" name="mod_descripcion"  required/>
                                                 </div>
                                             </div>
                                             <div class="form-group">
