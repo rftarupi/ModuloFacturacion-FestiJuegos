@@ -440,6 +440,17 @@ switch ($opcion1) {
                 $_SESSION['listadoFiltradoFacturas'] = serialize($listadoFiltradoFacturas);
                 header('Location: ../View/Facturas/reportesDiarios.php#filtrado');
                 break;
+            
+            case "reporteMensual":
+                $mes_inicio = $_REQUEST['mes_inicio'];
+                $mes_fin = $_REQUEST['mes_fin'];
+
+                $_SESSION['MES_I'] = $_REQUEST['mes_inicio'];
+                $_SESSION['MES_F'] = $_REQUEST['mes_fin'];
+                $listadoFiltradoFacturasMensual = $facturasModel->getFiltradoFacturasMensual($mes_inicio, $mes_fin);
+                $_SESSION['listadoFiltradoFacturasMensual'] = serialize($listadoFiltradoFacturasMensual);
+                header('Location: ../View/Facturas/reportesMensuales.php#filtrado');
+                break;
 
             default:
                 header('Location: ../View/Facturas/inicioFacturas.php');

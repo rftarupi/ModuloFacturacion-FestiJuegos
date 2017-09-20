@@ -141,27 +141,44 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                 <div class="row" id="principal">
                     <div class="col-lg-12">
                         <div class="col-lg-12" style="border-bottom: 1px solid #c5c5c5">
-                            <h1><span class="glyphicon glyphicon-list-alt"></span> FACTURAS</h1></div>
+                            <h1><span class="glyphicon glyphicon-list-alt"></span> REPORTES MENSUALES</h1></div>
                     </div>
                 </div>
 
                 <!--La clase col nos permite que la pagina sea responsive mediante numero de columnas
                      donde el total de columnas es 12 y
                      donde lg es en tamaño de escritorio, md medianos, sm tablets, xs celulares -->
-
-                <div class="row">
-                    <div class="col-md-12" style="padding-top: 5px">
-                        <!--La class nav nav-pills nos permite hacer menús-->
-                        <ul class="nav nav-pills">
-                            <?php echo "<li role='presentation'><a href='../../Controller/controller.php?opcion1=factura&opcion2=insertar_factura&COD_CAB_FACT=" . $cabFacturasModel->generarCodFactura() . "'>" ?>
-                            <h4><span class='glyphicon glyphicon-plus'></span> NUEVA FACTURA</h4></a></li>
-                            <li role="presentation"><a href="reportesDiarios.php">
-                                    <h4><span class="glyphicon glyphicon-paperclip"></span> REPORTES DEL DÍA</h4></a>
-                            </li>
-                            <li role="presentation"><a href="reportesMensuales.php">
-                                    <h4><span class="glyphicon glyphicon-paperclip"></span> REPORTES MENSUALES</h4></a>
-                            </li>
-                        </ul>
+                <br>
+                <div class="row" id="filtrado">
+                    <div class="col-lg-6 col-lg-offset-3">
+                        <form action="../../Controller/controller.php" class="form-inline">
+                            <input type="hidden" name="opcion1" value="factura" />
+                            <input type="hidden" name="opcion2" value="reporteMensual" />
+                            <div class="form-group">
+                                <label class="control-label">Fecha Inicio: </label>
+                                <input type="month" class="form-control" name="mes_inicio" value="<?php
+                                date_default_timezone_set('America/Guayaquil');
+                                if (isset($_SESSION['MES_I'])) {
+                                    echo $_SESSION['MES_I'];
+                                } else {
+                                    echo date('Y-m');
+                                }
+                                ?>" min="2000-01" max="<?php echo date('Y-m'); ?>" />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Fecha Fin: </label>
+                                <input type="month" class="form-control" name="mes_fin" value="<?php
+                                if (isset($_SESSION['MES_F'])) {
+                                    echo $_SESSION['MES_F'];
+                                } else {
+                                    echo date('Y-m');
+                                }
+                                ?>" min="2000-01" max="<?php echo date('Y-m'); ?>" />
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-success" value="Filtrar Facturas">
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -193,15 +210,17 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                             <tbody>
                                                 <?php
                                                 // Verificamos si existe la variable de sesión que contiene la lista de Cabeceras de Factura
-                                                if (isset($_SESSION['listadoCabFacturas'])) {
-                                                    // Deserializamos y mostraremos los atributos de los clientes usando un ciclo for
-                                                    $listado = unserialize($_SESSION['listadoCabFacturas']);
+                                                if (isset($_SESSION['listadoFiltradoFacturasMensual'])) {
+                                                    $listado = unserialize($_SESSION['listadoFiltradoFacturasMensual']);
                                                 } else {
-                                                    $listado = $cabFacturasModel->getCabFacturas();
+                                                    $listado = $cabFacturasModel->getFiltradoFacturasMensual(date("Y-m"), date("Y-m"));
+                                                    $_SESSION['listadoFiltradoFacturasMensual']=$listado;
                                                 }
 
+                                                $sumaTotalReporte = 0;
                                                 foreach ($listado as $cabF) {
                                                     $cliente = $clientesModel->getCliente($cabF->getCOD_CLI());
+                                                    $sumaTotalReporte+=$cabF->getCOSTO_TOT_CAB_FACT();
                                                     ?>
                                                     <tr>
                                                         <td align="center"><a href="">Imprimir</a></td>
@@ -228,6 +247,14 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                             ?>
                                             </tbody>
                                         </table>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-1 col-lg-offset-10">
+                                            <h2>TOTAL:</h2>
+                                        </div>
+                                        <div class="col-lg-1">
+                                            <h2><?php echo $sumaTotalReporte; ?></h2>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

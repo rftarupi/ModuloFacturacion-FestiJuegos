@@ -210,10 +210,11 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                             <tbody>
                                                 <?php
                                                 // Verificamos si existe la variable de sesión que contiene la lista de Cabeceras de Factura
-                                                if (isset($_SESSION['listadoFiltradoFacturas'])) {
-                                                    $listado = unserialize($_SESSION['listadoFiltradoFacturas']);
+                                                if (isset($_SESSION['listadoFiltradoFacturasDiario'])) {
+                                                    $listado = unserialize($_SESSION['listadoFiltradoFacturasDiario']);
                                                 } else {
                                                     $listado = $cabFacturasModel->getFiltradoFacturasFecha(date("Y-m-d 00:00:00"), date("Y-m-d 23:59:59"));
+                                                    $_SESSION['listadoFiltradoFacturasDiario'] = $listado;
                                                 }
 
                                                 $sumaTotalReporte = 0;
