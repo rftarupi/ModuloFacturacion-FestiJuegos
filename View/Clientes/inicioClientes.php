@@ -37,6 +37,7 @@ and open the template in the editor.
             <script src="../../Dependencias/js/bootstrap-table.js"></script>
             <script src = "../../Dependencias/SweetAlert/sweetalert.min.js" type="text/javascript"></script>
             <script src="../../Dependencias/js/validaciones.js"></script>
+            <script src="../../Dependencias/js/validaciones2.js"></script>
 
             <script src="../../Dependencias/DataTables/cliente.js"></script>
             <script src="../../Dependencias/DataTables/jquery.dataTables.min.js"></script>
@@ -104,12 +105,13 @@ and open the template in the editor.
                                 text: "El pasaporte contiene la logitud adecuada",
                                 type: "success",
                                 confirmButtonText: "Ok"});
-                        }else{
-                          ValidarRUC(id, boton);  
+                        } else {
+                            ValidarRUC(id, boton);
                         }
                     }
                 }
             </script>
+
         </head>
         <body>
             <div class="container-fluid">
@@ -335,7 +337,23 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Cédula / RUC </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="text" onkeypress="return SoloNumeros(event);" maxlength="13" minlength="10" class="form-control" name="CEDULA_CLI"  placeholder="Ingrese su N° de Cedula o RUC" onchange="ValidarIdentificacionCliente(this.form.CEDULA_CLI.value, this.form.boton)" required />
+                                                    <input type="text" maxlength="13" minlength="10" class="form-control" name="CEDULA_CLI"  placeholder="Ingrese su N° de Cedula o RUC" onchange="ValidarIdentificacionCliente(this.form.CEDULA_CLI.value, this.form.boton)" required />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-md-3 col-md-offset-1">
+                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Identificación </label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <select id="ID_TIPO" name="ID_TIPO">
+                                                        <option value="1">CÉDULA</option>
+                                                        <option value="2">RUC</option>
+                                                        <option value="3">PASAPORTE</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" onkeypress="return TipoEscritura(event);" maxlength="13" minlength="10" class="form-control" name="CEDULA_CLI"  placeholder="Ingrese su N° de Cedula o RUC" onchange="ValId(this.form.CEDULA_CLI.value, this.form.boton)" required />
                                                 </div>
                                             </div>
 

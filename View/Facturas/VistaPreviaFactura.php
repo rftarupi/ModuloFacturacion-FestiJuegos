@@ -159,15 +159,12 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="col-lg-12" style="border-bottom: 1px solid #c5c5c5">
-                                <h1><span class="glyphicon glyphicon-list-alt"></span> FACTURA</h1></div>
+                                <h1><span class="glyphicon glyphicon-list-alt"></span> NOTA DE VENTA </h1></div>
                         </div>
                     </div>
-
-                   
-
                 </div>
                 
-                <br><br>PÁGINA EN CONTRUCCIÓN
+                <br><br><center>PÁGINA EN CONTRUCCIÓN</center>
             </div>
         </body>
     </html>

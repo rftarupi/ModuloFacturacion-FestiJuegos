@@ -50,7 +50,7 @@ function ValidarCedula(cedula, boton)
         }
     } else {
         swal({title: "Error!",
-            text: "La c\xe9dula no puede tener menos de 10 d\xedgitos",
+            text: "La c\xe9dula debe tener 10 d\xedgitos",
             type: "error",
             confirmButtonText: "Ok"});
         boton.disabled = true;
