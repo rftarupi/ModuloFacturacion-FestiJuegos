@@ -160,16 +160,16 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                     <?php
                                     if (isset($_SESSION['ANIO_I'])) {
                                         echo '<option value="' . $_SESSION['ANIO_I'] . '" selected>' . $_SESSION['ANIO_I'] . '</option>';
-                                    }
-                                    for ($i = date('o'); $i >= 2000; $i--) {
-                                        if (isset($_SESSION['ANIO_I'])) {
-                                            echo '<option value="' . $_SESSION['ANIO_I'] . '" selected>' . $_SESSION['ANIO_I'] . '</option>';
+                                        if ($_SESSION['ANIO_I'] == date('o')) {
+                                            $i = date('o') - 1;
                                         } else {
-                                            if ($i == date('o')) {
-                                                echo '<option value="' . $i . '" selected>' . $i . '</option>';
-                                                $i--;
-                                            }
+                                            $i = date('o');
                                         }
+                                    }else{
+                                        $i = date('o')-1;
+                                        echo '<option value="' . date('o') . '" selected>' . date('o') . '</option>';
+                                    }
+                                    for ($i; $i >= 2000; $i--) {
                                         echo '<option value="' . $i . '">' . $i . '</option>';
                                     }
                                     ?>
@@ -179,15 +179,18 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                 <label class="control-label">Año Fin: </label>
                                 <select name="anio_fin" class="form-control">
                                     <?php
-                                    for ($i = date('o'); $i >= 2000; $i--) {
-                                        if (isset($_SESSION['ANIO_F'])) {
-                                            echo '<option value="' . $_SESSION['ANIO_F'] . '" selected>' . $_SESSION['ANIO_F'] . '</option>';
+                                    if (isset($_SESSION['ANIO_F'])) {
+                                        echo '<option value="' . $_SESSION['ANIO_F'] . '" selected>' . $_SESSION['ANIO_F'] . '</option>';
+                                        if ($_SESSION['ANIO_F'] == date('o')) {
+                                            $i = date('o') - 1;
                                         } else {
-                                            if ($i == date('o')) {
-                                                echo '<option value="' . $i . '" selected>' . $i . '</option>';
-                                                $i--;
-                                            }
+                                            $i = date('o');
                                         }
+                                    }else{
+                                        $i = date('o')-1;
+                                        echo '<option value="' . date('o') . '" selected>' . date('o') . '</option>';
+                                    }
+                                    for ($i; $i >= 2000; $i--) {
                                         echo '<option value="' . $i . '">' . $i . '</option>';
                                     }
                                     ?>
@@ -229,14 +232,14 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                 <?php
                                                 // Verificamos si existe la variable de sesión que contiene la lista de Cabeceras de Factura
                                                 if (isset($_SESSION['listadoFiltradoFacturasAnual'])) {
-                                                    $listado = unserialize($_SESSION['listadoFiltradoFacturasAnual']);
+                                                    $listadoA = unserialize($_SESSION['listadoFiltradoFacturasAnual']);
                                                 } else {
-                                                    $listado = $cabFacturasModel->getFiltradoFacturasAnual(date("Y"), date("Y"));
-                                                    $_SESSION['listadoFiltradoFacturasAnual'] = $listado;
+                                                    $listadoA = $cabFacturasModel->getFiltradoFacturasAnual(date("Y"), date("Y"));
+                                                    $_SESSION['listadoFiltradoFacturasAnual'] = $listadoA;
                                                 }
 
                                                 $sumaTotalReporte = 0;
-                                                foreach ($listado as $cabF) {
+                                                foreach ($listadoA as $cabF) {
                                                     $cliente = $clientesModel->getCliente($cabF->getCOD_CLI());
                                                     $sumaTotalReporte+=$cabF->getCOSTO_TOT_CAB_FACT();
                                                     ?>

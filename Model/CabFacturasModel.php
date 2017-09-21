@@ -133,14 +133,14 @@ class CabFacturasModel {
         $sql = "select * from tab_fac_cab_facturas where FECHA_CAB_FACT BETWEEN '" . $fecha_inicio . "' AND '" . $fecha_fin . "' order by COD_CAB_FACT";
 
         $resultado = $pdo->query($sql);
-        $listadoFiltradoFacturas = array();
+        $listadoFiltradoFacturasD = array();
         foreach ($resultado as $res) {
             $cabFactura = new CabFactura($res['COD_CAB_FACT'], $res['ESTADO_IMP_FAC'], $res['COD_CLI'], $res['FECHA_CAB_FACT'], $res['COSTO_TOT_CAB_FACT']);
-            array_push($listadoFiltradoFacturas, $cabFactura);
+            array_push($listadoFiltradoFacturasD, $cabFactura);
         }
         Database::disconnect();
         //retornamos el listado resultante:
-        return $listadoFiltradoFacturas;
+        return $listadoFiltradoFacturasD;
     }
     
     // MÉTODO PARA FILTRAR FACTURAS POR MES
@@ -150,14 +150,14 @@ class CabFacturasModel {
         $sql = "select * from tab_fac_cab_facturas where date_format(FECHA_CAB_FACT, '%Y-%m') >= '" . $mes_inicio . "' AND date_format(FECHA_CAB_FACT, '%Y-%m')<='" . $mes_fin . "' order by COD_CAB_FACT";
 
         $resultado = $pdo->query($sql);
-        $listadoFiltradoFacturas = array();
+        $listadoFiltradoFacturasM = array();
         foreach ($resultado as $res) {
             $cabFactura = new CabFactura($res['COD_CAB_FACT'], $res['ESTADO_IMP_FAC'], $res['COD_CLI'], $res['FECHA_CAB_FACT'], $res['COSTO_TOT_CAB_FACT']);
-            array_push($listadoFiltradoFacturas, $cabFactura);
+            array_push($listadoFiltradoFacturasM, $cabFactura);
         }
         Database::disconnect();
         //retornamos el listado resultante:
-        return $listadoFiltradoFacturas;
+        return $listadoFiltradoFacturasM;
     }
     
     // MÉTODO PARA FILTRAR FACTURAS POR AÑOS
@@ -167,14 +167,14 @@ class CabFacturasModel {
         $sql = "select * from tab_fac_cab_facturas where year(FECHA_CAB_FACT) >= '" . $anio_inicio . "' AND year(FECHA_CAB_FACT)<='" . $anio_fin . "' order by COD_CAB_FACT";
 
         $resultado = $pdo->query($sql);
-        $listadoFiltradoFacturas = array();
+        $listadoFiltradoFacturasA = array();
         foreach ($resultado as $res) {
             $cabFactura = new CabFactura($res['COD_CAB_FACT'], $res['ESTADO_IMP_FAC'], $res['COD_CLI'], $res['FECHA_CAB_FACT'], $res['COSTO_TOT_CAB_FACT']);
-            array_push($listadoFiltradoFacturas, $cabFactura);
+            array_push($listadoFiltradoFacturasA, $cabFactura);
         }
         Database::disconnect();
         //retornamos el listado resultante:
-        return $listadoFiltradoFacturas;
+        return $listadoFiltradoFacturasA;
     }
 
     // METODO PARA GENERAR AUTOMATICAMENTE EL CODIGO DE UNA FACTURA -- FACT-0001
