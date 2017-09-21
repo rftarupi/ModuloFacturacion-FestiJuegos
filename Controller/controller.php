@@ -411,6 +411,9 @@ switch ($opcion1) {
                         }
                         $listadoFacturas = $facturasModel->getCabFacturas();
                         $_SESSION['listadoFacturas'] = serialize($listadoFacturas);
+                        $listadoDet = $detallesModel->getDetallesFactura($COD_CAB_FACT);
+                        $_SESSION['listadoDet'] = serialize($listadoDet);
+                        $_SESSION['FAC_NOTA_VENTA']= $COD_CAB_FACT;
                         unset($_SESSION['COD_FACT_TEMP']);
                         header('Location: ../View/Facturas/VistaPreviaFactura.php');
                     } else {

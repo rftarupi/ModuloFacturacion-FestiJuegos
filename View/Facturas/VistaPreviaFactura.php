@@ -22,7 +22,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
     <html>
         <head>
             <meta charset="UTF-8">
-            <title>NUEVA FACTURA</title>
+            <title>NOTA DE VENTA</title>
             <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">				
 
             <!--Importación de Dependencias al proyecto-->
@@ -165,6 +165,64 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                 </div>
                 
                 <br><br><center>PÁGINA EN CONTRUCCIÓN</center>
+                <?php 
+                $fact_nv= $cabFacturasModel->getCabFactura($_SESSION['FAC_NOTA_VENTA']);
+                $cli_nv= $clientesModel->getCliente($fact_nv->getCOD_CLI());
+                ?>
+                 <div class="row">
+                <div class="col-lg-3"> </div>
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <center><p class="lead"><h2><strong>FESTIJUEGOS</strong></h2><br>
+                                <h4>DOCUMENTO SIN EFECTO TRIBUTARIO</h4> <br><h4>COMPROBANTE DE PAGO </h4> </p></center>
+                            <br><center><p>
+                                <h4>FACTURA: <small> <?php echo $fact_nv->getCOD_CAB_FACT(); ?></small></h4><br>
+                                <h4> CLIENTE: <small> <?php echo $cli_nv->getAPELLIDOS_CLI()." ".$cli_nv->getNOMBRES_CLI(); ?> </small></h4>
+                            </p></center><br><br>
+                            
+                            <center><table width="80%" border="0">
+                                     <thead>
+                                     <tr> 
+                                            <th width="46%">SERVICIO</th>
+                                            <th width="18%">TIEMPO</th>
+                                            <th width="18%">COSTO HORA</th>
+                                            <th width="18%">TOTAL</th>
+                                     </tr>
+                                     </thead>
+                                     <tbody>
+                                        <?php
+                                        if (isset($_SESSION['listadoDet'])) {
+                                            $listado = unserialize($_SESSION['listadoDet']);
+                                            foreach ($listado as $Det) {
+                                                echo "<tr>";
+                                                echo "<td>" . $Det->getNOMBRE_SERV() . "</td>";
+                                                echo "<td>" . $detallesModel->GetTiempoDetalle($Det->getTIEMPO_DET_FACT()) . "</td>"; //AQUI ES
+                                                echo "<td>" . '$ ' . $Det->getCOSTO_HORA_DET_FACT() . "</td>";
+                                                echo "<td>" . '$ ' . $Det->getCOSTO_TOT_DET_FACT() . "</td>";
+                                                echo "</tr>";
+                                            }
+                                            echo "<tr>";
+                                            echo "<td><h4><strong>TOTAL A PAGAR: ".$fact_nv->getCOSTO_TOT_CAB_FACT()." </strong></h4></td>";
+                                            echo "<td></td>";
+                                            echo "<td></td>";
+                                            echo "<td></td>";
+                                            echo "</tr>";
+                                        } else {
+                                           
+                                        }
+                                        ?>
+                                </tbody>
+                                </table></center>
+
+                            <br><br><p>
+                            <center><h4>Es un placer atenderle, visite nuestra página para estar enterado de nuestros descuentos y promociones.</h4></center>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3"> </div>
+            </div>
             </div>
         </body>
     </html>
