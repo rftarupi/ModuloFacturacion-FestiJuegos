@@ -436,8 +436,8 @@ switch ($opcion1) {
 
                 $_SESSION['FECHA_I'] = $_REQUEST['fecha_inicio'];
                 $_SESSION['FECHA_F'] = $_REQUEST['fecha_fin'];
-                $listadoFiltradoFacturas = $facturasModel->getFiltradoFacturasFecha($fecha_inicio, $fecha_fin);
-                $_SESSION['listadoFiltradoFacturas'] = serialize($listadoFiltradoFacturas);
+                $listadoFiltradoFacturasDiario = $facturasModel->getFiltradoFacturasFecha($fecha_inicio, $fecha_fin);
+                $_SESSION['listadoFiltradoFacturasDiario'] = serialize($listadoFiltradoFacturasDiario);
                 header('Location: ../View/Facturas/reportesDiarios.php#filtrado');
                 break;
             
