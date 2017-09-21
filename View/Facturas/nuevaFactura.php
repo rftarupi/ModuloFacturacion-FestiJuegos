@@ -65,6 +65,16 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                         }
                     });
                 }
+
+                var bPreguntar = true;
+
+                window.onbeforeunload = preguntarAntesDeSalir;
+
+                function preguntarAntesDeSalir()
+                {
+                    if (bPreguntar)
+                        return "¿Seguro que quieres salir?";
+                }
             </script>
         </head>
         <body>
@@ -92,7 +102,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                         </div>
                     </nav>
                 </div>
-                
+
                 <!--TITULO DEL SISTEMA-->
                 <div class="row text-center" id="inicio"><h3>MÓDULO DE FACTURACIÓN</h3></div>
 
@@ -247,7 +257,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                         <input type="number" class="form-control" min="0" max="59" name="TIEMPO_MIN" maxlength="2" placeholder="Min." required="true" onkeypress="return SoloNumeros(event)" />
                                     </div>
                                     <div class="col-sm-2">
-                                        <input type="submit" value="Agregar" id="btnGuardar" class="btn btn-success"> 
+                                        <input type="submit" onclick="bPreguntar = false;" value="Agregar" id="btnGuardar" class="btn btn-success"> 
                                     </div>
                                     <div class="col-sm-6"></div>
                                 </div>
@@ -278,7 +288,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
 //                                                echo "<td><a href='../../controller/controller.php?opcion1=detalle&opcion2=eliminar_detalle&COD_DET_FACT=" . $Det->getCOD_DET_FACT() . "'>Eliminar</a></td>";
                                                 echo "<td><a href='../../controller/controller.php?opcion1=detalle&opcion2=eliminar_detalle&COD_DET_FACT=" . $Det->getCOD_DET_FACT() . "&COSTO_TOT_DET_FACT=" . $Det->getCOSTO_TOT_DET_FACT() . "'>Eliminar</a></td>";
                                                 echo "<td>" . $Det->getNOMBRE_SERV() . "</td>";
-                                                echo "<td>" . $detallesModel->GetTiempoDetalle($Det->getTIEMPO_DET_FACT()) ."</td>";//AQUI ES
+                                                echo "<td>" . $detallesModel->GetTiempoDetalle($Det->getTIEMPO_DET_FACT()) . "</td>"; //AQUI ES
                                                 echo "<td>" . '$ ' . $Det->getCOSTO_HORA_DET_FACT() . "</td>";
                                                 echo "<td>" . '$ ' . $Det->getCOSTO_TOT_DET_FACT() . "</td>";
                                                 echo "</tr>";
@@ -302,7 +312,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                 </table>
                                 <div class="col-sm-3 col-sm-offset-9">
                                     <ul class="nav nav-pills">
-                                        <li><a href="../../controller/controller.php?opcion1=factura&opcion2=finalizar_factura&COD_FACT_TEMP=<?php echo $_SESSION['COD_FACT_TEMP']; ?>" class="btn btn-success navbar-btn"><h5>FINALIZAR</h5></a></li>
+                                        <li><a onclick="bPreguntar = false;" href="../../controller/controller.php?opcion1=factura&opcion2=finalizar_factura&COD_FACT_TEMP=<?php echo $_SESSION['COD_FACT_TEMP']; ?>" class="btn btn-success navbar-btn"><h5>FINALIZAR</h5></a></li>
                                         <li><a href="../../controller/controller.php?opcion1=factura&opcion2=cancelar_factura" class="btn btn-danger navbar-btn"><h5>CANCELAR</h5></a></li>
                                     </ul>
                                 </div> 
@@ -345,7 +355,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                                 echo "<td>" . $serv->getCOD_SERV() . "</td>";
                                                                 echo "<td>" . $serv->getNOMBRE_SERV() . "</td>";
                                                                 echo "<td>" . $serv->getCOSTO_SERV() . "</td>";
-                                                                echo "<td><center><a href='../../controller/controller.php?opcion1=factura&opcion2=recargarDatosServicioBusquedaInteligente&COD_SERV=" . $serv->getCOD_SERV() . "'>Agregar</a></center></td>";
+                                                                echo "<td><center><a onclick='bPreguntar = false;' href='../../controller/controller.php?opcion1=factura&opcion2=recargarDatosServicioBusquedaInteligente&COD_SERV=" . $serv->getCOD_SERV() . "'>Agregar</a></center></td>";
                                                                 echo "</tr>";
                                                             }
                                                             ?>
@@ -401,7 +411,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                                 echo "<td>" . $cli->getCEDULA_CLI() . "</td>";
                                                                 echo "<td>" . $cli->getNOMBRES_CLI() . "</td>";
                                                                 echo "<td>" . $cli->getAPELLIDOS_CLI() . "</td>";
-                                                                echo "<td><center><a href='../../controller/controller.php?opcion1=factura&opcion2=recargarDatosClienteBusquedaInteligente&COD_CLI=" . $cli->getCOD_CLI() . "'>Agregar</a></center></td>";
+                                                                echo "<td><center><a onclick='bPreguntar = false;' href='../../controller/controller.php?opcion1=factura&opcion2=recargarDatosClienteBusquedaInteligente&COD_CLI=" . $cli->getCOD_CLI() . "'>Agregar</a></center></td>";
                                                                 echo "</tr>";
                                                             }
                                                             ?>
@@ -505,7 +515,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                                         <!-- Footer de la ventana -->
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                                                                            <button id="boton" class="btn btn-success">Guardar Cliente</button>
+                                                                            <button id="boton" class="btn btn-success" onclick="bPreguntar = false;">Guardar Cliente</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
