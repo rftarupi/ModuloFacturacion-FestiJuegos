@@ -451,6 +451,17 @@ switch ($opcion1) {
                 $_SESSION['listadoFiltradoFacturasMensual'] = serialize($listadoFiltradoFacturasMensual);
                 header('Location: ../View/Facturas/reportesMensuales.php#filtrado');
                 break;
+            
+            case "reporteAnual":
+                $anio_inicio = $_REQUEST['anio_inicio'];
+                $anio_fin = $_REQUEST['anio_fin'];
+
+                $_SESSION['ANIO_I'] = $_REQUEST['anio_inicio'];
+                $_SESSION['ANIO_F'] = $_REQUEST['anio_fin'];
+                $listadoFiltradoFacturasAnual = $facturasModel->getFiltradoFacturasAnual($anio_inicio, $anio_fin);
+                $_SESSION['listadoFiltradoFacturasAnual'] = serialize($listadoFiltradoFacturasAnual);
+                header('Location: ../View/Facturas/reportesAnuales.php#filtrado');
+                break;
 
             default:
                 header('Location: ../View/Facturas/inicioFacturas.php');

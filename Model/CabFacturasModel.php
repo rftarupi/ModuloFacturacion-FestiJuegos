@@ -159,6 +159,23 @@ class CabFacturasModel {
         //retornamos el listado resultante:
         return $listadoFiltradoFacturas;
     }
+    
+    // MÉTODO PARA FILTRAR FACTURAS POR AÑOS
+    public function getFiltradoFacturasAnual($anio_inicio, $anio_fin) {
+        //obtenemos la informacion de la bdd:
+        $pdo = Database::connect();
+        $sql = "select * from tab_fac_cab_facturas where year(FECHA_CAB_FACT) >= '" . $anio_inicio . "' AND year(FECHA_CAB_FACT)<='" . $anio_fin . "' order by COD_CAB_FACT";
+
+        $resultado = $pdo->query($sql);
+        $listadoFiltradoFacturas = array();
+        foreach ($resultado as $res) {
+            $cabFactura = new CabFactura($res['COD_CAB_FACT'], $res['ESTADO_IMP_FAC'], $res['COD_CLI'], $res['FECHA_CAB_FACT'], $res['COSTO_TOT_CAB_FACT']);
+            array_push($listadoFiltradoFacturas, $cabFactura);
+        }
+        Database::disconnect();
+        //retornamos el listado resultante:
+        return $listadoFiltradoFacturas;
+    }
 
     // METODO PARA GENERAR AUTOMATICAMENTE EL CODIGO DE UNA FACTURA -- FACT-0001
     public function generarCodFactura() {
