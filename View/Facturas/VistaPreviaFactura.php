@@ -176,10 +176,17 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                         <div class="panel-body">
                             <center><p class="lead"><h2><strong>FESTIJUEGOS</strong></h2><br>
                                 <h4>DOCUMENTO SIN EFECTO TRIBUTARIO</h4> <br><h4>COMPROBANTE DE PAGO </h4> </p></center>
-                            <br><center><p>
-                                <h4>FACTURA: <small> <?php echo $fact_nv->getCOD_CAB_FACT(); ?></small></h4><br>
-                                <h4> CLIENTE: <small> <?php echo $cli_nv->getAPELLIDOS_CLI()." ".$cli_nv->getNOMBRES_CLI(); ?> </small></h4>
-                            </p></center><br><br>
+                            <br><p>
+                                <?php
+                                        $fecha=$fact_nv->getFECHA_CAB_FACT();;
+                                        $arrayFecha = explode(" ", $fecha, 2);
+                                ?>
+                                <h4> &emsp;&emsp;&emsp;&emsp;FACTURA: <small> <?php echo $fact_nv->getCOD_CAB_FACT(); ?></small></h4>
+                                <h4> &emsp;&emsp;&emsp;&emsp;CLIENTE: <small> <?php echo $cli_nv->getAPELLIDOS_CLI()." ".$cli_nv->getNOMBRES_CLI(); ?> </small></h4>
+                                <h4> &emsp;&emsp;&emsp;&emsp;FECHA: <small> <?php echo $arrayFecha[0]; ?> </small></h4>
+                                <h4> &emsp;&emsp;&emsp;&emsp;HORA: <small> <?php echo $arrayFecha[1]; ?> </small></h4>  
+                                <h4> &emsp;&emsp;&emsp;&emsp;CAJERO: <small> <?php echo $NOM; ?> </small></h4>
+                            </p><br>
                             
                             <center><table width="80%" border="0">
                                      <thead>
@@ -201,12 +208,12 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                 echo "<td>" . '$ ' . $Det->getCOSTO_HORA_DET_FACT() . "</td>";
                                                 echo "<td>" . '$ ' . $Det->getCOSTO_TOT_DET_FACT() . "</td>";
                                                 echo "</tr>";
-                                            }
+                                            }                        
                                             echo "<tr>";
-                                            echo "<td><h4><strong>TOTAL A PAGAR: ".$fact_nv->getCOSTO_TOT_CAB_FACT()." </strong></h4></td>";
                                             echo "<td></td>";
                                             echo "<td></td>";
-                                            echo "<td></td>";
+                                            echo "<td><strong>TOTAL</strong></td>";
+                                            echo "<td>".$fact_nv->getCOSTO_TOT_CAB_FACT()."</td>";
                                             echo "</tr>";
                                         } else {
                                            
@@ -214,6 +221,14 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                         ?>
                                 </tbody>
                                 </table></center>
+                            
+                            <br><p>
+                                <?php
+                                        $fecha=$fact_nv->getFECHA_CAB_FACT();;
+                                        $arrayFecha = explode(" ", $fecha, 2);
+                                ?>
+                                <h4> &emsp;&emsp;&emsp;&emsp;TOTAL A PAGAR: <small> <?php echo $fact_nv->getCOSTO_TOT_CAB_FACT(); ?></small></h4>
+                            </p>
 
                             <br><br><p>
                             <center><h4>Es un placer atenderle, visite nuestra página para estar enterado de nuestros descuentos y promociones.</h4></center>
