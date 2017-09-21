@@ -162,9 +162,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                 <h1><span class="glyphicon glyphicon-list-alt"></span> NOTA DE VENTA </h1></div>
                         </div>
                     </div>
-                </div>
-                
-                <br><br><center>PÁGINA EN CONTRUCCIÓN</center>
+                </div><br>
                 <?php 
                 $fact_nv= $cabFacturasModel->getCabFactura($_SESSION['FAC_NOTA_VENTA']);
                 $cli_nv= $clientesModel->getCliente($fact_nv->getCOD_CLI());
