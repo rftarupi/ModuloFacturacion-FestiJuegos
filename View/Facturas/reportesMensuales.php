@@ -211,14 +211,14 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                 <?php
                                                 // Verificamos si existe la variable de sesión que contiene la lista de Cabeceras de Factura
                                                 if (isset($_SESSION['listadoFiltradoFacturasMensual'])) {
-                                                    $listadoM = unserialize($_SESSION['listadoFiltradoFacturasMensual']);
+                                                    $listado = unserialize($_SESSION['listadoFiltradoFacturasMensual']);
                                                 } else {
-                                                    $listadoM = $cabFacturasModel->getFiltradoFacturasMensual(date("Y-m"), date("Y-m"));
-                                                    $_SESSION['listadoFiltradoFacturasMensual']=$listadoM;
+                                                    $listado = $cabFacturasModel->getFiltradoFacturasMensual(date("Y-m"), date("Y-m"));
+                                                    $_SESSION['listadoFiltradoFacturasMensual']=  serialize($listado);
                                                 }
 
                                                 $sumaTotalReporte = 0;
-                                                foreach ($listadoM as $cabF) {
+                                                foreach ($listado as $cabF) {
                                                     $cliente = $clientesModel->getCliente($cabF->getCOD_CLI());
                                                     $sumaTotalReporte+=$cabF->getCOSTO_TOT_CAB_FACT();
                                                     ?>
