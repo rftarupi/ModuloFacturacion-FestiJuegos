@@ -163,79 +163,103 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                         </div>
                     </div>
                 </div><br>
-                <?php 
-                $fact_nv= $cabFacturasModel->getCabFactura($_SESSION['FAC_NOTA_VENTA']);
-                $cli_nv= $clientesModel->getCliente($fact_nv->getCOD_CLI());
+                <?php
+                $fact_nv = $cabFacturasModel->getCabFactura($_SESSION['FAC_NOTA_VENTA']);
+                $cli_nv = $clientesModel->getCliente($fact_nv->getCOD_CLI());
                 ?>
-                 <div class="row">
-                <div class="col-lg-3"> </div>
-                <div class="col-lg-6">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <center><p class="lead"><h2><strong>FESTIJUEGOS</strong></h2><br>
-                                <h4>DOCUMENTO SIN EFECTO TRIBUTARIO</h4> <br><h4>COMPROBANTE DE PAGO </h4> </p></center>
-                            <br><p>
-                                <?php
-                                        $fecha=$fact_nv->getFECHA_CAB_FACT();;
-                                        $arrayFecha = explode(" ", $fecha, 2);
-                                ?>
+                <div class="row">
+                    <div class="col-lg-3"> </div>
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <center><p class="lead"><h2><strong>FESTIJUEGOS</strong></h2><br>
+                                    <h4>DOCUMENTO SIN EFECTO TRIBUTARIO</h4> <br><h4>COMPROBANTE DE PAGO </h4> </p></center>
+                                <br><p>
+                                    <?php
+                                    $fecha = $fact_nv->getFECHA_CAB_FACT();
+                                    ;
+                                    $arrayFecha = explode(" ", $fecha, 2);
+                                    ?>
                                 <h4> &emsp;&emsp;&emsp;&emsp;FACTURA: <small> <?php echo $fact_nv->getCOD_CAB_FACT(); ?></small></h4>
-                                <h4> &emsp;&emsp;&emsp;&emsp;CLIENTE: <small> <?php echo $cli_nv->getAPELLIDOS_CLI()." ".$cli_nv->getNOMBRES_CLI(); ?> </small></h4>
+                                <h4> &emsp;&emsp;&emsp;&emsp;CLIENTE: <small> <?php echo $cli_nv->getAPELLIDOS_CLI() . " " . $cli_nv->getNOMBRES_CLI(); ?> </small></h4>
                                 <h4> &emsp;&emsp;&emsp;&emsp;FECHA: <small> <?php echo $arrayFecha[0]; ?> </small></h4>
                                 <h4> &emsp;&emsp;&emsp;&emsp;HORA: <small> <?php echo $arrayFecha[1]; ?> </small></h4>  
                                 <h4> &emsp;&emsp;&emsp;&emsp;CAJERO: <small> <?php echo $NOM; ?> </small></h4>
-                            </p><br>
-                            
-                            <center><table width="80%" border="0">
-                                     <thead>
-                                     <tr> 
-                                            <th width="46%">SERVICIO</th>
-                                            <th width="18%">TIEMPO</th>
-                                            <th width="18%">COSTO HORA</th>
-                                            <th width="18%">TOTAL</th>
-                                     </tr>
-                                     </thead>
-                                     <tbody>
-                                        <?php
-                                        if (isset($_SESSION['listadoDet'])) {
-                                            $listado = unserialize($_SESSION['listadoDet']);
-                                            foreach ($listado as $Det) {
-                                                echo "<tr>";
-                                                echo "<td>" . $Det->getNOMBRE_SERV() . "</td>";
-                                                echo "<td>" . $detallesModel->GetTiempoDetalle($Det->getTIEMPO_DET_FACT()) . "</td>"; //AQUI ES
-                                                echo "<td>" . '$ ' . $Det->getCOSTO_HORA_DET_FACT() . "</td>";
-                                                echo "<td>" . '$ ' . $Det->getCOSTO_TOT_DET_FACT() . "</td>";
-                                                echo "</tr>";
-                                            }                        
-                                            echo "<tr>";
-                                            echo "<td></td>";
-                                            echo "<td></td>";
-                                            echo "<td><strong>TOTAL</strong></td>";
-                                            echo "<td>".$fact_nv->getCOSTO_TOT_CAB_FACT()."</td>";
-                                            echo "</tr>";
-                                        } else {
-                                           
-                                        }
-                                        ?>
-                                </tbody>
-                                </table></center>
-                            
-                            <br><p>
-                                <?php
-                                        $fecha=$fact_nv->getFECHA_CAB_FACT();;
-                                        $arrayFecha = explode(" ", $fecha, 2);
-                                ?>
-                                <h4> &emsp;&emsp;&emsp;&emsp;TOTAL A PAGAR: <small> <?php echo $fact_nv->getCOSTO_TOT_CAB_FACT(); ?></small></h4>
-                            </p>
+                                </p><br>
 
-                            <br><br><p>
-                            <center><h4>Es un placer atenderle, visite nuestra página para estar enterado de nuestros descuentos y promociones.</h4></center>
-                            </p>
+                                <center><table width="80%" border="0">
+                                        <thead>
+                                            <tr> 
+                                                <th width="46%">SERVICIO</th>
+                                                <th width="18%">TIEMPO</th>
+                                                <th width="18%">COSTO HORA</th>
+                                                <th width="18%">TOTAL</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            if (isset($_SESSION['listadoDet'])) {
+                                                $listado = unserialize($_SESSION['listadoDet']);
+                                                foreach ($listado as $Det) {
+                                                    echo "<tr>";
+                                                    echo "<td>" . $Det->getNOMBRE_SERV() . "</td>";
+                                                    echo "<td>" . $detallesModel->GetTiempoDetalle($Det->getTIEMPO_DET_FACT()) . "</td>"; //AQUI ES
+                                                    echo "<td>" . '$ ' . $Det->getCOSTO_HORA_DET_FACT() . "</td>";
+                                                    echo "<td>" . '$ ' . $Det->getCOSTO_TOT_DET_FACT() . "</td>";
+                                                    echo "</tr>";
+                                                }
+                                                echo "<tr>";
+                                                echo "<td></td>";
+                                                echo "<td></td>";
+                                                echo "<td><strong>TOTAL</strong></td>";
+                                                echo "<td> $ " . $fact_nv->getCOSTO_TOT_CAB_FACT() . "</td>";
+                                                echo "</tr>";
+                                            } else {
+                                                
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table></center>
+
+                                <br><p>
+                                    <?php
+                                    $fecha = $fact_nv->getFECHA_CAB_FACT();
+                                    ;
+                                    $arrayFecha = explode(" ", $fecha, 2);
+                                    ?>
+                                <h4> &emsp;&emsp;&emsp;&emsp;TOTAL A PAGAR: <small> $ <?php echo $fact_nv->getCOSTO_TOT_CAB_FACT(); ?></small></h4>
+                                <h4> &emsp;&emsp;&emsp;&emsp;DINERO RECIBIDO: <small> $ <?php echo $_SESSION['billete']; ?></small></h4>
+                                <h4> &emsp;&emsp;&emsp;&emsp;DINERO ENTREGADO: <small> $ <?php echo $_SESSION['cambio']; ?></small></h4>
+                                </p>
+
+                                <br><br><p>
+                                <center><h4>Es un placer atenderle, visite nuestra página para estar enterado de nuestros descuentos y promociones.</h4></center>
+                                </p>
+                            </div>
                         </div>
+                        <?php
+                        if(isset($_SESSION['cambio'])){
+                            if($_SESSION['cambio']!=-1){
+                                echo "<script>swal({title: 'Cambio Monetario Exitoso',
+                                    text: 'El cambio que debe entregar es: $ ".$_SESSION['cambio']."',
+                                    type: 'success',
+                                    confirmButtonText: 'Ok'});
+                                    </script>";
+                            }else{
+                                echo "<script>swal({title: 'Cambio Monetario Fallido',
+                                    text: 'El billete recibido debe ser mayor al total de la factura',
+                                    type: 'error',
+                                    confirmButtonText: 'Ok'},
+                                    function(){
+                                    window.location.href = 'cambio_monetario.php';
+                                    });
+                                    </script>";
+                            }
+                        }
+                        ?>
                     </div>
+                    <div class="col-lg-3"> </div>
                 </div>
-                <div class="col-lg-3"> </div>
-            </div>
             </div>
         </body>
     </html>

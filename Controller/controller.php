@@ -415,7 +415,7 @@ switch ($opcion1) {
                         $_SESSION['listadoDet'] = serialize($listadoDet);
                         $_SESSION['FAC_NOTA_VENTA']= $COD_CAB_FACT;
                         unset($_SESSION['COD_FACT_TEMP']);
-                        header('Location: ../View/Facturas/VistaPreviaFactura.php');
+                        header('Location: ../View/Facturas/cambio_monetario.php');
                     } else {
                         $_SESSION['ErrorDetalleAjuste'] = "Error, no se encontraron detalles, ingrese al menos un detalle";
                         $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
@@ -464,6 +464,22 @@ switch ($opcion1) {
                 $listadoFiltradoFacturasAnual = $facturasModel->getFiltradoFacturasAnual($anio_inicio, $anio_fin);
                 $_SESSION['listadoFiltradoFacturasAnual'] = serialize($listadoFiltradoFacturasAnual);
                 header('Location: ../View/Facturas/reportesAnuales.php#filtrado');
+                break;
+            
+            case "calculo_monetario":
+                $valorBillete=$_REQUEST['BILLETE_RECIBIDO'];
+                $codigoFactura=$_SESSION['FAC_NOTA_VENTA'];
+                $cabFactura=$facturasModel->getCabFactura($codigoFactura);
+                $totalFactura=$cabFactura->getCOSTO_TOT_CAB_FACT();
+                if($valorBillete>=$totalFactura){
+                    $cambio=$valorBillete-$totalFactura;
+                }else{
+                    $cambio=-1;
+                }
+                $_SESSION['cambio']=$cambio;
+                $_SESSION['billete']=$valorBillete;
+                
+                header('Location: ../View/Facturas/VistaPreviaFactura.php');
                 break;
 
             default:

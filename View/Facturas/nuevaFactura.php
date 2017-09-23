@@ -67,9 +67,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                 }
 
                 var bPreguntar = true;
-
                 window.onbeforeunload = preguntarAntesDeSalir;
-
                 function preguntarAntesDeSalir()
                 {
                     if (bPreguntar)
