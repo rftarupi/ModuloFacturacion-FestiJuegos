@@ -119,9 +119,9 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                         <label class="control-label">REPORTES<span class="caret"></span></label>
                                     </button>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownReportes">
-                                        <li><a href="../../View/Reportes/ReportesMovimientosProducto.php">Reportes</a></li>
-                                        <li><a href="../../View/Reportes/ReporteBodegueros.php">Reportes</a></li>
-                                        <li><a href="../../View/Reportes/ReporteProductos.php">Reportes</a></li>
+                                        <li><a href='reportesDiarios.php'>Reportes Diarios</a></li>
+                                        <li><a href='reportesMensuales.php'>Reportes Mensuales</a></li>
+                                        <li><a href='reportesAnuales.php'>Reportes Anuales</a></li>
                                     </ul>
                                 </div>
                             </div>
