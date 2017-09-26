@@ -224,7 +224,11 @@ and open the template in the editor.
                                         <table class="table table-striped table-bordered table-condensed table-condensed" id="servicio" cellspacing="0" width="100%">
                                             <thead>
                                                 <tr>
-                                                    <th>ACCIONES</th>
+                                                    <?php
+                                                    if($TIPO=="ADMINISTRADOR"){
+                                                        echo "<th>ACCIONES</th>";
+                                                    }
+                                                    ?>
                                                     <th>CÓDIGO SERVICIO</th>
                                                     <th>NOMBRE</th>
                                                     <th>DESCRIPCION</th>
@@ -243,7 +247,14 @@ and open the template in the editor.
                                                 foreach ($listado as $serv) {
                                                     ?>
                                                     <tr>
-                                                        <td><a href = "#editSERV" onclick = "obtener_datos_servicio('<?php echo $serv->getCOD_SERV(); ?>')" data-toggle = "modal"><span class = "glyphicon glyphicon-pencil">Editar</span></a></td>
+                                                        <?php
+                                                         if($TIPO=="ADMINISTRADOR"){
+//                                                             echo "<td><a href = '#editSERV' onclick = 'obtener_datos_servicio('". $serv->getCOD_SERV()."')' data-toggle = 'modal'><span class = 'glyphicon glyphicon-pencil'>Editar</span></a></td>";
+                                                            ?><td><a href = "#editSERV" onclick = "obtener_datos_servicio('<?php  echo $serv->getCOD_SERV(); ?>')" data-toggle = "modal"><span class = "glyphicon glyphicon-pencil">Editar</span></a></td>
+                                                         <?php
+                                                             }
+                                                         ?>
+                                                        <!--<td><a href = "#editSERV" onclick = "obtener_datos_servicio('<?php // echo $serv->getCOD_SERV(); ?>')" data-toggle = "modal"><span class = "glyphicon glyphicon-pencil">Editar</span></a></td>-->
                                                         <td><?php echo $serv->getCOD_SERV(); ?></td>
                                                         <td><?php echo $serv->getNOMBRE_SERV(); ?></td>
                                                         <td><?php echo $serv->getDESCRIPCION_SERV(); ?></td>
