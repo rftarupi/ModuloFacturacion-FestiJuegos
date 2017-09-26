@@ -228,8 +228,8 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                     $arrayFecha = explode(" ", $fecha, 2);
                                     ?>
                                 <h4> &emsp;&emsp;&emsp;&emsp;TOTAL A PAGAR: <small> $ <?php echo $fact_nv->getCOSTO_TOT_CAB_FACT(); ?></small></h4>
-                                <h4> &emsp;&emsp;&emsp;&emsp;DINERO RECIBIDO: <small> $ <?php echo $_SESSION['billete']; ?></small></h4>
-                                <h4> &emsp;&emsp;&emsp;&emsp;DINERO ENTREGADO: <small> $ <?php echo $_SESSION['cambio']; ?></small></h4>
+                                <h4> &emsp;&emsp;&emsp;&emsp;<small><?php if(isset($_SESSION['billete'])){ echo "DINERO RECIBIDO: $".$_SESSION['billete']; }  ?></small></h4>
+                                <h4> &emsp;&emsp;&emsp;&emsp;<small> <?php if(isset($_SESSION['cambio'])){  echo "DINERO ENTREGADO: $".$_SESSION['cambio']; } ?></small></h4>
                                 </p>
 
                                 <br><br><p>

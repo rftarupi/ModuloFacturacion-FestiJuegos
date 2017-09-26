@@ -207,7 +207,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                     $cliente = $clientesModel->getCliente($cabF->getCOD_CLI());
                                                     ?>
                                                     <tr>
-                                                        <td align="center"><a href="">Imprimir</a></td>
+                                                        <td align="center"><a href="../../controller/controller.php?opcion1=factura&opcion2=imprimir_factura&COD_FACT_TEMP=<?php echo $cabF->getCOD_CAB_FACT(); ?>">Imprimir</a></td>
                                                         <td><?php echo $cabF->getCOD_CAB_FACT(); ?></td>
                                                         <td><?php
                                                             if ($cabF->getESTADO_IMP_FAC() == 'S') {

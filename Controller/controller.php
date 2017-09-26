@@ -394,6 +394,15 @@ switch ($opcion1) {
                 </tr>
                 </tbody>";
                 break;
+            
+            case "imprimir_factura":
+                $COD_CAB_FACT = $_REQUEST['COD_FACT_TEMP'];
+                $listadoDet = $detallesModel->getDetallesFactura($COD_CAB_FACT);
+                $_SESSION['listadoDet'] = serialize($listadoDet);
+                $_SESSION['FAC_NOTA_VENTA']= $COD_CAB_FACT;
+                unset($_SESSION['COD_FACT_TEMP']);
+                header('Location: ../View/Facturas/VistaPreviaFactura.php');
+                break;
 
             case "finalizar_factura":
                 $COD_CAB_FACT = $_REQUEST['COD_FACT_TEMP'];
@@ -481,6 +490,8 @@ switch ($opcion1) {
                 
                 header('Location: ../View/Facturas/VistaPreviaFactura.php');
                 break;
+                
+            
 
             default:
                 header('Location: ../View/Facturas/inicioFacturas.php');
