@@ -316,10 +316,10 @@ and open the template in the editor.
 
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Costo </label>
+                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Costo por hora </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return SoloNumeros(event);" type="text" class="form-control" name="COSTO_SERV" placeholder="Ingrese el Costo del Servicio" required pattern="[1-9][0-9]{1,9}([.][0-9]{1,2})?" title="el costo debe contener máximo diez enteros y dos decimales separados por punto" />
+                                                    <input onkeypress="return SoloNumeros(event);" type="text" class="form-control" name="COSTO_SERV" placeholder="Ingrese el Costo por hora del Servicio" required pattern="[1-9][0-9]{1,9}([.][0-9]{1,2})?" title="el costo debe contener máximo diez enteros y dos decimales separados por punto" />
                                                 </div>
                                             </div>
                                         </div>
@@ -382,10 +382,10 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Costo </label>
+                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Costo por hora </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return SoloNumeros(event);" type="text" class="form-control" id="mod_costo" name="mod_costo" required pattern="[1-9][0-9]{1,9}([.][0-9]{1,2})?" title="el costo debe contener máximo diez enteros y dos decimales separados por punto" />
+                                                    <input onkeypress="return SoloNumeros(event);" type="text" class="form-control" id="mod_costo" name="mod_costo" required pattern="[1-9][0-9]{1,9}([.][0-9]{1,2})?" title="El costo debe contener máximo diez enteros y dos decimales separados por punto" />
                                                 </div>
                                             </div>
                                         </div>

@@ -468,7 +468,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Clave </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="password" class="form-control" name="CLAVE_USU" placeholder="Ingrese su Clave" required="true"/>
+                                                    <input type="password" class="form-control" name="CLAVE_USU" placeholder="Ingrese su Clave" minlength="8" required="true"/>
                                                 </div>
                                             </div>
                                         </div>
