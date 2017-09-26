@@ -400,7 +400,9 @@ switch ($opcion1) {
                 $listadoDet = $detallesModel->getDetallesFactura($COD_CAB_FACT);
                 $_SESSION['listadoDet'] = serialize($listadoDet);
                 $_SESSION['FAC_NOTA_VENTA']= $COD_CAB_FACT;
-                unset($_SESSION['COD_FACT_TEMP']);
+                unset($_SESSION['cambio']);
+                unset($_SESSION['billete']);
+                unset($_SESSION['']);
                 header('Location: ../View/Facturas/VistaPreviaFactura.php');
                 break;
 

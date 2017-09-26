@@ -172,8 +172,9 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                     <div class="col-lg-6">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <center><p class="lead"><h2><strong>FESTIJUEGOS</strong></h2><br>
-                                    <h4>DOCUMENTO SIN EFECTO TRIBUTARIO</h4> <br><h4>COMPROBANTE DE PAGO </h4> </p></center>
+                                <center><table> <tr> <td><img src="../../Imagenes/logo-FestiJuegos.PNG"></td> <td><h2><strong>FESTIJUEGOS</strong></td></tr></table></center>
+                                <!--<center><p class="lead"><img src="../../Imagenes/logo-FestiJuegos.PNG"><h2><strong>FESTIJUEGOS</strong></h2><br>-->
+                                    <center><br><h4>DOCUMENTO SIN EFECTO TRIBUTARIO</h4> <br><h4>COMPROBANTE DE PAGO </h4> </p></center>
                                 <br><p>
                                     <?php
                                     $fecha = $fact_nv->getFECHA_CAB_FACT();
@@ -228,8 +229,8 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                     $arrayFecha = explode(" ", $fecha, 2);
                                     ?>
                                 <h4> &emsp;&emsp;&emsp;&emsp;TOTAL A PAGAR: <small> $ <?php echo $fact_nv->getCOSTO_TOT_CAB_FACT(); ?></small></h4>
-                                <h4> &emsp;&emsp;&emsp;&emsp;<small><?php if(isset($_SESSION['billete'])){ echo "DINERO RECIBIDO: $".$_SESSION['billete']; }  ?></small></h4>
-                                <h4> &emsp;&emsp;&emsp;&emsp;<small> <?php if(isset($_SESSION['cambio'])){  echo "DINERO ENTREGADO: $".$_SESSION['cambio']; } ?></small></h4>
+                                <?php if(isset($_SESSION['billete'])){ echo "<h4> &emsp;&emsp;&emsp;&emsp;DINERO RECIBIDO: <small> $".$_SESSION['billete']."</small></h4>"; }  ?>
+                                <?php if(isset($_SESSION['cambio'])){  echo "<h4> &emsp;&emsp;&emsp;&emsp;DINERO ENTREGADO: <small> $".$_SESSION['cambio']."</small></h4>"; } ?>
                                 </p>
 
                                 <br><br><p>
