@@ -150,7 +150,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                      donde lg es en tamaño de escritorio, md medianos, sm tablets, xs celulares -->
                 <br>
                 <div class="row" id="filtrado">
-                    <div class="col-lg-6 col-lg-offset-3">
+                    <div class="col-lg-8 col-lg-offset-3">
                         <form action="../../Controller/controller.php" class="form-inline">
                             <input type="hidden" name="opcion1" value="factura" />
                             <input type="hidden" name="opcion2" value="reporteMensual" />
