@@ -57,39 +57,39 @@ and open the template in the editor.
                     padding-top: 50px;
                 }
             </style>
-            
+
             <script language="javascript">
                 function ValidarLongitud(des) {
                     var des = des;
                     array = des.split("");
                     num = array.length;
-                   
-                   if(num<=199){
-                       return true;
-                   }else{
+
+                    if (num <= 199) {
+                        return true;
+                    } else {
                         swal({
-                    title: "Aviso",
-                    text: "La longitud en este campo es de máximo 200 caracteres",
-                    type: "info",
-                    confirmButtonText: "Ok"});
-                       return false;
-                   }
+                            title: "Aviso",
+                            text: "La longitud en este campo es de máximo 200 caracteres",
+                            type: "info",
+                            confirmButtonText: "Ok"});
+                        return false;
+                    }
                 }
                 function ValidarLongitudNombre(des) {
                     var des = des;
                     array = des.split("");
                     num = array.length;
-                   
-                   if(num<=49){
-                       return true;
-                   }else{
+
+                    if (num <= 49) {
+                        return true;
+                    } else {
                         swal({
-                    title: "Aviso",
-                    text: "La longitud en este campo es de máximo 50 caracteres",
-                    type: "info",
-                    confirmButtonText: "Ok"});
-                       return false;
-                   }
+                            title: "Aviso",
+                            text: "La longitud en este campo es de máximo 50 caracteres",
+                            type: "info",
+                            confirmButtonText: "Ok"});
+                        return false;
+                    }
                 }
             </script>
         </head>
@@ -225,7 +225,7 @@ and open the template in the editor.
                                             <thead>
                                                 <tr>
                                                     <?php
-                                                    if($TIPO=="ADMINISTRADOR"){
+                                                    if ($TIPO == "Administrador") {
                                                         echo "<th>ACCIONES</th>";
                                                     }
                                                     ?>
@@ -248,13 +248,13 @@ and open the template in the editor.
                                                     ?>
                                                     <tr>
                                                         <?php
-                                                         if($TIPO=="ADMINISTRADOR"){
-//                                                             echo "<td><a href = '#editSERV' onclick = 'obtener_datos_servicio('". $serv->getCOD_SERV()."')' data-toggle = 'modal'><span class = 'glyphicon glyphicon-pencil'>Editar</span></a></td>";
-                                                            ?><td><a href = "#editSERV" onclick = "obtener_datos_servicio('<?php  echo $serv->getCOD_SERV(); ?>')" data-toggle = "modal"><span class = "glyphicon glyphicon-pencil">Editar</span></a></td>
-                                                         <?php
-                                                             }
-                                                         ?>
-                                                        <!--<td><a href = "#editSERV" onclick = "obtener_datos_servicio('<?php // echo $serv->getCOD_SERV(); ?>')" data-toggle = "modal"><span class = "glyphicon glyphicon-pencil">Editar</span></a></td>-->
+                                                        if ($TIPO == "Administrador") {
+                                                            ?>
+                                                            <td><a href = "#editSERV" onclick = "obtener_datos_servicio('<?php echo $serv->getCOD_SERV(); ?>')" data-toggle = "modal"><span class = "glyphicon glyphicon-pencil">Editar</span></a></td>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                        <!--<td><a href = "#editSERV" onclick = "obtener_datos_servicio('<?php // echo $serv->getCOD_SERV();  ?>')" data-toggle = "modal"><span class = "glyphicon glyphicon-pencil">Editar</span></a></td>-->
                                                         <td><?php echo $serv->getCOD_SERV(); ?></td>
                                                         <td><?php echo $serv->getNOMBRE_SERV(); ?></td>
                                                         <td><?php echo $serv->getDESCRIPCION_SERV(); ?></td>
@@ -314,14 +314,14 @@ and open the template in the editor.
                                                     <input onkeypress="return ValidarLongitudNombre(this.form.NOMBRE_SERV.value);" id="NOMBRE_SERV" type="text" class="form-control" name="NOMBRE_SERV" placeholder="Ingrese el Nombre del Servicio" required/>
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Descripción </label>
                                                 </div>
                                                 <div class="col-md-7">
                                                     <input onkeypress="return ValidarLongitud(this.form.DESCRIPCION_SERV.value);" id="DESCRIPCION_SERV" name="DESCRIPCION_SERV" type="text" class="form-control" name="DESCRIPCION_SERV" placeholder="Ingrese una descripción para el Servicio" required/>
-                                                   
+
                                                 </div>
                                             </div>
 
@@ -330,7 +330,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Costo por hora </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return SoloNumeros(event);" type="text" class="form-control" name="COSTO_SERV" placeholder="Ingrese el Costo por hora del Servicio" required pattern="[1-9][0-9]{1,9}([.][0-9]{1,2})?" title="el costo debe contener máximo diez enteros y dos decimales separados por punto" />
+                                                    <input onkeypress="return SoloNumeros(event);" type="text" class="form-control" name="COSTO_SERV" placeholder="Ingrese el Costo por hora del Servicio" required pattern="[1-9][0-9]{0,9}([.][0-9]{1,2})?" title="el costo debe contener máximo diez enteros y dos decimales separados por punto" />
                                                 </div>
                                             </div>
                                         </div>
@@ -388,7 +388,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Descripción </label>
                                                 </div>
                                                 <div class="col-md-7">                                                   
-                                                    <input onkeypress="return ValidarLongitud(this.form.mod_descripcion.value); "type="text" class="form-control" id="mod_descripcion" name="mod_descripcion"  required/>
+                                                    <input onkeypress="return ValidarLongitud(this.form.mod_descripcion.value);"type="text" class="form-control" id="mod_descripcion" name="mod_descripcion"  required/>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -396,7 +396,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Costo por hora </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return SoloNumeros(event);" type="text" class="form-control" id="mod_costo" name="mod_costo" required pattern="[1-9][0-9]{1,9}([.][0-9]{1,2})?" title="El costo debe contener máximo diez enteros y dos decimales separados por punto" />
+                                                    <input onkeypress="return SoloNumeros(event);" type="text" class="form-control" id="mod_costo" name="mod_costo" required pattern="[1-9][0-9]{0,9}([.][0-9]{1,2})?" title="El costo debe contener máximo diez enteros y dos decimales separados por punto" />
                                                 </div>
                                             </div>
                                         </div>
