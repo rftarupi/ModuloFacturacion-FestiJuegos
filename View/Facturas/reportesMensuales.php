@@ -150,7 +150,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                      donde lg es en tamaño de escritorio, md medianos, sm tablets, xs celulares -->
                 <br>
                 <div class="row" id="filtrado">
-                    <div class="col-lg-8 col-lg-offset-3">
+                    <div class="col-lg-8 col-lg-offset-2">
                         <form action="../../Controller/controller.php" class="form-inline">
                             <input type="hidden" name="opcion1" value="factura" />
                             <input type="hidden" name="opcion2" value="reporteMensual" />
@@ -177,6 +177,9 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                             </div>
                             <div class="form-group">
                                 <input type="submit" class="btn btn-success" value="Filtrar Facturas">
+                            </div>
+                            <div class="form-group">
+                                <a class="btn btn-danger" href='../../Controller/controller.php?opcion1=factura&opcion2=exportar_pdf&tr=mensual' target='_blank' ><span class='glyphicon glyphicon glyphicon-open-file'></span> EXPORTAR A PDF</a>
                             </div>
                         </form>
                     </div>
@@ -214,7 +217,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                     $listado = unserialize($_SESSION['listadoFiltradoFacturasMensual']);
                                                 } else {
                                                     $listado = $cabFacturasModel->getFiltradoFacturasMensual(date("Y-m"), date("Y-m"));
-                                                    $_SESSION['listadoFiltradoFacturasMensual']=  serialize($listado);
+                                                    $_SESSION['listadoFiltradoFacturasMensual'] = serialize($listado);
                                                 }
 
                                                 $sumaTotalReporte = 0;
@@ -253,7 +256,12 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                             <h2>TOTAL:</h2>
                                         </div>
                                         <div class="col-lg-1">
-                                            <h2><?php echo $sumaTotalReporte; ?></h2>
+                                            <h2>
+                                                <?php
+                                                echo $sumaTotalReporte;
+                                                $_SESSION['totalFacturasFiltrado']=$sumaTotalReporte;
+                                                ?>
+                                            </h2>
                                         </div>
                                     </div>
                                 </div>

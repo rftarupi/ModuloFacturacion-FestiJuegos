@@ -493,7 +493,17 @@ switch ($opcion1) {
                 header('Location: ../View/Facturas/VistaPreviaFactura.php');
                 break;
                 
-            
+            case "exportar_pdf":
+                $tr=$_REQUEST['tr'];
+                if($tr=="diario"){
+                    $_SESSION['ListadoImprimirFiltrado']=$_SESSION['listadoFiltradoFacturasDiario'];
+                }else if($tr=="mensual") {
+                    $_SESSION['ListadoImprimirFiltrado']=$_SESSION['listadoFiltradoFacturasMensual'];
+                }else if($tr=="anual"){
+                    $_SESSION['ListadoImprimirFiltrado']=$_SESSION['listadoFiltradoFacturasAnual'];
+                }
+                header('Location: ../View/Facturas/pdf_facturas_filtradas.php');
+                break;
 
             default:
                 header('Location: ../View/Facturas/inicioFacturas.php');
