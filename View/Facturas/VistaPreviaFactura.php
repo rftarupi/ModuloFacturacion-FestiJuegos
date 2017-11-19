@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <?php
+require '../../Dependencias/printer/autoload.php';
+
+use Mike42\Escpos\Printer;
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use Mike42\Escpos\EscposImage;
+
 session_start();
 if (isset($_SESSION['USUARIO_ACTIVO'])) {
     include_once '../../Model/CabFactura.php';
@@ -11,6 +17,12 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
     include_once '../../Model/Usuario.php';
     include_once '../../Model/UsuariosModel.php';
     include_once '../../Model/FacturaDetallesModel.php';
+
+    $nombre_impresora = "POS-80";
+
+    $connector = new WindowsPrintConnector($nombre_impresora);
+    $printer = new Printer($connector);
+
     $cabFacturasModel = new CabFacturasModel();
     $serviciosModel = new ServiciosModel();
     $clientesModel = new ClientesModel();
@@ -173,12 +185,18 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <center><table> <tr> <td><img src="../../Imagenes/logo-FestiJuegos.PNG"></td> <td><h2><strong>FESTIJUEGOS</strong></td></tr></table></center>
-                                <!--<center><p class="lead"><img src="../../Imagenes/logo-FestiJuegos.PNG"><h2><strong>FESTIJUEGOS</strong></h2><br>-->
-                                    <center><br><h4>DOCUMENTO SIN EFECTO TRIBUTARIO</h4> <br><h4>COMPROBANTE DE PAGO </h4> </p></center>
+                                <?php
+                                $printer->setJustification(Printer::JUSTIFY_CENTER);
+                                $logo = EscposImage::load("img/logo.png", false);
+                                $printer->bitImage($logo);
+                                $printer->text("DOCUMENTO SIN EFECTO TRIBUTARIO\nCOMPROBANTE DE PAGO");
+                                $printer->feed(2);
+                                ?>
+
+                                <center><br><h4>DOCUMENTO SIN EFECTO TRIBUTARIO</h4> <br><h4>COMPROBANTE DE PAGO </h4> </p></center>
                                 <br><p>
                                     <?php
                                     $fecha = $fact_nv->getFECHA_CAB_FACT();
-                                    ;
                                     $arrayFecha = explode(" ", $fecha, 2);
                                     ?>
                                 <h4> &emsp;&emsp;&emsp;&emsp;FACTURA: <small> <?php echo $fact_nv->getCOD_CAB_FACT(); ?></small></h4>
@@ -187,6 +205,16 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                 <h4> &emsp;&emsp;&emsp;&emsp;HORA: <small> <?php echo $arrayFecha[1]; ?> </small></h4>  
                                 <h4> &emsp;&emsp;&emsp;&emsp;CAJERO: <small> <?php echo $NOM; ?> </small></h4>
                                 </p><br>
+
+                                <?php
+                                $printer->setJustification(Printer::JUSTIFY_LEFT);
+                                $printer->text("FACTURA: " . $fact_nv->getCOD_CAB_FACT() . "\n");
+                                $printer->text("CLIENTE: " . $cli_nv->getNOMBRES_CLI() . "\n");
+                                $printer->text("FECHA: " . $arrayFecha[0] . "\n");
+                                $printer->text("HORA: " . $arrayFecha[1] . "\n");
+                                $printer->text("CAJERO: " . $NOM . "\n");
+                                $printer->feed(2);
+                                ?>
 
                                 <center><table width="80%" border="0">
                                         <thead>
@@ -199,6 +227,12 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                         </thead>
                                         <tbody>
                                             <?php
+                                            $printer->text("SERVICIO  ");
+                                            $printer->text("TIEMPO  ");
+                                            $printer->text("COSTO HORA  ");
+                                            $printer->text("TOTAL");
+                                            $printer->feed(2);
+
                                             if (isset($_SESSION['listadoDet'])) {
                                                 $listado = unserialize($_SESSION['listadoDet']);
                                                 foreach ($listado as $Det) {
@@ -208,6 +242,11 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                     echo "<td>" . '$ ' . $Det->getCOSTO_HORA_DET_FACT() . "</td>";
                                                     echo "<td>" . '$ ' . $Det->getCOSTO_TOT_DET_FACT() . "</td>";
                                                     echo "</tr>";
+
+                                                    $printer->text($Det->getNOMBRE_SERV() . " ");
+                                                    $printer->text($detallesModel->GetTiempoDetalle($Det->getTIEMPO_DET_FACT()) . " ");
+                                                    $printer->text("$" . $Det->getCOSTO_HORA_DET_FACT() . " ");
+                                                    $printer->text("$" . $Det->getCOSTO_TOT_DET_FACT() . "\n");
                                                 }
                                                 echo "<tr>";
                                                 echo "<td></td>";
@@ -215,6 +254,10 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                 echo "<td><strong>TOTAL</strong></td>";
                                                 echo "<td> $ " . $fact_nv->getCOSTO_TOT_CAB_FACT() . "</td>";
                                                 echo "</tr>";
+
+                                                $printer->setJustification(Printer::JUSTIFY_RIGHT);
+                                                $printer->text("TOTAL: $" . $fact_nv->getCOSTO_TOT_CAB_FACT() . "\n");
+                                                $printer->feed(2);
                                             } else {
                                                 
                                             }
@@ -229,24 +272,43 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                     $arrayFecha = explode(" ", $fecha, 2);
                                     ?>
                                 <h4> &emsp;&emsp;&emsp;&emsp;TOTAL A PAGAR: <small> $ <?php echo $fact_nv->getCOSTO_TOT_CAB_FACT(); ?></small></h4>
-                                <?php if(isset($_SESSION['billete'])){ echo "<h4> &emsp;&emsp;&emsp;&emsp;DINERO RECIBIDO: <small> $".$_SESSION['billete']."</small></h4>"; }  ?>
-                                <?php if(isset($_SESSION['cambio'])){  echo "<h4> &emsp;&emsp;&emsp;&emsp;DINERO ENTREGADO: <small> $".$_SESSION['cambio']."</small></h4>"; } ?>
-                                </p>
+                                <?php
+                                $printer->setJustification(Printer::JUSTIFY_LEFT);
+                                $printer->text("TOTAL A PAGAR: $" . $fact_nv->getCOSTO_TOT_CAB_FACT() . "\n");
 
+                                if (isset($_SESSION['billete'])) {
+                                    echo "<h4> &emsp;&emsp;&emsp;&emsp;DINERO RECIBIDO: <small> $" . $_SESSION['billete'] . "</small></h4>";
+                                    $printer->text("DINERO RECIBIDO: $" . $_SESSION['billete'] . "\n");
+                                }
+                                ?>
+                                <?php
+                                if (isset($_SESSION['cambio'])) {
+                                    echo "<h4> &emsp;&emsp;&emsp;&emsp;DINERO ENTREGADO: <small> $" . $_SESSION['cambio'] . "</small></h4>";
+                                    $printer->text("DINERO ENTREGADO: $" . $_SESSION['cambio'] . "\n");
+                                }
+                                ?>
+                                </p>
+                                <?php
+                                $printer->feed(2);
+                                $printer->setJustification(Printer::JUSTIFY_CENTER);
+                                $printer->text("Es un placer atenderle, visite nuestra página para estar enterado de nuestros descuentos y promociones.");
+                                $printer->feed(2);
+                                $printer->close();
+                                ?>
                                 <br><br><p>
                                 <center><h4>Es un placer atenderle, visite nuestra página para estar enterado de nuestros descuentos y promociones.</h4></center>
                                 </p>
                             </div>
                         </div>
                         <?php
-                        if(isset($_SESSION['cambio'])){
-                            if($_SESSION['cambio']!=-1){
+                        if (isset($_SESSION['cambio'])) {
+                            if ($_SESSION['cambio'] != -1) {
                                 echo "<script>swal({title: 'Cambio Monetario Exitoso',
-                                    text: 'El cambio que debe entregar es: $ ".$_SESSION['cambio']."',
+                                    text: 'El cambio que debe entregar es: $ " . $_SESSION['cambio'] . "',
                                     type: 'success',
                                     confirmButtonText: 'Ok'});
                                     </script>";
-                            }else{
+                            } else {
                                 echo "<script>swal({title: 'Cambio Monetario Fallido',
                                     text: 'El billete recibido debe ser mayor al total de la factura',
                                     type: 'error',
