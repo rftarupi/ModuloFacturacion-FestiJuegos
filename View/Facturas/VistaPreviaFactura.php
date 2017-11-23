@@ -213,7 +213,6 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                 $printer->text("FECHA: " . $arrayFecha[0] . "\n");
                                 $printer->text("HORA: " . $arrayFecha[1] . "\n");
                                 $printer->text("CAJERO: " . $NOM . "\n");
-                                $printer->feed(2);
                                 ?>
 
                                 <center><table width="80%" border="0">
@@ -227,15 +226,18 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $printer->text("SERVICIO  ");
-                                            $printer->text("TIEMPO  ");
-                                            $printer->text("COSTO HORA  ");
-                                            $printer->text("TOTAL");
-                                            $printer->feed(2);
+                                            $printer->text("================================\n");
+                                            $printer->text("SERVICIO ");
+                                            $printer->text("TIEMPO ");
+                                            $printer->text("COSTO_HORA ");
+                                            $printer->text("TOTAL\n");
+                                            $printer->text("================================\n");
 
                                             if (isset($_SESSION['listadoDet'])) {
                                                 $listado = unserialize($_SESSION['listadoDet']);
+                                                $inicio = true;
                                                 foreach ($listado as $Det) {
+                                                    $aux = " ";
                                                     echo "<tr>";
                                                     echo "<td>" . $Det->getNOMBRE_SERV() . "</td>";
                                                     echo "<td>" . $detallesModel->GetTiempoDetalle($Det->getTIEMPO_DET_FACT()) . "</td>"; //AQUI ES
@@ -243,10 +245,74 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                     echo "<td>" . '$ ' . $Det->getCOSTO_TOT_DET_FACT() . "</td>";
                                                     echo "</tr>";
 
-                                                    $printer->text($Det->getNOMBRE_SERV() . " ");
-                                                    $printer->text($detallesModel->GetTiempoDetalle($Det->getTIEMPO_DET_FACT()) . " ");
-                                                    $printer->text("$" . $Det->getCOSTO_HORA_DET_FACT() . " ");
-                                                    $printer->text("$" . $Det->getCOSTO_TOT_DET_FACT() . "\n");
+                                                    // Impresion del Nombre de servicio
+                                                    if (strlen($Det->getNOMBRE_SERV()) == 8) {
+                                                        $printer->text($Det->getNOMBRE_SERV() . " ");
+                                                    } else if (strlen($Det->getNOMBRE_SERV()) < 8) {
+                                                        $printer->text($Det->getNOMBRE_SERV() . " ");
+                                                        for ($i = strlen($Det->getNOMBRE_SERV()); $i < 8; $i++) {
+                                                            $printer->text(" ");
+                                                        }
+                                                    } else {
+                                                        $printer->text(substr($Det->getNOMBRE_SERV(), 0, 8) . " ");
+                                                    }
+
+                                                    // Impresion del tiempo de servicio
+                                                    if (strlen($detallesModel->GetTiempoDetalle($Det->getTIEMPO_DET_FACT())) == 6) {
+                                                        $printer->text($detallesModel->GetTiempoDetalle($Det->getTIEMPO_DET_FACT()) . " ");
+                                                    } else if (strlen($detallesModel->GetTiempoDetalle($Det->getTIEMPO_DET_FACT())) < 6) {
+                                                        $printer->text($detallesModel->GetTiempoDetalle($Det->getTIEMPO_DET_FACT()) . " ");
+                                                        for ($i = strlen($detallesModel->GetTiempoDetalle($Det->getTIEMPO_DET_FACT())); $i < 6; $i++) {
+                                                            $printer->text(" ");
+                                                        }
+                                                    } else {
+                                                        $printer->text(substr($detallesModel->GetTiempoDetalle($Det->getTIEMPO_DET_FACT()), 0, 6) . " ");
+                                                    }
+
+                                                    // Impresión de costo por hora y total
+                                                    if ($inicio) {
+                                                        if (strlen($Det->getCOSTO_HORA_DET_FACT()) == 7) {
+                                                            $printer->text("$ " . $Det->getCOSTO_HORA_DET_FACT() . " ");
+                                                        } else if (strlen($Det->getCOSTO_HORA_DET_FACT()) < 7) {
+                                                            if (strlen($Det->getCOSTO_HORA_DET_FACT()) == 4) {
+                                                                $printer->text("$ " . $Det->getCOSTO_HORA_DET_FACT() . " ");
+                                                            } else if (strlen($Det->getCOSTO_HORA_DET_FACT()) == 5) {
+                                                                $printer->text("$" . $Det->getCOSTO_HORA_DET_FACT() . " ");
+                                                            }
+                                                            for ($i = strlen($Det->getCOSTO_HORA_DET_FACT()); $i < 7; $i++) {
+                                                                $printer->text(" ");
+                                                            }
+                                                        } else {
+                                                            $printer->text(substr($Det->getCOSTO_HORA_DET_FACT(), 0, 7) . " ");
+                                                        }
+
+                                                        if (strlen($Det->getCOSTO_TOT_DET_FACT()) == 4) {
+                                                            $printer->text("$ " . $Det->getCOSTO_TOT_DET_FACT() . "\n");
+                                                        } else if (strlen($Det->getCOSTO_TOT_DET_FACT()) == 5) {
+                                                            $printer->text("$" . $Det->getCOSTO_TOT_DET_FACT() . "\n");
+                                                        }
+                                                    } else {
+                                                        if (strlen($Det->getCOSTO_HORA_DET_FACT()) == 7) {
+                                                            $printer->text(" " . $Det->getCOSTO_HORA_DET_FACT() . " ");
+                                                        } else if (strlen($Det->getCOSTO_HORA_DET_FACT()) < 7) {
+                                                            if (strlen($Det->getCOSTO_HORA_DET_FACT()) == 4) {
+                                                                $printer->text("  " . $Det->getCOSTO_HORA_DET_FACT() . " ");
+                                                            } else if (strlen($Det->getCOSTO_HORA_DET_FACT()) == 5) {
+                                                                $printer->text(" " . $Det->getCOSTO_HORA_DET_FACT() . " ");
+                                                            }
+                                                            for ($i = strlen($Det->getCOSTO_HORA_DET_FACT()); $i < 7; $i++) {
+                                                                $printer->text(" ");
+                                                            }
+                                                        } else {
+                                                            $printer->text(substr($Det->getCOSTO_HORA_DET_FACT(), 0, 7) . " ");
+                                                        }
+                                                        if (strlen($Det->getCOSTO_TOT_DET_FACT()) == 4) {
+                                                            $printer->text("  " . $Det->getCOSTO_TOT_DET_FACT() . "\n");
+                                                        } else if (strlen($Det->getCOSTO_TOT_DET_FACT()) == 5) {
+                                                            $printer->text(" " . $Det->getCOSTO_TOT_DET_FACT() . "\n");
+                                                        }
+                                                    }
+                                                    $inicio = false;
                                                 }
                                                 echo "<tr>";
                                                 echo "<td></td>";
@@ -256,6 +322,8 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                 echo "</tr>";
 
                                                 $printer->setJustification(Printer::JUSTIFY_RIGHT);
+                                                $printer->text("================================\n");
+                                                $printer->setTextSize(2, 2);
                                                 $printer->text("TOTAL: $" . $fact_nv->getCOSTO_TOT_CAB_FACT() . "\n");
                                                 $printer->feed(2);
                                             } else {
@@ -273,12 +341,18 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                     ?>
                                 <h4> &emsp;&emsp;&emsp;&emsp;TOTAL A PAGAR: <small> $ <?php echo $fact_nv->getCOSTO_TOT_CAB_FACT(); ?></small></h4>
                                 <?php
+                                $printer->setTextSize(1, 1);
                                 $printer->setJustification(Printer::JUSTIFY_LEFT);
-                                $printer->text("TOTAL A PAGAR: $" . $fact_nv->getCOSTO_TOT_CAB_FACT() . "\n");
+                                $printer->text("TOTAL A PAGAR:");
+                                $printer->setJustification(Printer::JUSTIFY_RIGHT);
+                                $printer->text("$ " . $fact_nv->getCOSTO_TOT_CAB_FACT() . "\n");
 
                                 if (isset($_SESSION['billete'])) {
                                     echo "<h4> &emsp;&emsp;&emsp;&emsp;DINERO RECIBIDO: <small> $" . $_SESSION['billete'] . "</small></h4>";
-                                    $printer->text("DINERO RECIBIDO: $" . $_SESSION['billete'] . "\n");
+                                    $printer->setJustification(Printer::JUSTIFY_LEFT);
+                                    $printer->text("DINERO RECIBIDO:");
+                                    $printer->setJustification(Printer::JUSTIFY_RIGHT);
+                                    $printer->text("$ " . $_SESSION['billete'] . "\n");
                                 }
                                 ?>
                                 <?php
@@ -292,7 +366,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                 $printer->feed(2);
                                 $printer->setJustification(Printer::JUSTIFY_CENTER);
                                 $printer->text("Es un placer atenderle, visite nuestra página para estar enterado de nuestros descuentos y promociones.");
-                                $printer->feed(2);
+                                $printer->feed(4);
                                 $printer->close();
                                 ?>
                                 <br><br><p>
@@ -307,15 +381,6 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                     text: 'El cambio que debe entregar es: $ " . $_SESSION['cambio'] . "',
                                     type: 'success',
                                     confirmButtonText: 'Ok'});
-                                    </script>";
-                            } else {
-                                echo "<script>swal({title: 'Cambio Monetario Fallido',
-                                    text: 'El billete recibido debe ser mayor al total de la factura',
-                                    type: 'error',
-                                    confirmButtonText: 'Ok'},
-                                    function(){
-                                    window.location.href = 'cambio_monetario.php';
-                                    });
                                     </script>";
                             }
                         }

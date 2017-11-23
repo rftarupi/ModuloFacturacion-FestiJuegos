@@ -68,6 +68,23 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                     </form>
                 </div>
             </div>
+
+            <?php
+            if (isset($_SESSION['cambio'])) {
+                if ($_SESSION['cambio'] == -1) {
+                    echo "<script>swal({title: 'Cambio Monetario Fallido',
+                                    text: 'El billete recibido debe ser mayor al total de la factura',
+                                    type: 'error',
+                                    confirmButtonText: 'Ok'},
+                                    function(){
+                                    window.location.href = 'cambio_monetario.php';
+                                    });
+                                    </script>";
+                }
+                unset($_SESSION['cambio']);
+            }
+            ?>
+
         </body>
     </html>
     <?php

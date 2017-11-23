@@ -426,6 +426,7 @@ switch ($opcion1) {
                         $_SESSION['listadoDet'] = serialize($listadoDet);
                         $_SESSION['FAC_NOTA_VENTA']= $COD_CAB_FACT;
                         unset($_SESSION['COD_FACT_TEMP']);
+                        unset($_SESSION['cambio']);
                         header('Location: ../View/Facturas/cambio_monetario.php');
                     } else {
                         $_SESSION['ErrorDetalleAjuste'] = "Error, no se encontraron detalles, ingrese al menos un detalle";
@@ -490,7 +491,11 @@ switch ($opcion1) {
                 $_SESSION['cambio']=$cambio;
                 $_SESSION['billete']=$valorBillete;
                 
-                header('Location: ../View/Facturas/VistaPreviaFactura.php');
+                if($_SESSION['cambio']==-1){
+                    header('Location: ../View/Facturas/cambio_monetario.php');
+                }else{
+                    header('Location: ../View/Facturas/VistaPreviaFactura.php');
+                }
                 break;
                 
             case "exportar_pdf":
