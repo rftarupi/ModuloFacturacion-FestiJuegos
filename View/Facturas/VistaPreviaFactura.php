@@ -271,45 +271,50 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
 
                                                     // Impresión de costo por hora y total
                                                     if ($inicio) {
-                                                        if (strlen($Det->getCOSTO_HORA_DET_FACT()) == 7) {
-                                                            $printer->text("$ " . $Det->getCOSTO_HORA_DET_FACT() . " ");
-                                                        } else if (strlen($Det->getCOSTO_HORA_DET_FACT()) < 7) {
+                                                        if (strlen($Det->getCOSTO_HORA_DET_FACT()) == 6) {
+                                                            $printer->text("$" . $Det->getCOSTO_HORA_DET_FACT());
+                                                        } else if (strlen($Det->getCOSTO_HORA_DET_FACT()) < 6) {
                                                             if (strlen($Det->getCOSTO_HORA_DET_FACT()) == 4) {
-                                                                $printer->text("$ " . $Det->getCOSTO_HORA_DET_FACT() . " ");
+                                                                $printer->text("$  " . $Det->getCOSTO_HORA_DET_FACT());
                                                             } else if (strlen($Det->getCOSTO_HORA_DET_FACT()) == 5) {
-                                                                $printer->text("$" . $Det->getCOSTO_HORA_DET_FACT() . " ");
+                                                                $printer->text("$ " . $Det->getCOSTO_HORA_DET_FACT());
                                                             }
-                                                            for ($i = strlen($Det->getCOSTO_HORA_DET_FACT()); $i < 7; $i++) {
+                                                            
+                                                            for ($i = strlen($Det->getCOSTO_HORA_DET_FACT()); $i < 6; $i++) {
                                                                 $printer->text(" ");
                                                             }
                                                         } else {
-                                                            $printer->text(substr($Det->getCOSTO_HORA_DET_FACT(), 0, 7) . " ");
+                                                            $printer->text(substr($Det->getCOSTO_HORA_DET_FACT(), 0, 6));
                                                         }
 
                                                         if (strlen($Det->getCOSTO_TOT_DET_FACT()) == 4) {
-                                                            $printer->text("$ " . $Det->getCOSTO_TOT_DET_FACT() . "\n");
+                                                            $printer->text("$  " . $Det->getCOSTO_TOT_DET_FACT() . "\n");
                                                         } else if (strlen($Det->getCOSTO_TOT_DET_FACT()) == 5) {
-                                                            $printer->text("$" . $Det->getCOSTO_TOT_DET_FACT() . "\n");
+                                                            $printer->text("$ " . $Det->getCOSTO_TOT_DET_FACT() . "\n");
+                                                        }else if (strlen($Det->getCOSTO_TOT_DET_FACT()) == 6) {
+                                                            $printer->text("  $" . $Det->getCOSTO_TOT_DET_FACT() . "\n");
                                                         }
                                                     } else {
-                                                        if (strlen($Det->getCOSTO_HORA_DET_FACT()) == 7) {
-                                                            $printer->text(" " . $Det->getCOSTO_HORA_DET_FACT() . " ");
-                                                        } else if (strlen($Det->getCOSTO_HORA_DET_FACT()) < 7) {
+                                                        if (strlen($Det->getCOSTO_HORA_DET_FACT()) == 6) {
+                                                            $printer->text(" " . $Det->getCOSTO_HORA_DET_FACT());
+                                                        } else if (strlen($Det->getCOSTO_HORA_DET_FACT()) < 6) {
                                                             if (strlen($Det->getCOSTO_HORA_DET_FACT()) == 4) {
-                                                                $printer->text("  " . $Det->getCOSTO_HORA_DET_FACT() . " ");
+                                                                $printer->text("   " . $Det->getCOSTO_HORA_DET_FACT());
                                                             } else if (strlen($Det->getCOSTO_HORA_DET_FACT()) == 5) {
-                                                                $printer->text(" " . $Det->getCOSTO_HORA_DET_FACT() . " ");
+                                                                $printer->text("  " . $Det->getCOSTO_HORA_DET_FACT());
                                                             }
-                                                            for ($i = strlen($Det->getCOSTO_HORA_DET_FACT()); $i < 7; $i++) {
+                                                            for ($i = strlen($Det->getCOSTO_HORA_DET_FACT()); $i < 6; $i++) {
                                                                 $printer->text(" ");
                                                             }
                                                         } else {
-                                                            $printer->text(substr($Det->getCOSTO_HORA_DET_FACT(), 0, 7) . " ");
+                                                            $printer->text(substr($Det->getCOSTO_HORA_DET_FACT(), 0, 6));
                                                         }
                                                         if (strlen($Det->getCOSTO_TOT_DET_FACT()) == 4) {
-                                                            $printer->text("  " . $Det->getCOSTO_TOT_DET_FACT() . "\n");
+                                                            $printer->text("   " . $Det->getCOSTO_TOT_DET_FACT() . "\n");
                                                         } else if (strlen($Det->getCOSTO_TOT_DET_FACT()) == 5) {
-                                                            $printer->text(" " . $Det->getCOSTO_TOT_DET_FACT() . "\n");
+                                                            $printer->text("  " . $Det->getCOSTO_TOT_DET_FACT() . "\n");
+                                                        }else if (strlen($Det->getCOSTO_TOT_DET_FACT()) == 6) {
+                                                            $printer->text("   " . $Det->getCOSTO_TOT_DET_FACT() . "\n");
                                                         }
                                                     }
                                                     $inicio = false;
