@@ -229,6 +229,7 @@ and open the template in the editor.
                                                         echo "<th>ACCIONES</th>";
                                                     }
                                                     ?>
+                                                    <th>ACCIONES</th>
                                                     <th>CÓDIGO SERVICIO</th>
                                                     <th>NOMBRE</th>
                                                     <th>DESCRIPCION</th>
@@ -246,9 +247,9 @@ and open the template in the editor.
                                                 }
                                                 foreach ($listado as $serv) {
                                                     ?>
-                                                    <tr>
+                                                    <tr> 
                                                         <?php
-                                                        if ($TIPO == "Administrador") {
+                                                        if ($TIPO == "ADMINISTRADOR") {
                                                             ?>
                                                             <td><a href = "#editSERV" onclick = "obtener_datos_servicio('<?php echo $serv->getCOD_SERV(); ?>')" data-toggle = "modal"><span class = "glyphicon glyphicon-pencil">Editar</span></a></td>
                                                             <?php
@@ -380,7 +381,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Nombre </label>
                                                 </div>
                                                 <div class="col-md-7">                                                    
-                                                    <input onkeypress="return ValidarLongitudNombre(this.form.mod_nombre.value);" type="text" class="form-control" id="mod_nombre" name="mod_nombre"  required/>
+                                                    <input onkeypress="return ValidarLongitudNombre(this.form.mod_nombre.value);" type="text" class="form-control" id="mod_nombre" name="mod_nombre" placeholder="Ingrese el Nombre del Servicio" required/>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -388,7 +389,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Descripción </label>
                                                 </div>
                                                 <div class="col-md-7">                                                   
-                                                    <input onkeypress="return ValidarLongitud(this.form.mod_descripcion.value);"type="text" class="form-control" id="mod_descripcion" name="mod_descripcion"  required/>
+                                                    <input onkeypress="return ValidarLongitud(this.form.mod_descripcion.value);"type="text" class="form-control" id="mod_descripcion" name="mod_descripcion"  placeholder="Ingrese una descripción para el Servicio" required/>
                                                 </div>
                                             </div>
                                             <div class="form-group">

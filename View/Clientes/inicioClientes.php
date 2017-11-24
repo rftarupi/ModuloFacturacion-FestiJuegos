@@ -470,7 +470,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fecha </label>
+                                                    <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fecha de Nac. </label>
                                                 </div>
                                                 <div class="col-md-7">
                                                     <input type="date" id="mod_fecha" name="mod_fecha" min="1900-01-01" max="<?php echo date("Y-m-d") ?>">
@@ -478,7 +478,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirección </label>
+                                                    <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirección </label>
                                                 </div>
                                                 <div class="col-md-7">
                                                     <input type="text" class="form-control" id="mod_direccion" name="mod_direccion" maxlength="100" onKeyUp="return limitarDireccion(event, this.value, 99)" onKeyDown="return limitarDireccion(event, this.value, 99)" required pattern="|^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,-º]+)*(\s?[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+)$|" title="Una dirección no admite caracteres especiales a excepción de punto, coma y guión medio. Ni admite espacios innecesarios " />
@@ -486,7 +486,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teléfono </label>
+                                                    <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teléfono </label>
                                                 </div>
                                                 <div class="col-md-7">
                                                     <input onkeypress="return SoloNumeros(event);" type="text" maxlength="10" class="form-control" id="mod_telefono" name="mod_telefono" />
@@ -494,7 +494,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3 col-md-offset-1">
-                                                    <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span>E-mail </label>
+                                                    <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E-mail </label>
                                                 </div>
                                                 <div class="col-md-7">
                                                     <input type="email" class="form-control" id="mod_email" name="mod_email" required pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_-]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}" title="Ingrese un e-mail válido. Ejemplo example@hotmail.com" />
