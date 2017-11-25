@@ -2,6 +2,10 @@
 <?php
 session_start();
 if (isset($_SESSION['USUARIO_ACTIVO'])) {
+    $_SESSION['COD_FACT_TEMP']=$_SESSION['FAC_NOTA_VENTA'];
+    
+    $listado = unserialize($_SESSION['listadoDet']);
+    $_SESSION['listadoDetalles']= serialize($listado);
     ?>
     <html>
         <head>
@@ -27,6 +31,12 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                 function window_onload() {
                     $('#IngresoBilleteRecibido').modal('show');
                 }
+                function block(){
+                    window.location.hash="no-back-button";
+                    window.location.hash="Again-No-back-button" //chrome
+                    window.onhashchange=function(){window.location.hash="no-back-button";}
+                }
+                
             </script>
         </head>
         <body onload="window_onload();">
@@ -52,7 +62,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                 <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Dinero Recibido: </label>
                                             </div>
                                             <div class="col-md-7">
-                                                <input type="number" class="form-control" name="BILLETE_RECIBIDO" placeholder="Ingrese el Valor del Billete Recibido" required />
+                                                <input type="number" step="0.01" class="form-control" name="BILLETE_RECIBIDO" placeholder="Ingrese el Valor del Billete Recibido" required />
                                             </div>
                                         </div>
                                     </div>

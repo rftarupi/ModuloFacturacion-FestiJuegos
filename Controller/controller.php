@@ -481,6 +481,8 @@ switch ($opcion1) {
             case "calculo_monetario":
                 $valorBillete = $_REQUEST['BILLETE_RECIBIDO'];
                 $codigoFactura = $_SESSION['FAC_NOTA_VENTA'];
+                $listadoDetalles = $detallesModel->getDetallesFactura($codigoFactura);
+                $_SESSION['listadoDetalles'] = serialize($listadoDetalles);
                 $cabFactura = $facturasModel->getCabFactura($codigoFactura);
                 $totalFactura = $cabFactura->getCOSTO_TOT_CAB_FACT();
                 if ($valorBillete >= $totalFactura) {
