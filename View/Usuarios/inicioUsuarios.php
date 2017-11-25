@@ -230,7 +230,7 @@ and open the template in the editor.
                 <br>
 
                 <?php
-                if (isset($_SESSION['ErrorBaseDatos'])) {
+                if (isset($_SESSION['ErrorBaseDatosUsu'])) {
                     echo "<div class='alert alert-danger'><strong><span class='glyphicon glyphicon-remove-sign'></span> ERROR:</strong> El Usuario que intenta ingresar ya existe en la Base de Datos y tiene su perfil</div>";
                 }
                 ?>

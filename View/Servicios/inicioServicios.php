@@ -208,7 +208,7 @@ and open the template in the editor.
                 <br>
 
                 <?php
-                if (isset($_SESSION['ErrorBaseDatos'])) {
+                if (isset($_SESSION['ErrorBaseDatosSer'])) {
                     echo "<div class='alert alert-danger'><strong><span class='glyphicon glyphicon-remove-sign'></span> ERROR:</strong> El Servicio que intenta ingresar ya existe en la Base de Datos</div>";
                 }
                 ?>

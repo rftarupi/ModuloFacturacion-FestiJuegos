@@ -233,7 +233,7 @@ and open the template in the editor.
                 <br>
 
                 <?php
-                if (isset($_SESSION['ErrorBaseDatos'])) {
+                if (isset($_SESSION['ErrorBaseDatosCli'])) {
                     echo "<div class='alert alert-danger'><strong><span class='glyphicon glyphicon-remove-sign'></span> ERROR:</strong> El Cliente que intenta ingresar ya existe en la Base de Datos</div>";
                 }
                 ?>

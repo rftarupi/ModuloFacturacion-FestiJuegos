@@ -186,9 +186,9 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                 </div>
 
                 <?php
-                if (isset($_SESSION['ErrorBaseDatos'])) {
-                    echo "<div class='alert alert-danger'>" . $_SESSION['ErrorBaseDatos'] . "</div>";
-                }
+//                if (isset($_SESSION['ErrorBaseDatos'])) {
+//                    echo "<div class='alert alert-danger'>" . $_SESSION['ErrorBaseDatos'] . "</div>";
+//                }
                 ?>
 
                 <br>

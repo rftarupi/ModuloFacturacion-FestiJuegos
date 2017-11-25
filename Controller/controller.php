@@ -20,6 +20,10 @@ $opcion2 = $_REQUEST['opcion2'];
 
 unset($_SESSION['ErrorInicioSesion']);
 unset($_SESSION['ErrorBaseDatos']);
+unset($_SESSION['ErrorBaseDatosCli']);
+unset($_SESSION['ErrorBaseDatosSer']);
+unset($_SESSION['ErrorBaseDatosUsu']);
+unset($_SESSION['ErrorBaseDatosFac']);
 unset($_SESSION['ErrorDetalleAjuste']);
 unset($_SESSION['servicio']);
 unset($_SESSION['listadoDetalles']);
@@ -98,7 +102,7 @@ switch ($opcion1) {
                 try {
                     $usuariosModel->insertarUsuario($COD_USU, $COD_TIPO_USU, $CEDULA_USU, $NOMBRES_USU, $APELLIDOS_USU, $FECHA_NAC_USU, $DIRECCION_USU, $FONO_USU, $E_MAIL_USU, $ESTADO_USU, $CLAVE_USU);
                 } catch (Exception $e) {
-                    $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                    $_SESSION['ErrorBaseDatosUsu'] = $e->getMessage();
                 }
 
                 // Actualizamos y volvemos a serializar en variable de sesión la lista de Usuarios
@@ -129,7 +133,7 @@ switch ($opcion1) {
                 try {
                     $usuariosModel->actualizarUsuario($COD_USU, $NOMBRES_USU, $APELLIDOS_USU, $FECHA_NAC_USU, $DIRECCION_USU, $FONO_USU, $E_MAIL_USU, $ESTADO_USU, $CLAVE_USU);
                 } catch (Exception $e) {
-                    $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                    $_SESSION['ErrorBaseDatosUsu'] = $e->getMessage();
                 }
 
                 // Actualizamos y volvemos a serializar en variable de sesión la lista de Usuarios
@@ -187,7 +191,7 @@ switch ($opcion1) {
                 try {
                     $clientesModel->insertarCliente($COD_CLI, $CEDULA_CLI, $NOMBRES_CLI, $APELLIDOS_CLI, $FECHA_NAC_CLI, $DIRECCION_CLI, $FONO_CLI, $E_MAIL_CLI);
                 } catch (Exception $e) {
-                    $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                    $_SESSION['ErrorBaseDatosCli'] = $e->getMessage();
                 }
 
                 // Actualizamos y volvemos a serializar en variable de sesión la lista de Clientes
@@ -215,7 +219,7 @@ switch ($opcion1) {
                 try {
                     $clientesModel->insertarCliente($COD_CLI, $CEDULA_CLI, $NOMBRES_CLI, $APELLIDOS_CLI, $FECHA_NAC_CLI, $DIRECCION_CLI, $FONO_CLI, $E_MAIL_CLI);
                 } catch (Exception $e) {
-                    $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                    $_SESSION['ErrorBaseDatosCli'] = $e->getMessage();
                 }
                 $listadoClientes = $clientesModel->getClientes();
                 $_SESSION['listadoClientes'] = serialize($listadoClientes);
@@ -240,7 +244,7 @@ switch ($opcion1) {
                 try {
                     $clientesModel->actualizarCliente($COD_CLI, $NOMBRES_CLI, $APELLIDOS_CLI, $FECHA_NAC_CLI, $DIRECCION_CLI, $FONO_CLI, $E_MAIL_CLI);
                 } catch (Exception $e) {
-                    $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                    $_SESSION['ErrorBaseDatosCli'] = $e->getMessage();
                 }
 
                 // Actualizamos y volvemos a serializar en variable de sesión la lista de Clientes
@@ -290,7 +294,7 @@ switch ($opcion1) {
                 try {
                     $serviciosModel->insertarServicio($COD_SERV, $NOMBRE_SERV, $DESCRIPCION_SERV, $COSTO_SERV);
                 } catch (Exception $e) {
-                    $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                    $_SESSION['ErrorBaseDatosSer'] = $e->getMessage();
                 }
 
                 // Actualizamos y volvemos a serializar en variable de sesión la lista de Servicios
@@ -312,7 +316,7 @@ switch ($opcion1) {
                 try {
                     $serviciosModel->actualizarServicio($COD_SERV, $NOMBRE_SERV, $DESCRIPCION_SERV, $COSTO_SERV);
                 } catch (Exception $e) {
-                    $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                    $_SESSION['ErrorBaseDatosSer'] = $e->getMessage();
                 }
 
                 // Actualizamos y volvemos a serializar en variable de sesión la lista de Servicios
@@ -347,7 +351,7 @@ switch ($opcion1) {
                 try {
                     $facturasModel->insertarCabFactura($COD_CAB_FACT);
                 } catch (Exception $e) {
-                    $_SESSION['ErrorBaseDatos'] = $e->getMessage();
+                    $_SESSION['ErrorBaseDatosFac'] = $e->getMessage();
                 }
                 $listadoFacturas = $facturasModel->getCabFacturas();
                 $_SESSION['listadoFacturas'] = serialize($listadoFacturas);
