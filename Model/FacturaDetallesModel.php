@@ -41,6 +41,21 @@ class FacturaDetallesModel {
         return $listadoDetallesFact;
     }
     
+    public function getDetallesFacturaPuro($COD_CAB_FACT) {
+        // Obtención de informacion de la Base de Datos mediante consulta sql
+        $pdo = Database::connect();
+        $sql= 'select * from tab_fac_det_facturas where COD_CAB_FACT="'.$COD_CAB_FACT.'"';
+        $resultado = $pdo->query($sql);
+        //transformamos los registros en objetos de tipo Usuario y guardamos en array
+        $listadoDetallesFact = array();
+        foreach ($resultado as $res) {
+            $detalleFact = new FacturaDetalle($res['COD_DET_FACT'], $res['COD_SERV'], $res['COD_CAB_FACT'], $res['TIEMPO_DET_FACT'], $res['COSTO_HORA_DET_FACT'], $res['COSTO_TOT_DET_FACT']);
+            array_push($listadoDetallesFact, $detalleFact);
+        }
+        Database::disconnect();
+        return $listadoDetallesFact;
+    }
+    
      // MÉTODO PARA OBTENER UN DETALLE ESPECIFICO DE UNA FACTURA (VISTA)
     public function getDetalleFactura ($COD_DET_FACT) {
         $pdo = Database::connect();
@@ -105,6 +120,36 @@ class FacturaDetallesModel {
         }
         $res = $hora[0].'h'.$hora[1];
         return $res;
+    }
+    
+     // METODO QUE BUSCA SI UN DETALLE ESTA DUPLICADO (MISMO SERVICIO IGRESADO DOS VECES)
+    public function existeDetalleDuplicado($COD_CAB_FACT, $COD_SERV){
+        $validador=false;
+        $listado = $this->getDetallesFacturaPuro($COD_CAB_FACT);
+        foreach ($listado as $det) {
+            if($det->getCOD_SERV() == $COD_SERV){
+                $validador=true;
+                break;
+            }else{
+                $validador=false;
+            }
+        }
+        return $validador;
+    }
+    
+    // METODO PARA AGREGAR INFORMACIÓN DE UN DETALLE YA EXISTENTE
+    public function editarDetalleDuplicado($tiempoAcumulado, $costoAcumulado,$COD_SERV){
+        $pdo = Database::connect();
+         $sql = "update tab_fac_det_facturas set TIEMPO_DET_FACT=0 COSTO_TOT_DET_FACT=0  where COD_SERV=?";
+        $sql = "update tab_fac_det_facturas set TIEMPO_DET_FACT=TIEMPO_DET_FACT+?, COSTO_TOT_DET_FACT=COSTO_TOT_DET_FACT+?  where COD_SERV=?";
+        $consulta = $pdo->prepare($sql);
+        try {
+            $consulta->execute(array($tiempoAcumulado, $costoAcumulado, $COD_SERV));
+        } catch (PDOException $e) {
+            Database::disconnect();
+            throw new Exception($e->getMessage());
+        }
+        Database::disconnect();
     }
 
   // METODO PARA GENERAR AUTOMATICAMENTE EL CODIGO DE UN DETALLE DE FACTURA -- DETF-0001

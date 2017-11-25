@@ -394,12 +394,12 @@ switch ($opcion1) {
                 </tr>
                 </tbody>";
                 break;
-            
+
             case "imprimir_factura":
                 $COD_CAB_FACT = $_REQUEST['COD_FACT_TEMP'];
                 $listadoDet = $detallesModel->getDetallesFactura($COD_CAB_FACT);
                 $_SESSION['listadoDet'] = serialize($listadoDet);
-                $_SESSION['FAC_NOTA_VENTA']= $COD_CAB_FACT;
+                $_SESSION['FAC_NOTA_VENTA'] = $COD_CAB_FACT;
                 unset($_SESSION['cambio']);
                 unset($_SESSION['billete']);
                 unset($_SESSION['']);
@@ -424,7 +424,7 @@ switch ($opcion1) {
                         $_SESSION['listadoFacturas'] = serialize($listadoFacturas);
                         $listadoDet = $detallesModel->getDetallesFactura($COD_CAB_FACT);
                         $_SESSION['listadoDet'] = serialize($listadoDet);
-                        $_SESSION['FAC_NOTA_VENTA']= $COD_CAB_FACT;
+                        $_SESSION['FAC_NOTA_VENTA'] = $COD_CAB_FACT;
                         unset($_SESSION['COD_FACT_TEMP']);
                         unset($_SESSION['cambio']);
                         header('Location: ../View/Facturas/cambio_monetario.php');
@@ -455,7 +455,7 @@ switch ($opcion1) {
                 $_SESSION['listadoFiltradoFacturasDiario'] = serialize($listadoFiltradoFacturasDiario);
                 header('Location: ../View/Facturas/reportesDiarios.php#filtrado');
                 break;
-            
+
             case "reporteMensual":
                 $mes_inicio = $_REQUEST['mes_inicio'];
                 $mes_fin = $_REQUEST['mes_fin'];
@@ -466,7 +466,7 @@ switch ($opcion1) {
                 $_SESSION['listadoFiltradoFacturasMensual'] = serialize($listadoFiltradoFacturasMensual);
                 header('Location: ../View/Facturas/reportesMensuales.php#filtrado');
                 break;
-            
+
             case "reporteAnual":
                 $anio_inicio = $_REQUEST['anio_inicio'];
                 $anio_fin = $_REQUEST['anio_fin'];
@@ -477,35 +477,35 @@ switch ($opcion1) {
                 $_SESSION['listadoFiltradoFacturasAnual'] = serialize($listadoFiltradoFacturasAnual);
                 header('Location: ../View/Facturas/reportesAnuales.php#filtrado');
                 break;
-            
+
             case "calculo_monetario":
-                $valorBillete=$_REQUEST['BILLETE_RECIBIDO'];
-                $codigoFactura=$_SESSION['FAC_NOTA_VENTA'];
-                $cabFactura=$facturasModel->getCabFactura($codigoFactura);
-                $totalFactura=$cabFactura->getCOSTO_TOT_CAB_FACT();
-                if($valorBillete>=$totalFactura){
-                    $cambio=$valorBillete-$totalFactura;
-                }else{
-                    $cambio=-1;
+                $valorBillete = $_REQUEST['BILLETE_RECIBIDO'];
+                $codigoFactura = $_SESSION['FAC_NOTA_VENTA'];
+                $cabFactura = $facturasModel->getCabFactura($codigoFactura);
+                $totalFactura = $cabFactura->getCOSTO_TOT_CAB_FACT();
+                if ($valorBillete >= $totalFactura) {
+                    $cambio = $valorBillete - $totalFactura;
+                } else {
+                    $cambio = -1;
                 }
-                $_SESSION['cambio']=$cambio;
-                $_SESSION['billete']=$valorBillete;
-                
-                if($_SESSION['cambio']==-1){
+                $_SESSION['cambio'] = $cambio;
+                $_SESSION['billete'] = $valorBillete;
+
+                if ($_SESSION['cambio'] == -1) {
                     header('Location: ../View/Facturas/cambio_monetario.php');
-                }else{
+                } else {
                     header('Location: ../View/Facturas/VistaPreviaFactura.php');
                 }
                 break;
-                
+
             case "exportar_pdf":
-                $tr=$_REQUEST['tr'];
-                if($tr=="diario"){
-                    $_SESSION['ListadoImprimirFiltrado']=$_SESSION['listadoFiltradoFacturasDiario'];
-                }else if($tr=="mensual") {
-                    $_SESSION['ListadoImprimirFiltrado']=$_SESSION['listadoFiltradoFacturasMensual'];
-                }else if($tr=="anual"){
-                    $_SESSION['ListadoImprimirFiltrado']=$_SESSION['listadoFiltradoFacturasAnual'];
+                $tr = $_REQUEST['tr'];
+                if ($tr == "diario") {
+                    $_SESSION['ListadoImprimirFiltrado'] = $_SESSION['listadoFiltradoFacturasDiario'];
+                } else if ($tr == "mensual") {
+                    $_SESSION['ListadoImprimirFiltrado'] = $_SESSION['listadoFiltradoFacturasMensual'];
+                } else if ($tr == "anual") {
+                    $_SESSION['ListadoImprimirFiltrado'] = $_SESSION['listadoFiltradoFacturasAnual'];
                 }
                 header('Location: ../View/Facturas/pdf_facturas_filtradas.php');
                 break;
@@ -552,23 +552,34 @@ switch ($opcion1) {
                         $_SESSION['listadoDetalles'] = serialize($listadoDetalles);
                         header('Location: ../View/Facturas/nuevaFactura.php#detalle');
                     } else {
-                        $COD_DET_FACT = $_REQUEST['COD_DET_FACT'];
-                        $COD_SERV = $_REQUEST['COD_SERV'];
-                        $serv = $serviciosModel->getServicio($COD_SERV);
-                        $TIEMPO_CALC = $TIEMPO_MIN / 60;
-                        $TIEMPO_DET_FACT = $TIEMPO_HRS + $TIEMPO_CALC;
-                        $COSTO_HORA_DET_FACT = $serv->getCOSTO_SERV();
-                        $COSTO_TOT_DET_FACT = $TIEMPO_DET_FACT * $COSTO_HORA_DET_FACT;
 
+
+                        $COD_SERV = $_REQUEST['COD_SERV'];
                         $factu = $facturasModel->getCabFactura($COD_CAB_FACT);
+                        $serv = $serviciosModel->getServicio($COD_SERV);
+
+                        if ($detallesModel->existeDetalleDuplicado($COD_CAB_FACT, $COD_SERV)) {
+                            $TIEMPO_CALC = $TIEMPO_MIN / 60;
+                            $TIEMPO_DET_FACT = $TIEMPO_HRS + $TIEMPO_CALC;
+                            $COSTO_TOT_DET_FACT = $TIEMPO_DET_FACT * $serv->getCOSTO_SERV();
+                            $detallesModel->editarDetalleDuplicado($TIEMPO_DET_FACT, $COSTO_TOT_DET_FACT, $COD_SERV); //Actualizar tiempo y costo total detalle   
+                        } else {
+                            $COD_DET_FACT = $_REQUEST['COD_DET_FACT'];
+//                             $COD_SERV = $_REQUEST['COD_SERV'];
+//                             $serv = $serviciosModel->getServicio($COD_SERV);
+                            $TIEMPO_CALC = $TIEMPO_MIN / 60;
+                            $TIEMPO_DET_FACT = $TIEMPO_HRS + $TIEMPO_CALC;
+                            $COSTO_HORA_DET_FACT = $serv->getCOSTO_SERV();
+                            $COSTO_TOT_DET_FACT = $TIEMPO_DET_FACT * $COSTO_HORA_DET_FACT;
+                            try {
+                                $detallesModel->insertarDetalleFactura($COD_DET_FACT, $COD_SERV, $COD_CAB_FACT, $TIEMPO_DET_FACT, $COSTO_HORA_DET_FACT, $COSTO_TOT_DET_FACT);
+                            } catch (Exception $e) {
+                                $_SESSION['ErrorDetalleAjuste'] = "Error, no se ha escojido un servicio: " . $e->getMessage();
+                            }
+                        }
                         $cosTot = ($factu->getCOSTO_TOT_CAB_FACT()) + $COSTO_TOT_DET_FACT;
                         $facturasModel->actualizarCostoTotalFactura($COD_CAB_FACT, $cosTot);
 
-                        try {
-                            $detallesModel->insertarDetalleFactura($COD_DET_FACT, $COD_SERV, $COD_CAB_FACT, $TIEMPO_DET_FACT, $COSTO_HORA_DET_FACT, $COSTO_TOT_DET_FACT);
-                        } catch (Exception $e) {
-                            $_SESSION['ErrorDetalleAjuste'] = "Error, no se ha escojido un servicio: " . $e->getMessage();
-                        }
                         $listadoDetalles = $detallesModel->getDetallesFactura($COD_CAB_FACT);
                         $_SESSION['listadoDetalles'] = serialize($listadoDetalles);
                         header('Location: ../View/Facturas/nuevaFactura.php#detalle');

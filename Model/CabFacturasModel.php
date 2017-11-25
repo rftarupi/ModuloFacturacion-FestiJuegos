@@ -111,8 +111,8 @@ class CabFacturasModel {
         }
         Database::disconnect();
     }
-
-    // METODO PARA ACTUALIZAR EL COSTO TOTAL DE UNA FACTURA  
+    
+       // METODO PARA ACTUALIZAR EL COSTO TOTAL DE UNA FACTURA  
     public function actualizarFechaFactura($COD_CAB_FACT) {
         $pdo = Database::connect();
         $sql = 'update tab_fac_cab_facturas set FECHA_CAB_FACT=CURRENT_TIMESTAMP where COD_CAB_FACT=?';
