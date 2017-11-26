@@ -331,7 +331,7 @@ and open the template in the editor.
                                                     <label class="control-label"><span class="glyphicon glyphicon-asterisk"></span> Costo por hora </label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input onkeypress="return SoloNumeros(event);" type="text" class="form-control" name="COSTO_SERV" placeholder="Ingrese el Costo por hora del Servicio" required pattern="[1-9][0-9]{0,9}([.][0-9]{1,2})?" title="el costo debe contener máximo diez enteros y dos decimales separados por punto" />
+                                                    <input onkeypress="return SoloNumeros(event);" type="text" class="form-control" name="COSTO_SERV" placeholder="Ingrese el Costo por hora del Servicio" title="el costo debe contener máximo diez enteros y dos decimales separados por punto" /> <!--required pattern="[1-9][0-9]{0,9}([.][0-9]{1,2})?"-->
                                                 </div>
                                             </div>
                                         </div>
