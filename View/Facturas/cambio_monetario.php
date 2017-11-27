@@ -70,7 +70,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
 
                                 <!-- Footer de la ventana -->
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>-->
                                     <button class="btn btn-success">Calcular Cambio</button>
                                 </div>
                             </div>

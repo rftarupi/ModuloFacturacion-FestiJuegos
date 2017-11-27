@@ -177,7 +177,7 @@ class CabFacturasModel {
         return $listadoFiltradoFacturasA;
     }
 
-    // METODO PARA GENERAR AUTOMATICAMENTE EL CODIGO DE UNA FACTURA -- FACT-0001
+    // METODO PARA GENERAR AUTOMATICAMENTE EL CODIGO DE UNA RECIBO -- REC-00001
     public function generarCodFactura() {
         $pdo = Database::connect();
         $sql = 'select max(COD_CAB_FACT) as cod from tab_fac_cab_facturas';
@@ -186,27 +186,32 @@ class CabFacturasModel {
         $res = $consulta->fetch(PDO::FETCH_ASSOC);
         $nuevoCod = '';
         if ($res['cod'] == NULL) {
-            $nuevoCod = 'FACT-0001';
+            $nuevoCod = 'REC-00001';
         } else {
-            $rest = ((substr($res['cod'], -4)) + 1) . ''; // Separacion de la parte numerica FACT-0023  --> 23
+            $rest = ((substr($res['cod'], -5)) + 1) . ''; // Separacion de la parte numerica REC-00023  --> 23
             // Ciclo que completa el codigo segun lo retornado para completar los 9 caracteres 
-            // FACT-00 --> 67, FACT-0 --> 786
+            // REC-000 --> 67, REC-00 --> 786
             if ($rest > 1 && $rest <= 9) {
-                $nuevoCod = 'FACT-000' . $rest;
+                $nuevoCod = 'REC-0000' . $rest;
             } else {
                 if ($rest >= 10 && $rest <= 99) {
-                    $nuevoCod = 'FACT-00' . $rest;
+                    $nuevoCod = 'REC-000' . $rest;
                 } else {
                     if ($rest >= 100 && $rest <= 999) {
-                        $nuevoCod = 'FACT-0' . $rest;
+                        $nuevoCod = 'REC-00' . $rest;
                     } else {
-                        $nuevoCod = 'FACT-' . $rest;
+                        if($rest >= 1000 && $rest <= 9999){
+                            $nuevoCod = 'REC-0' . $rest;
+                        }else{
+                            $nuevoCod = 'REC-' . $rest;
+                        }
+                        
                     }
                 }
             }
         }
         Database::disconnect();
-        return $nuevoCod; // RETORNO DEL NUEVO CODIGO DE FACTURA
+        return $nuevoCod; // RETORNO DEL NUEVO CODIGO DEL RECIBO
     }
 
 }

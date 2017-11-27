@@ -161,23 +161,28 @@ class FacturaDetallesModel {
         $res = $consulta->fetch(PDO::FETCH_ASSOC);
         $nuevoCod = '';
         if ($res['cod'] == NULL) {
-            $nuevoCod = 'DETF-0001';
-        } else {  
-            $rest=  ((substr($res['cod'], -4))+1).''; // Separacion de la parte numerica DETF-0023  --> 23
+            $nuevoCod = 'DET-00001';
+        } else {
+            $rest = ((substr($res['cod'], -5)) + 1) . ''; // Separacion de la parte numerica DET-00023  --> 23
             // Ciclo que completa el codigo segun lo retornado para completar los 9 caracteres 
-            // DETF-00 --> 67, DETF-0 --> 786
-            if($rest >1 && $rest <=9){
-                $nuevoCod = 'DETF-000'.$rest;
-            }else{
-                if($rest >=10 && $rest <=99){
-                    $nuevoCod = 'DETF-00'.$rest;
-                }else{
-                    if($rest >=100 && $rest <=999){
-                    $nuevoCod = 'DETF-0'.$rest;
-                    }else{
-                       $nuevoCod = 'DETF-'.$rest; 
-                    }                    
-                } 
+            // DET-000 --> 67, DET-00 --> 786
+            if ($rest > 1 && $rest <= 9) {
+                $nuevoCod = 'DET-0000' . $rest;
+            } else {
+                if ($rest >= 10 && $rest <= 99) {
+                    $nuevoCod = 'DET-000' . $rest;
+                } else {
+                    if ($rest >= 100 && $rest <= 999) {
+                        $nuevoCod = 'DET-00' . $rest;
+                    } else {
+                        if($rest >= 1000 && $rest <= 9999){
+                            $nuevoCod = 'DET-0' . $rest;
+                        }else{
+                            $nuevoCod = 'DET-' . $rest;
+                        }
+                        
+                    }
+                }
             }
         }
         Database::disconnect();

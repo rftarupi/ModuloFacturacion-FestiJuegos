@@ -12,7 +12,7 @@ require('../../Dependencias/ExportarPDF/FPDF/mc_table.php');
 $clientesModel=new ClientesModel();
 
 $pdf = new PDF_MC_Table();
-$pdf->SetWidths(array(30, 40, 55, 40, 25));
+$pdf->SetWidths(array(35, 80, 45, 30));
 $pdf->AddPage('P', 'A4');
 $pdf->SetFont('Times');
 $pdf->SetFontSize(11);
@@ -24,20 +24,20 @@ $pdf->Image('img/cab_pdf_fac.jpg', 5, 20, 0, 57);
 $pdf->Ln(70);
 $pdf->SetTextColor(240, 255, 240); //Letra color blanco
 
-$pdf->HeaderRow(array(utf8_decode('CÓDIGO'), utf8_decode('ESTADO IMPRESIÓN'), 'CLIENTE', 'FECHA FACTURA', 'TOTAL'));
+$pdf->HeaderRow(array(utf8_decode('CÓDIGO'), 'CLIENTE', 'FECHA FACTURA', 'TOTAL'));
 
 if (isset($_SESSION['ListadoImprimirFiltrado'])) {
     $listado = unserialize($_SESSION['ListadoImprimirFiltrado']);
     $pdf->SetTextColor(0,0,0);
     foreach ($listado as $fact) {
-        if($fact->getESTADO_IMP_FAC()=="N"){
-            $estado="NO IMPRESO";
-        }else{
-            $estado="IMPRESO";
-        }
+//        if($fact->getESTADO_IMP_FAC()=="N"){
+//            $estado="NO IMPRESO";
+//        }else{
+//            $estado="IMPRESO";
+//        }
         
         $cliente=$clientesModel->getCliente($fact->getCOD_CLI());
-        $pdf->Row(array($fact->getCOD_CAB_FACT(), $estado, $cliente->getAPELLIDOS_CLI()." ".$cliente->getNOMBRES_CLI(),
+        $pdf->Row(array($fact->getCOD_CAB_FACT(), $cliente->getAPELLIDOS_CLI()." ".$cliente->getNOMBRES_CLI(),
             $fact->getFECHA_CAB_FACT(), $fact->getCOSTO_TOT_CAB_FACT()));
     }
     $pdf->Ln(10);
