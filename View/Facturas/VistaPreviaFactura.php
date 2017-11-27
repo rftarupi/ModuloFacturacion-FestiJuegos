@@ -198,9 +198,10 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                     <?php
                                     $fecha = $fact_nv->getFECHA_CAB_FACT();
                                     $arrayFecha = explode(" ", $fecha, 2);
+                                    $nom_ap_cliente= $cli_nv->getAPELLIDOS_CLI() . " " . $cli_nv->getNOMBRES_CLI();
                                     ?>
-                                <h4> &emsp;&emsp;&emsp;&emsp;FACTURA: <small> <?php echo $fact_nv->getCOD_CAB_FACT(); ?></small></h4>
-                                <h4> &emsp;&emsp;&emsp;&emsp;CLIENTE: <small> <?php echo $cli_nv->getAPELLIDOS_CLI() . " " . $cli_nv->getNOMBRES_CLI(); ?> </small></h4>
+                                <h4> &emsp;&emsp;&emsp;&emsp;RECIBO: <small> <?php echo $fact_nv->getCOD_CAB_FACT(); ?></small></h4>
+                                <h4> &emsp;&emsp;&emsp;&emsp;CLIENTE: <small> <?php echo $nom_ap_cliente ?> </small></h4>
                                 <h4> &emsp;&emsp;&emsp;&emsp;FECHA: <small> <?php echo $arrayFecha[0]; ?> </small></h4>
                                 <h4> &emsp;&emsp;&emsp;&emsp;HORA: <small> <?php echo $arrayFecha[1]; ?> </small></h4>  
                                 <h4> &emsp;&emsp;&emsp;&emsp;CAJERO: <small> <?php echo $NOM; ?> </small></h4>
@@ -208,11 +209,16 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
 
                                 <?php
                                 $printer->setJustification(Printer::JUSTIFY_LEFT);
-                                $printer->text("FACTURA: " . $fact_nv->getCOD_CAB_FACT() . "\n");
-                                $printer->text("CLIENTE: " . $cli_nv->getNOMBRES_CLI() . "\n");
+                                $printer->text("RECIBO: " . $fact_nv->getCOD_CAB_FACT() . "\n");
+                                if(strlen($nom_ap_cliente<22)){
+                                    $printer->text("CLIENTE: " . utf8_decode($nom_ap_cliente) . "\n");
+                                }else{
+                                    $printer->text("CLIENTE: " . utf8_decode(substr($nom_ap_cliente, 0, 22)) . "\n");
+                                }
+                                
                                 $printer->text("FECHA: " . $arrayFecha[0] . "\n");
                                 $printer->text("HORA: " . $arrayFecha[1] . "\n");
-                                $printer->text("CAJERO: " . $NOM . "\n");
+                                $printer->text("CAJERO: " . utf8_decode($NOM) . "\n");
                                 ?>
 
                                 <center><table width="80%" border="0">
@@ -239,7 +245,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                                 foreach ($listado as $Det) {
                                                     $aux = " ";
                                                     echo "<tr>";
-                                                    echo "<td>" . $Det->getNOMBRE_SERV() . "</td>";
+                                                    echo "<td>" . utf8_decode($Det->getNOMBRE_SERV()) . "</td>";
                                                     echo "<td>" . $detallesModel->GetTiempoDetalle($Det->getTIEMPO_DET_FACT()) . "</td>"; //AQUI ES
                                                     echo "<td>" . '$ ' . $Det->getCOSTO_HORA_DET_FACT() . "</td>";
                                                     echo "<td>" . '$ ' . $Det->getCOSTO_TOT_DET_FACT() . "</td>";
@@ -247,14 +253,14 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
 
                                                     // Impresion del Nombre de servicio
                                                     if (strlen($Det->getNOMBRE_SERV()) == 8) {
-                                                        $printer->text($Det->getNOMBRE_SERV() . " ");
+                                                        $printer->text(utf8_decode($Det->getNOMBRE_SERV()) . " ");
                                                     } else if (strlen($Det->getNOMBRE_SERV()) < 8) {
-                                                        $printer->text($Det->getNOMBRE_SERV() . " ");
+                                                        $printer->text(utf8_decode($Det->getNOMBRE_SERV()) . " ");
                                                         for ($i = strlen($Det->getNOMBRE_SERV()); $i < 8; $i++) {
                                                             $printer->text(" ");
                                                         }
                                                     } else {
-                                                        $printer->text(substr($Det->getNOMBRE_SERV(), 0, 8) . " ");
+                                                        $printer->text(substr(utf8_decode($Det->getNOMBRE_SERV()), 0, 8) . " ");
                                                     }
 
                                                     // Impresion del tiempo de servicio
@@ -370,7 +376,7 @@ if (isset($_SESSION['USUARIO_ACTIVO'])) {
                                 <?php
                                 $printer->feed(2);
                                 $printer->setJustification(Printer::JUSTIFY_CENTER);
-                                $printer->text("Es un placer atenderle, visite nuestra página para estar enterado de nuestros descuentos y promociones.");
+                                $printer->text(utf8_decode("Es un placer atenderle, visite\nnuestra página para estar\nenterado de nuestros descuentos y\npromociones."));
                                 $printer->feed(4);
                                 $printer->close();
                                 ?>
