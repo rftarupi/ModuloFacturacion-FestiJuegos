@@ -9,11 +9,12 @@ class DataBase {
 
     //Propiedades estaticas con la informacion de la conexion (DSN):
     private static $dbName = 'facturacionfj';
-    private static $dbHost = 'richardpostgres.postgres.database.azure.com';
-    private static $dbUsername = 'postgres@richardpostgres';
-    private static $dbUserPassword = 'rtc10lovely1';
+    private static $dbHost = 'festijuegosserver.mysql.database.azure.com';
+    private static $dbUsername = 'rtarupi@festijuegosserver';
+    private static $dbUserPassword = 'Rtc10lovely1';
     //Propiedad para control de la conexion:
     private static $conexion = null;
+   
 
     /**
      * No se permite instanciar esta clase, se utilizan sus elementos
